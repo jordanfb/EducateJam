@@ -85,7 +85,11 @@ function Menu:keypressed(key, unicode)
 		if self.selected > #self.buttons then
 			self.selected = 1
 		end
-	elseif key == "gamepadA" then
+	elseif key == "joystickA" then
 		return self:returnPressed()
 	end
+end
+
+function Menu:mousemoved(x, y, dx, dy, istouch)
+	--
 end

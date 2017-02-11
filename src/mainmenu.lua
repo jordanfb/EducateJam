@@ -83,9 +83,13 @@ function MainMenu:resize(w, h)
 end
 
 function MainMenu:keypressed(key, unicode)
-	if key == "space" then
-		self.game.level:reset() -- play
-		self.game:addToScreenStack(self.game.level)
+	-- if key == "space" then
+	-- 	self.game.level:reset() -- play
+	-- 	self.game:addToScreenStack(self.game.level)
+	-- end
+	local choice = self.menu:keypressed(key, unicode)
+	if choice ~= nil then
+		self:selectButton(choice)
 	end
 end
 
@@ -98,6 +102,7 @@ function MainMenu:selectButton(choice)
 		love.event.quit()
 	elseif choice == "Test" then
 		-- test things for jordan
+		self.game:addToScreenStack(self.game.terminal)
 	end
 end
 
@@ -106,21 +111,26 @@ function MainMenu:keyreleased(key, unicode)
 end
 
 function MainMenu:mousepressed(x, y, button)
-	self:selectButton(self.menu:mousepressed(x, y, button))
+	-- self:selectButton(self.menu:mousepressed(x, y, button))
 end
 
 function MainMenu:mousereleased(x, y, button)
-	for k, v in pairs(self.buttons) do
-		if v:updateMouse(x, y) then
-			-- print(v.text .. " was pressed")
-			if v.text == "Quit" then
-				love.event.quit()
-			elseif v.text == "Play" then
-				self.game.level:reset()
-				self.game:addToScreenStack(self.game.level)
-			elseif v.text == "Test" then
-				self.game:addToScreenStack(self.game.joystickTester)
-			end
-		end
-	end
+	self:selectButton(self.menu:mousepressed(x, y, button))
+	-- for k, v in pairs(self.buttons) do
+	-- 	if v:updateMouse(x, y) then
+	-- 		-- print(v.text .. " was pressed")
+	-- 		if v.text == "Quit" then
+	-- 			love.event.quit()
+	-- 		elseif v.text == "Play" then
+	-- 			self.game.level:reset()
+	-- 			self.game:addToScreenStack(self.game.level)
+	-- 		elseif v.text == "Test" then
+	-- 			self.game:addToScreenStack(self.game.joystickTester)
+	-- 		end
+	-- 	end
+	-- end
+end
+
+function MainMenu:mousemoved(x, y, dx, dy, istouch)
+	--
 end

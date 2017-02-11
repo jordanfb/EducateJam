@@ -3,6 +3,7 @@
 require "level"
 require "mainmenu"
 require "player"
+require "terminal"
 -- require "joysticktester"
 -- require "pausemenu"
 -- require "deathmenu"
@@ -26,7 +27,7 @@ function Game:_init()
 	self.drawFPS = false
 	
 	self.player = Player(self)
-
+	self.terminal = Terminal(self)
 	self.level = Level(self, self.player) -- we should have it load by filename or something.
 	self.mainMenu = MainMenu(self)
 	-- self.player = Player(self)
@@ -189,4 +190,8 @@ end
 
 function Game:quit()
 	--
+end
+
+function Game:mousemoved(x, y, dx, dy, istouch)
+	self.screenStack[#self.screenStack]:mousemoved(x, y, dx, dy, istouch)
 end

@@ -55,3 +55,7 @@ end
 function Button:deselect()
 	self.selected = false
 end
+
+function Button:mousemoved(x, y, dx, dy, istouch)
+	--
+end
