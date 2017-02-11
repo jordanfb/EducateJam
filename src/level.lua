@@ -4,22 +4,22 @@ Level = class()
 
 -- _init, load, draw, update(dt), keypressed, keyreleased, mousepressed, mousereleased, resize, (drawUnder, updateUnder)
 
-function Level:_init(args)
-
+function Level:_init(game)
+	self.game = game
 	self.walls = {}
 	self.levelArray = {{'w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w'},
 					   {'w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'},
 					   {'w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'},
 					   {'w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'},
 					   {'w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'},
-					   {'w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w'},
+					   {'w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w'},}
 
 	self.tileSize = 32
 					   
-	for y, row in pairs(levelArray) do
+	for y, row in pairs(self.levelArray) do
 		for x, tile in pairs(row) do
-			if tile = 'w' then
-				table.insert(walls, {x=x, y=y})
+			if tile == 'w' then
+				table.insert(self.walls, {x=x, y=y})
 			end
 		end
 	end
@@ -36,7 +36,7 @@ end
 
 function Level:draw()
 	for i, wall in pairs(self.walls) do
-		love.graphics.rectangle(wall.x*self.tileSize, wall.y*self.tileSize, self.tileSize, self.tileSize)
+		love.graphics.rectangle("fill", wall.x*self.tileSize, wall.y*self.tileSize, self.tileSize, self.tileSize)
 	end
 end
 

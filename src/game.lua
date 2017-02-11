@@ -1,6 +1,6 @@
 
 -- require "player"
--- require "level"
+require "level"
 require "mainmenu"
 -- require "joysticktester"
 -- require "pausemenu"
@@ -24,7 +24,7 @@ function Game:_init()
 	self.fullscreen = false
 	self.drawFPS = false
 
-	-- self.level = Level(self.keyboard, nil, self) -- we should have it load by filename or something.
+	self.level = Level(self) -- we should have it load by filename or something.
 	self.mainMenu = MainMenu(self)
 	-- self.player = Player(self)
 	-- self.level= Level(self, self.player)
@@ -41,7 +41,7 @@ function Game:_init()
 	-- bgm:setLooping( true )
 	-- bgm:play()
 	love.graphics.setBackgroundColor(0, 0, 0)
-	self:addToScreenStack(self.mainMenu)
+	self:addToScreenStack(self.level)
 	-- self:addToScreenStack(self.player)
 	self.fullCanvas = love.graphics.newCanvas(self.SCREENWIDTH, self.SCREENHEIGHT)
 end
