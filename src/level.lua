@@ -12,18 +12,18 @@ function Level:_init(game)
 					   {'w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'},
 					   {'w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'},
 					   {'w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'},
+					   {'w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'},
 					   {'w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w'},}
 
-	self.tileSize = 32
-					   
+	self.tileSize = 160
+
 	for y, row in pairs(self.levelArray) do
 		for x, tile in pairs(row) do
 			if tile == 'w' then
-				table.insert(self.walls, {x=x, y=y})
+				table.insert(self.walls, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize})
 			end
 		end
 	end
-	
 end
 
 function Level:load()
@@ -35,8 +35,11 @@ function Level:leave()
 end
 
 function Level:draw()
+	love.graphics.setBackgroundColor(100, 100, 100)
+	love.graphics.setColor(255, 255, 255)
+	
 	for i, wall in pairs(self.walls) do
-		love.graphics.rectangle("fill", wall.x*self.tileSize, wall.y*self.tileSize, self.tileSize, self.tileSize)
+		love.graphics.rectangle("fill", wall.x, wall.y, wall.w, wall.w)
 	end
 end
 
