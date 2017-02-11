@@ -50,7 +50,7 @@ end
 
 --Draws the rectangle
 function Player:draw()
-	love.graphics.rectangle(self.x, self.y, 50, 50)		--Placeholder
+	love.graphics.rectangle("fill", self.x, self.y, 50, 50)		--Placeholder
 end
 
 function Player:keypressed(key)
@@ -62,7 +62,7 @@ end
 --Runs collision checking
 function Player:collisions(level)
 	--level has level.walls, which holds (x, y, w)
-	for i, wall in level.walls do
+	for i, wall in pairs(level.walls) do
 		if self.dx < 0 and self.x < wall.x then
 			self.dx = 0
 			self.x = wall.x

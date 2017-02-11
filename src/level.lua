@@ -43,12 +43,12 @@ function Level:draw()
 		love.graphics.rectangle("fill", wall.x, wall.y, wall.w, wall.w)
 	end
 	
-	Player:draw()
+	self.player:draw()
 end
 
 function Level:update(dt)
-	Player:update(dt)
-	Player:collisions(self)
+	self.player:update(dt)
+	self.player:collisions(self)
 end
 
 function Level:resize(w, h)
