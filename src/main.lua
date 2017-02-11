@@ -7,14 +7,14 @@ require "class"
 
 local game = Game()
 
-
 function love.load(args)
-	love.window.setTitle("LuaBird")
-	love.filesystem.setIdentity("LuaBird")
+	local name = "EducateMaBrain"
+	love.window.setTitle(name)
+	love.filesystem.setIdentity(name)
 	game:load(args)
 	--local width, height = 512, 256
-	love.window.setMode(600, 800)
-	-- love.window.setFullscreen(true)
+	love.window.setMode(1920, 1080)
+	love.window.setFullscreen(true)
 	-- not much here
 	game:resize(width, height)
 	love.mouse.setVisible(true)

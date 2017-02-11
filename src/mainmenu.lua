@@ -3,7 +3,7 @@
 
 
 require "class"
-require "button"
+-- require "button"
 
 MainMenu = class()
 
@@ -20,12 +20,12 @@ function MainMenu:_init(game)
 	self.font = love.graphics.newFont(32)
 	self.fontHeight = self.font:getHeight()
 
-	self.buttons = { play = Button("Play", 300, 400, 200, 75, self.fontHeight, self.game),
-					 quit = Button("Quit", 300, 500, 200, 75, self.fontHeight, self.game),
+	self.buttons = { --play = Button("Play", 300, 400, 200, 75, self.fontHeight, self.game),
+					 --quit = Button("Quit", 300, 500, 200, 75, self.fontHeight, self.game),
 					 -- test = Button("Test", 300, 600, 200, 75, self.fontHeight),
 					}
 	
-	self.image = love.graphics.newImage('mainmenu.png')
+	-- self.image = love.graphics.newImage('mainmenu.png')
 	self.hasJoysticks = false
 	self.joystickIndicatorGrowing = true
 	self.joystickIndicatorScale = 1
@@ -43,7 +43,7 @@ function MainMenu:leave()
 end
 
 function MainMenu:draw()
-	love.graphics.draw(self.image, 130, 100, 0, 1, 1)
+	-- love.graphics.draw(self.image, 130, 100, 0, 1, 1)
 	for k, v in pairs(self.buttons) do
 		v:draw()
 	end
@@ -51,6 +51,7 @@ function MainMenu:draw()
 		love.graphics.setColor(0, 0, 128)--90, 100, 255)
 		love.graphics.printf("With Controllers!", 172, 250, 500, "center", -.27, self.joystickIndicatorScale, self.joystickIndicatorScale)
 	end
+	love.graphics.setColor(0, 0, 0)
 	love.graphics.printf("F2 - FullScreen", 0, 700, 600, "center")
 end
 

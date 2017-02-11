@@ -1,11 +1,11 @@
 
-require "player"
-require "level"
+-- require "player"
+-- require "level"
 require "mainmenu"
-require "joysticktester"
-require "pausemenu"
-require "deathmenu"
-require "joystickmanager"
+-- require "joysticktester"
+-- require "pausemenu"
+-- require "deathmenu"
+-- require "joystickmanager"
 
 require "class"
 
@@ -19,19 +19,19 @@ function Game:_init()
 	self.updateUnder = false
 
 	-- here are the actual variables
-	self.SCREENWIDTH = 600
-	self.SCREENHEIGHT = 800
+	self.SCREENWIDTH = 1920
+	self.SCREENHEIGHT = 1080
 	self.fullscreen = false
 	self.drawFPS = false
 
 	-- self.level = Level(self.keyboard, nil, self) -- we should have it load by filename or something.
 	self.mainMenu = MainMenu(self)
-	self.player = Player(self)
-	self.level= Level(self, self.player)
-	self.pauseMenu = PauseMenu(self)
-	self.joystickTester = JoystickTester(self)
-	self.deathMenu = DeathMenu(self)
-	self.joystickManager = JoystickManager(self)
+	-- self.player = Player(self)
+	-- self.level= Level(self, self.player)
+	-- self.pauseMenu = PauseMenu(self)
+	-- self.joystickTester = JoystickTester(self)
+	-- self.deathMenu = DeathMenu(self)
+	-- self.joystickManager = JoystickManager(self)
 	self.screenStack = {}
 	
 	-- self.bg = love.graphics.newImage('images/bg.png')
@@ -82,20 +82,28 @@ function Game:draw()
 
 	-- love.graphics.rectangle("fill", 0, 0, 600, 800)
 
+	-- love.graphics.rectangle("fill", 0, 0, 1920, 1080)
+
 	love.graphics.setCanvas()
 	love.graphics.setColor(255, 255, 255)
-	if self.fullscreen then
+	if self.fullscreen or true then
 		local width = love.graphics.getWidth()
 		local height = love.graphics.getHeight()
-		local scale = math.min(height/800, width/600)
+		local scale = math.min(height/1080, width/1920)
 		-- width/2-300*scale
-		love.graphics.draw(self.fullCanvas, width/2-300*scale, 0, 0, scale, scale)
+		love.graphics.draw(self.fullCanvas, width/2-1920/2*scale, height/2-1080/2*scale, 0, scale, scale)
 		love.graphics.setColor(0, 0, 0)
-		love.graphics.rectangle("fill", 0, 0, width/2-300*scale, height)
-		love.graphics.rectangle("fill", width/2+300*scale, 0, width/2-300*scale, height)
+		-- the left and right bars
+		love.graphics.rectangle("fill", 0, 0, width/2-1920/2*scale, height)
+		love.graphics.rectangle("fill", width/2+1920/2*scale, 0, width/2-1920/2*scale, height)
+		-- the top and bottom bars
+		-- love.graphics.setColor(255, 0, 0)
+		love.graphics.rectangle("fill", 0, 0, width, height/2-1080/2*scale)
+		love.graphics.rectangle("fill", 0, height, width, -(height/2-1080/2*scale))
 		love.graphics.setColor(255, 255, 255)
 	else
-		love.graphics.draw(self.fullCanvas, 0, 0, 0, love.graphics.getWidth()/600, love.graphics.getHeight()/800)
+		local scale = math.min(love.graphics.getHeight()/1080, love.graphics.getWidth()/1920)
+		love.graphics.draw(self.fullCanvas, 0, 0, 0, scale, scale)
 	end
 end
 
@@ -112,7 +120,7 @@ function Game:realToFakeMouse(x, y)
 end
 
 function Game:update(dt)
-	self.joystickManager:update(dt)
+	-- self.joystickManager:update(dt)
 	for i = #self.screenStack, 1, -1 do
 		self.screenStack[i]:update(dt)
 		if self.screenStack[i] and not self.screenStack[i].updateUnder then
