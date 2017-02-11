@@ -49,3 +49,7 @@ end
 function Game:mousereleased(x, y, button)
 	--
 end
+
+function Game:mousemoved(x, y, dx, dy, istouch)
+	--
+end

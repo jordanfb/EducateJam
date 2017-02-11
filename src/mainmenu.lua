@@ -3,6 +3,7 @@
 
 
 require "class"
+require "menu"
 -- require "button"
 
 MainMenu = class()
@@ -15,6 +16,7 @@ function MainMenu:_init(game)
 	self.updateUnder = false
 
 	self.game = game
+	self.menu = Menu(self.game, {"Play", "Exit", "Test"})
 	self.SCREENWIDTH = self.game.SCREENWIDTH
 	self.SCREENHEIGHT = self.game.SCREENHEIGHT
 	self.font = love.graphics.newFont(32)
@@ -53,6 +55,7 @@ function MainMenu:draw()
 	end
 	love.graphics.setColor(0, 0, 0)
 	love.graphics.printf("F2 - FullScreen", 0, 700, 600, "center")
+	self.menu:draw()
 end
 
 function MainMenu:update(dt)
@@ -72,6 +75,7 @@ function MainMenu:update(dt)
 			self.joystickIndicatorGrowing = true
 		end
 	end
+	self.menu:update(dt)
 end
 
 function MainMenu:resize(w, h)
@@ -79,9 +83,26 @@ function MainMenu:resize(w, h)
 end
 
 function MainMenu:keypressed(key, unicode)
-	if key == "space" then
-		self.game.level:reset() -- play
+	-- if key == "space" then
+	-- 	self.game.level:reset() -- play
+	-- 	self.game:addToScreenStack(self.game.level)
+	-- end
+	local choice = self.menu:keypressed(key, unicode)
+	if choice ~= nil then
+		self:selectButton(choice)
+	end
+end
+
+function MainMenu:selectButton(choice)
+	if choice == "ERROR" then
+		print("ERROR ON MAIN MENU BUTTON SELECT!!!!")
+	elseif choice == "Play" then
 		self.game:addToScreenStack(self.game.level)
+	elseif choice == "Exit" then
+		love.event.quit()
+	elseif choice == "Test" then
+		-- test things for jordan
+		self.game:addToScreenStack(self.game.terminal)
 	end
 end
 
@@ -90,21 +111,26 @@ function MainMenu:keyreleased(key, unicode)
 end
 
 function MainMenu:mousepressed(x, y, button)
-	--
+	-- self:selectButton(self.menu:mousepressed(x, y, button))
 end
 
 function MainMenu:mousereleased(x, y, button)
-	for k, v in pairs(self.buttons) do
-		if v:updateMouse(x, y) then
-			-- print(v.text .. " was pressed")
-			if v.text == "Quit" then
-				love.event.quit()
-			elseif v.text == "Play" then
-				self.game.level:reset()
-				self.game:addToScreenStack(self.game.level)
-			elseif v.text == "Test" then
-				self.game:addToScreenStack(self.game.joystickTester)
-			end
-		end
-	end
+	self:selectButton(self.menu:mousepressed(x, y, button))
+	-- for k, v in pairs(self.buttons) do
+	-- 	if v:updateMouse(x, y) then
+	-- 		-- print(v.text .. " was pressed")
+	-- 		if v.text == "Quit" then
+	-- 			love.event.quit()
+	-- 		elseif v.text == "Play" then
+	-- 			self.game.level:reset()
+	-- 			self.game:addToScreenStack(self.game.level)
+	-- 		elseif v.text == "Test" then
+	-- 			self.game:addToScreenStack(self.game.joystickTester)
+	-- 		end
+	-- 	end
+	-- end
+end
+
+function MainMenu:mousemoved(x, y, dx, dy, istouch)
+	--
 end

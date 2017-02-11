@@ -67,3 +67,7 @@ end
 function love.quit()
 	game:quit()
 end
+
+function love.mousemoved( x, y, dx, dy, istouch )
+	--
+end

@@ -47,8 +47,7 @@ function Level:draw()
 end
 
 function Level:update(dt)
-	self.player:update(dt)
-	self.player:collisions(self)
+	self.player:update(dt, self)
 end
 
 function Level:resize(w, h)

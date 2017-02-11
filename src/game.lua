@@ -3,6 +3,7 @@
 require "level"
 require "mainmenu"
 require "player"
+require "terminal"
 -- require "joysticktester"
 -- require "pausemenu"
 -- require "deathmenu"
@@ -22,11 +23,11 @@ function Game:_init()
 	-- here are the actual variables
 	self.SCREENWIDTH = 1920
 	self.SCREENHEIGHT = 1080
-	self.fullscreen = false
+	self.fullscreen = true
 	self.drawFPS = false
 	
 	self.player = Player(self)
-
+	self.terminal = Terminal(self)
 	self.level = Level(self, self.player) -- we should have it load by filename or something.
 	self.mainMenu = MainMenu(self)
 	-- self.player = Player(self)
@@ -44,7 +45,7 @@ function Game:_init()
 	-- bgm:setLooping( true )
 	-- bgm:play()
 	love.graphics.setBackgroundColor(0, 0, 0)
-	self:addToScreenStack(self.level)
+	self:addToScreenStack(self.mainMenu)
 	-- self:addToScreenStack(self.player)
 	self.fullCanvas = love.graphics.newCanvas(self.SCREENWIDTH, self.SCREENHEIGHT)
 end
@@ -117,8 +118,8 @@ function Game:realToFakeMouse(x, y)
 	else
 		local width = love.graphics.getWidth()
 		local height = love.graphics.getHeight()
-		local scale = math.min(height/800, width/600)
-		return {x = (x-(width/2-300*scale))/scale, y = y/scale}
+		local scale = math.min(height/1080, width/1920)
+		return {x = (x-(width/2-1920/2*scale))/scale, y = (y-(height/2-1080/2*scale))/scale}
 	end
 end
 
@@ -189,4 +190,8 @@ end
 
 function Game:quit()
 	--
+end
+
+function Game:mousemoved(x, y, dx, dy, istouch)
+	self.screenStack[#self.screenStack]:mousemoved(x, y, dx, dy, istouch)
 end
