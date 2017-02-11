@@ -4,8 +4,9 @@ Level = class()
 
 -- _init, load, draw, update(dt), keypressed, keyreleased, mousepressed, mousereleased, resize, (drawUnder, updateUnder)
 
-function Level:_init(game)
+function Level:_init(game, player)
 	self.game = game
+	self.player = player
 	self.walls = {}
 	self.levelArray = {{'w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w'},
 					   {'w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'},
@@ -41,10 +42,13 @@ function Level:draw()
 	for i, wall in pairs(self.walls) do
 		love.graphics.rectangle("fill", wall.x, wall.y, wall.w, wall.w)
 	end
+	
+	Player:draw()
 end
 
 function Level:update(dt)
-	--
+	Player:update(dt)
+	Player:collisions(self)
 end
 
 function Level:resize(w, h)

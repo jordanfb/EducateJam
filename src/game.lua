@@ -2,6 +2,7 @@
 -- require "player"
 require "level"
 require "mainmenu"
+require "player"
 -- require "joysticktester"
 -- require "pausemenu"
 -- require "deathmenu"
@@ -23,8 +24,10 @@ function Game:_init()
 	self.SCREENHEIGHT = 1080
 	self.fullscreen = false
 	self.drawFPS = false
+	
+	self.player = Player(self)
 
-	self.level = Level(self) -- we should have it load by filename or something.
+	self.level = Level(self, self.player) -- we should have it load by filename or something.
 	self.mainMenu = MainMenu(self)
 	-- self.player = Player(self)
 	-- self.level= Level(self, self.player)

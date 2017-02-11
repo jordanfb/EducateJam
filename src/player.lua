@@ -66,6 +66,7 @@ function Player:collisions(level)
 		if self.dx < 0 and self.x < wall.x then
 			self.dx = 0
 			self.x = wall.x
+		end
 	end
 end
 
@@ -81,15 +82,16 @@ function Player:update(dt)
 		self.y = self.ladderSpeed
 	elseif love.keyboard.isDown("d") and self.onLadder then
 		self.y = -1 * self.ladderSpeed
-	else
-		if abs(self.dx) > 0.1 and self.onGround then		--Slows the player down based on the friction coefficient.  THIS MIGHT HAVE A BUG WITH LADDERS!!!
-			self.dx = self.dx - sign(self.dx) * self.friction
-		end
+	--else
+	--	if math.abs(self.dx) > 0.1 and self.onGround then		--Slows the player down based on the friction coefficient.  THIS MIGHT HAVE A BUG WITH LADDERS!!!
+		--	self.dx = self.dx - sign(self.dx) * self.friction
+	--	end
 	end
 
 	if not self.onLadder then
 		self.dy = self.dy + self.gravity * dt
 		self.y = self.y + self.dy * dt
+	end
 	
 	if math.abs(self.dx) > self.maxSpeed then	--makes sure the player isn't moving too fast
 		self.dx = sign(self.dx) * self.maxSpeed
