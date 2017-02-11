@@ -76,20 +76,23 @@ end
 
 function Menu:keypressed(key, unicode)
 	if key == "menuUp" then
+		self.useJoystick = true
 		self.selected = self.selected - 1
 		if self.selected <= 0 then
 			self.selected = #self.buttons
 		end
 	elseif key == "menuDown" then
+		self.useJoystick = true
 		self.selected = self.selected+1
 		if self.selected > #self.buttons then
 			self.selected = 1
 		end
 	elseif key == "joystickA" then
+		self.useJoystick = true
 		return self:returnPressed()
 	end
 end
 
 function Menu:mousemoved(x, y, dx, dy, istouch)
-	--
+	self.useJoystick = false
 end
