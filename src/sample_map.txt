@@ -1,0 +1,11 @@
+//map one
+*A(out)
+*B(out)
+out
+
+//map two
+*A N1
+*B N1
+C out
+N1 out
+out
