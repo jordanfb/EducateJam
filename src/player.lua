@@ -16,7 +16,7 @@ function Player:_init(game)
 	self.onGround = false		--Tracks if the player is on the ground
 	self.onLadder = false		--Tracks if the player is on a ladder
 
-	self.gravity = 30			--Attributes about they players movement
+	self.gravity = -30			--Attributes about they players movement
 	self.jumpStrength = 30		--and world
 	self.ladderSpeed = 5 		--Rate at which a player climbs ladders
 	self.maxSpeed = 7
@@ -59,6 +59,18 @@ function Player:keypressed(key)
 	end
 end
 
+--Runs collision checking
+function Player:collisions(level)
+	--level has level.walls, which holds (x, y, w)
+	for i, wall in level.walls do
+		if self.dx < 0 and self.x < wall.x then
+			self.dx = 0
+			self.x = wall.x
+	end
+end
+
+
+--Moves the player
 function Player:update(dt)
 
 	if love.keyboard.isDown("a") then		--accelerates the player left
@@ -75,6 +87,9 @@ function Player:update(dt)
 		end
 	end
 
+	if not self.onLadder then
+		self.dy = self.dy + self.gravity * dt
+		self.y = self.y + self.dy * dt
 	
 	if math.abs(self.dx) > self.maxSpeed then	--makes sure the player isn't moving too fast
 		self.dx = sign(self.dx) * self.maxSpeed
