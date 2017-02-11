@@ -3,6 +3,7 @@
 
 
 require "class"
+require "menu"
 -- require "button"
 
 MainMenu = class()
@@ -15,6 +16,7 @@ function MainMenu:_init(game)
 	self.updateUnder = false
 
 	self.game = game
+	self.menu = Menu(self.game, {"Play", "Exit", "Test"})
 	self.SCREENWIDTH = self.game.SCREENWIDTH
 	self.SCREENHEIGHT = self.game.SCREENHEIGHT
 	self.font = love.graphics.newFont(32)
@@ -53,6 +55,7 @@ function MainMenu:draw()
 	end
 	love.graphics.setColor(0, 0, 0)
 	love.graphics.printf("F2 - FullScreen", 0, 700, 600, "center")
+	self.menu:draw()
 end
 
 function MainMenu:update(dt)
@@ -72,6 +75,7 @@ function MainMenu:update(dt)
 			self.joystickIndicatorGrowing = true
 		end
 	end
+	self.menu:update(dt)
 end
 
 function MainMenu:resize(w, h)
@@ -85,12 +89,24 @@ function MainMenu:keypressed(key, unicode)
 	end
 end
 
+function MainMenu:selectButton(choice)
+	if choice == "ERROR" then
+		print("ERROR ON MAIN MENU BUTTON SELECT!!!!")
+	elseif choice == "Play" then
+		self.game:addToScreenStack(self.game.level)
+	elseif choice == "Exit" then
+		love.event.quit()
+	elseif choice == "Test" then
+		-- test things for jordan
+	end
+end
+
 function MainMenu:keyreleased(key, unicode)
 	--
 end
 
 function MainMenu:mousepressed(x, y, button)
-	--
+	self:selectButton(self.menu:mousepressed(x, y, button))
 end
 
 function MainMenu:mousereleased(x, y, button)
