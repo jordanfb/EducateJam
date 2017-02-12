@@ -7,15 +7,15 @@ node n1
 node n2
 node n3
 
-output A
-output B
-output C
+output E
+output F
+output G
 
 buffer n1 a
-buffer A n1
+buffer E n1
 
 not n2 b
-buffer B n2
+buffer F n2
 
 and n3 c d
-buffer C n3
+buffer G n3
