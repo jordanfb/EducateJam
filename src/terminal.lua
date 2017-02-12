@@ -50,6 +50,7 @@ function Terminal:setTerminalData(numInputs, terminalIndex, gateType, editable, 
 	self.out = out
 	self.selected = terminalIndex
 	self.resetInfo = {terminalIndex = terminalIndex, out = out, inA = inA, inB = inB, numInputs = numInputs}
+	self.magicCenteringNumber = 85
 end
 
 function Terminal:reset()
@@ -102,27 +103,27 @@ function Terminal:drawThisOne()
 		self:setColorToNode(self.inA)
 		love.graphics.draw(self.level.insideTerminalImages.twoInputImages.inA, self.terminalX, self.terminalY)
 		-- this is where I draw the inA rune in the top left
-		love.graphics.draw(self:getRuneForDisplay(self.inA), 120-80+self.terminalX, 150-80+self.terminalY)
+		love.graphics.draw(self:getRuneForDisplay(self.inA), 120-self.magicCenteringNumber+self.terminalX, 150-self.magicCenteringNumber+self.terminalY)
 		-- love.graphics.draw(self.level.greyRunes)
 		self:setColorToNode(self.inB)
 		love.graphics.draw(self.level.insideTerminalImages.twoInputImages.inB, self.terminalX, self.terminalY)
 		-- this is where I draw the inB rune in the bottom left
-		love.graphics.draw(self:getRuneForDisplay(self.inB), 100-80+self.terminalX, 650-80+self.terminalY)
+		love.graphics.draw(self:getRuneForDisplay(self.inB), 100-self.magicCenteringNumber+self.terminalX, 650-self.magicCenteringNumber+self.terminalY)
 		self:setColorToNode(self.out)
 		love.graphics.draw(self.level.insideTerminalImages.twoInputImages.out, self.terminalX, self.terminalY)
 		-- this is where I draw the out rune in the right
-		love.graphics.draw(self:getRuneForDisplay(self.out), 640-80+self.terminalX, 660-80+self.terminalY)
+		love.graphics.draw(self:getRuneForDisplay(self.out), 640-self.magicCenteringNumber+self.terminalX, 660-self.magicCenteringNumber+self.terminalY)
 	elseif self.numInputs == 1 then -- draw one node stuff
 		love.graphics.setColor(255, 255, 255)
 		love.graphics.draw(self.level.insideTerminalImages.oneInputImages.background, self.terminalX, self.terminalY)
 		self:setColorToNode(self.inA)
 		love.graphics.draw(self.level.insideTerminalImages.oneInputImages.inA, self.terminalX, self.terminalY)
 		-- this is where I draw the inA rune in the top left
-		love.graphics.draw(self:getRuneForDisplay(self.inA), 90-80+self.terminalX, 580-80+self.terminalY)
+		love.graphics.draw(self:getRuneForDisplay(self.inA), 90-self.magicCenteringNumber+self.terminalX, 580-self.magicCenteringNumber+self.terminalY)
 		self:setColorToNode(self.out)
 		love.graphics.draw(self.level.insideTerminalImages.oneInputImages.out, self.terminalX, self.terminalY)
 		-- this is where I draw the out rune in the right
-		love.graphics.draw(self:getRuneForDisplay(self.out), 700-80+self.terminalX, 210-80+self.terminalY)
+		love.graphics.draw(self:getRuneForDisplay(self.out), 700-self.magicCenteringNumber+self.terminalX, 210-self.magicCenteringNumber+self.terminalY)
 	else
 		-- it probably isn't initialized yet, so hopefully it will be fixed...
 		print("ERROR! TERMINAL DOESN'T HAVE CORRECT NUMBER OF INPUTS")
