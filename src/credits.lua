@@ -26,6 +26,11 @@ function Credits:_init(game, pausemenu)
 	self.selection = 0
 	
 	
+	self.portraits = {love.graphics.newImage('art/martin.png'),
+					  love.graphics.newImage('art/jordan.png'),
+					  love.graphics.newImage('art/simon.png'),
+					  love.graphics.newImage('art/tristan.png')}
+
 end
 
 function Credits:load()
@@ -50,6 +55,11 @@ function Credits:draw()
 	love.graphics.setColor(255, 255, 255)
 	love.graphics.setFont(love.graphics.newFont("fonts/november.ttf", 48))
 	love.graphics.printf("Game programming, art and design by \nMartin Duffy, Jordan Faas-Busch, Simon Hopkins, Tristan Protzman\nMusic and Sound by: Eric Skiff\nMade in 24 hours for\nRPI Educational Game Jam", 0, 150, self.SCREENWIDTH, "center")
+	
+	for i = 1, 4 do
+		love.graphics.draw(self.portraits[i], 100+300*i, 450)
+	end
+	
 	
 	self.button:draw()
 end
