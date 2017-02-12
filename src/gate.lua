@@ -16,11 +16,11 @@ function Gate:setOutput(gates, inputs)
 		self.inB = inputs[self.inBname]
 	end
 
-	if self.gateType == "~" then
+	if self.gateType == "not" then
 		return not self.inA
-	elseif self.gateType == "&" then
+	elseif self.gateType == "and" then
 		return self.inA and self.inB
-	elseif self.gateType == "|" then
+	elseif self.gateType == "or" then
 		return self.inA or self.inB
 	-- elseif self.gateType == "xor" then
 	-- 	if self.inA and self.inB  then
@@ -30,9 +30,9 @@ function Gate:setOutput(gates, inputs)
 	-- 	return not self.inA and self.inB
 	-- elseif self.gateType == "nor" then
 	-- 	return not self.inA or self.inB
-	elseif self.gateType == "+" then
-		return true	
-	elseif self.gateType == "-" then
+	elseif self.gateType == "on" then
+		return true
+	elseif self.gateType == "off" then
 		return false
 	else
 		print("ERROR: INVALID GATE gateTYPE:" .. self.gateType)
