@@ -6,17 +6,17 @@ require "class"
 require "menu"
 -- require "button"
 
-MainMenu = class()
+PauseMenu = class()
 
 -- _init, load, draw, update(dt), keypressed, keyreleased, mousepressed, mousereleased, resize, (drawUnder, updateUnder)
 
-function MainMenu:_init(game)
+function PauseMenu:_init(game)
 	-- this is for the draw stack
-	self.drawUnder = false
+	self.drawUnder = true
 	self.updateUnder = false
 
 	self.game = game
-	self.menu = Menu(self.game, {"Play", "Exit", "Test"})
+	self.menu = Menu(self.game, {"Resume", "Exit"})
 	self.SCREENWIDTH = self.game.SCREENWIDTH
 	self.SCREENHEIGHT = self.game.SCREENHEIGHT
 	self.font = love.graphics.newFont(32)
@@ -28,18 +28,18 @@ function MainMenu:_init(game)
 	self.joystickIndicatorScale = 1
 end
 
-function MainMenu:load()
+function PauseMenu:load()
 	-- run when the level is given control
 	love.graphics.setFont(self.font)
 	love.mouse.setVisible(true)
 	love.graphics.setBackgroundColor(255, 255, 255)
 end
 
-function MainMenu:leave()
+function PauseMenu:leave()
 	-- run when the level no longer has control
 end
 
-function MainMenu:draw()
+function PauseMenu:draw()
 	-- love.graphics.draw(self.image, 130, 100, 0, 1, 1)
 	if self.hasJoysticks then -- display that you have a joystick connected
 		love.graphics.setColor(0, 0, 128)--90, 100, 255)
@@ -50,7 +50,7 @@ function MainMenu:draw()
 	self.menu:draw()
 end
 
-function MainMenu:update(dt)
+function PauseMenu:update(dt)
 	local mX = love.mouse.getX()
 	local mY = love.mouse.getY()
 	if self.joystickIndicatorGrowing then
@@ -67,11 +67,11 @@ function MainMenu:update(dt)
 	self.menu:update(dt)
 end
 
-function MainMenu:resize(w, h)
+function PauseMenu:resize(w, h)
 	--
 end
 
-function MainMenu:keypressed(key, unicode)
+function PauseMenu:keypressed(key, unicode)
 	-- if key == "space" then
 	-- 	self.game.level:reset() -- play
 	-- 	self.game:addToScreenStack(self.game.level)
@@ -82,28 +82,29 @@ function MainMenu:keypressed(key, unicode)
 	end
 end
 
-function MainMenu:selectButton(choice)
+function PauseMenu:selectButton(choice)
 	if choice == "ERROR" then
 		print("ERROR ON MAIN MENU BUTTON SELECT!!!!")
-	elseif choice == "Play" then
-		self.game:addToScreenStack(self.game.level)
-	elseif choice == "Exit" then
-		love.event.quit()
-	elseif choice == "Test" then
-		-- test things for jordan
-		self.game:addToScreenStack(self.game.terminal)
+	elseif choice == "Resume" then
+		self.game:popScreenStack()
+	elseif choice == "Exit" then -- exit to menu
+		self.game:popScreenStack()
+		self.game:popScreenStack()
+	-- elseif choice == "Test" then
+	-- 	-- test things for jordan
+	-- 	self.game:addToScreenStack(self.game.terminal)
 	end
 end
 
-function MainMenu:keyreleased(key, unicode)
+function PauseMenu:keyreleased(key, unicode)
 	--
 end
 
-function MainMenu:mousepressed(x, y, button)
+function PauseMenu:mousepressed(x, y, button)
 	-- self:selectButton(self.menu:mousepressed(x, y, button))
 end
 
-function MainMenu:mousereleased(x, y, button)
+function PauseMenu:mousereleased(x, y, button)
 	self:selectButton(self.menu:mousepressed(x, y, button))
 	-- for k, v in pairs(self.buttons) do
 	-- 	if v:updateMouse(x, y) then
@@ -120,6 +121,6 @@ function MainMenu:mousereleased(x, y, button)
 	-- end
 end
 
-function MainMenu:mousemoved(x, y, dx, dy, istouch)
-	--
+function PauseMenu:mousemoved(x, y, dx, dy, istouch)
+	self.menu:mousemoved(x, y, dx, dy, istouch)
 end

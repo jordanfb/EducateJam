@@ -4,8 +4,7 @@ require "level"
 require "mainmenu"
 require "player"
 require "terminal"
--- require "joysticktester"
--- require "pausemenu"
+require "pausemenu"
 -- require "deathmenu"
 -- require "joystickmanager"
 
@@ -30,6 +29,7 @@ function Game:_init()
 	self.terminal = Terminal(self)
 	self.level = Level(self, self.player) -- we should have it load by filename or something.
 	self.mainMenu = MainMenu(self)
+	self.pauseMenu = PauseMenu(self)
 	-- self.player = Player(self)
 	-- self.level= Level(self, self.player)
 	-- self.pauseMenu = PauseMenu(self)
