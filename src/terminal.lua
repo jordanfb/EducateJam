@@ -227,7 +227,7 @@ function Terminal:drawInventory()
 		love.graphics.draw(self.level.inventoryImages.tileBackground, x, y+(k-1)*100)
 		self:setColorToNode("nothing", true)
 		-- draw the gate
-		love.graphics.draw(self.level.inventoryImages["gateTile"..v..".png"], x, y)
+		love.graphics.draw(self.level.inventoryImages["gateTile"..v..".png"], x, y+(k-1)*100)
 		y = y + 40 + 100 -- the height of the gate and 40 for spacing
 	end
 	love.graphics.setColor(255, 255, 255)
@@ -277,6 +277,8 @@ function Terminal:drawThisOne()
 	end
 	self:drawLogicGate()
 	self:drawInventory()
+	love.graphics.draw(self.level.inventoryImages.leftArrow, self.terminalX+20, self.terminalY + self.backgroundH-10)
+	love.graphics.draw(self.level.inventoryImages.rightArrow, self.terminalX+self.backgroundW-20-160, self.terminalY + self.backgroundH-10)
 end
 
 function Terminal:update(dt)
