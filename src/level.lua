@@ -10,6 +10,8 @@ function Level:_init(game, player)
 	self.numberOfLogicGateTypes = 7
 	self.game = game
 	self.player = player
+
+	self.totalLevels = 8
 	
 	self.terminalNames = {}
 	self.terminalNames["!"]=true
@@ -359,9 +361,6 @@ function Level:draw()
 		love.graphics.draw(self.terminalImages[math.floor(self.terminalAnimation)+1], terminal.x + self.camera.x, terminal.y + self.camera.y)
 	end
 
-	for i, treasure in pairs(self.treasures) do
-		love.graphics.draw(self.treasureImages)
-	
 	love.graphics.setColor(255, 255, 255)
 	self.player:draw(self, self.camera)
 	

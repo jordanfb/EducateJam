@@ -17,3 +17,5 @@ This ruin is not like the others, the treasure at the end must be even more prec
 art/doorGameJam5.png
 Your intergalactic treasure hunting has proven fruitful!
 art/treasure1.png
+You completed the game in x moves. Perfect is 23.  Try to get this!
+art/treasure2.png
