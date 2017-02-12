@@ -105,6 +105,9 @@ function Level:_init(game, player)
 	self.doorSound = love.audio.newSource("music/door.wav") 
 	self.doorSound:setLooping(false)
 	
+	self.gateSound = love.audio.newSource("music/gateCollect.mp3") 
+	self.gateSound:setLooping(false)
+	self.gateSound:setVolume(0.4)
 	--self:initialize()
 end
 
