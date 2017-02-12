@@ -22,7 +22,7 @@ function Game:_init()
 	-- here are the actual variables
 	self.SCREENWIDTH = 1920
 	self.SCREENHEIGHT = 1080
-	self.fullscreen = true
+	self.fullscreen = false
 	self.drawFPS = false
 	
 	self.player = Player(self)
@@ -48,6 +48,7 @@ function Game:_init()
 	self:addToScreenStack(self.mainMenu)
 	-- self:addToScreenStack(self.player)
 	self.fullCanvas = love.graphics.newCanvas(self.SCREENWIDTH, self.SCREENHEIGHT)
+	self.useJoystick = false
 end
 
 function Game:load(args)
@@ -90,7 +91,7 @@ function Game:draw()
 
 	love.graphics.setCanvas()
 	love.graphics.setColor(255, 255, 255)
-	if self.fullscreen or true then
+	if self.fullscreen then
 		local width = love.graphics.getWidth()
 		local height = love.graphics.getHeight()
 		local scale = math.min(height/1080, width/1920)
@@ -113,12 +114,12 @@ end
 
 function Game:realToFakeMouse(x, y)
 	-- converts from what the screen sees to what the game wants to see
+	local width = love.graphics.getWidth()
+	local height = love.graphics.getHeight()
+	local scale = math.min(height/1080, width/1920)
 	if not self.fullscreen then
-		return {x = x, y = y}
+		return {x = x/scale, y = y/scale}
 	else
-		local width = love.graphics.getWidth()
-		local height = love.graphics.getHeight()
-		local scale = math.min(height/1080, width/1920)
 		return {x = (x-(width/2-1920/2*scale))/scale, y = (y-(height/2-1080/2*scale))/scale}
 	end
 end
@@ -198,6 +199,7 @@ end
 
 function Game:gamepadpressed(gamepad, button)
 	self.gamepadManager:gamepadpressed(gamepad, button)
+	self.useJoystick = true
 end
 
 function Game:gamepadaxis( joystick, axis, value )

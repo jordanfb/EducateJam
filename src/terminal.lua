@@ -18,10 +18,10 @@ function Terminal:_init(game, level)
 	self.circuit = Circuit("level1circuit.txt")
 
 	-- self.circuit:evaluate()
-	for k, v in pairs(self.circuit.outputs) do
-		print("Output "..k.." = ")
-		print(v)
-	end
+	-- for k, v in pairs(self.circuit.outputs) do
+	-- 	print("Output "..k.." = ")
+	-- 	print(v)
+	-- end
 end
 
 function Terminal:load()

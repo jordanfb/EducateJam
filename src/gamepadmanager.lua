@@ -34,6 +34,9 @@ end
 
 function GamepadManager:removejoystick(joystick)
 	self:getJoysticks()
+	if #self.gamepads == 0 then
+		self.game.useJoystick = false
+	end
 end
 
 function GamepadManager:getJoysticks()
@@ -59,6 +62,7 @@ end
 function GamepadManager:gamepadaxis( joystick, axis, value )
 	if math.abs(value) > .25 then
 		love.mouse.setVisible(false)
+		self.game.useJoystick = true
 	-- elseif math.abs(value) < .05 then
 	-- 	self.leftflickup = false
 	-- 	self.leftflickdown = false
