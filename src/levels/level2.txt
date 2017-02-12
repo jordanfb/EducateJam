@@ -1,18 +1,18 @@
 wwwwwwwwwwwwwwwwww
 w      w   w    ww
 w      w   w    ww
-w      A   B    lw
+w      I   J    lw
 w_  ! a  b      lw
 w            1  lw
 wwwwwwwwwwwwwwwwlw
 ww   w  w  w    lw
 ww   w  w  w    lw
-wl   E  D  C    lw
+wl   H  G  F    lw
 wl    e  d  c@  lw
 wl              lw
 wlwwwwwwwwwwwwwwww
 wl          w    w
-wl          F    w
+wl          A    w
 wl   #f g h        
 wl                
 wl   wwwwwwwww    
@@ -21,3 +21,7 @@ wwwwwwwwwwwwwwwwww
 f on
 g on
 h on
+--TERMINAL STATUS--
+terminal ! buffer edit E a
+terminal @ not edit F b
+terminal # and edit G d c

@@ -27,6 +27,9 @@ function Level:_init(game, player)
 	foregroundImage = love.graphics.newImage('art/foregroundWallTile.png')
 	
 	self.terminalAnimation = 0
+	self.gateAnimation = 0
+	self.torchAnimation = 0
+	
 	self.terminalImages = {}
 	for i = 1, 6 do
 		self.terminalImages[i] = love.graphics.newImage('art/wallLayerWithTerminal'..i..'.png')
@@ -51,6 +54,15 @@ function Level:_init(game, player)
 	for i = string.byte('A'), string.byte('J') do
 		self.greyRunes[string.char(i)] = love.graphics.newImage('art/rune'..string.char(i)..'Grey.png')
 	end 
+	
+	self.gateImages = {}
+	self.emptyGate = love.graphics.newImage('art/gate0.png')
+	for i = 1, 7 do
+		self.gateImages[i] = {}
+		for j = 1, 8 do
+			self.gateImages[i][j] = love.graphics.newImage('art/gate'..i..'-'..j..'.png')
+		end
+	end
 
 	local oneInputImages = {background = love.graphics.newImage('art/2NodesOneGate.png'),
 												inA = love.graphics.newImage('art/2NodesWire1.png'),
@@ -64,6 +76,12 @@ function Level:_init(game, player)
 							twoInputImages = twoInputImages,
 						}
 
+	self.torchImages = {}
+	for i = 1, 4 do
+		self.torchImages[i] = love.graphics.newImage('art/wallTorch'..i..'.png')
+	end 
+	
+	self.glowImage = love.graphics.newImage('art/torchlightAlphaCircle.png')
 	self:initialize()
 end
 
@@ -76,6 +94,7 @@ function Level:initialize()
 	self.backgrounds = {}
 	self.terminals = {}
 	self.gates = {}
+	self.torches = {}
 	self.circuit = Circuit("levels/level"..self.currentLevel.."circuit.txt")
 
 	local lines = {}	
@@ -134,12 +153,14 @@ function Level:initialize()
 			elseif string.byte(tile) >= string.byte('A') and string.byte(tile) <= string.byte("J") then
 				table.insert(self.doors, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h=3*self.tileSize, key=tile, open = false, animation = 0})
 			elseif string.byte(tile) >= string.byte('1') and string.byte(tile) <= string.byte("9") then
-				table.insert(self.gates, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h=self.tileSize, gate=tile, taken=false, animation = 0})
+				table.insert(self.gates, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize*2, h=self.tileSize*2, gate=tile, taken=false, animation = 0})
 			elseif self.terminalNames[tile] ~= nil then
 				table.insert(self.terminals, Terminal((x-1)*self.tileSize, (y-1)*self.tileSize, self.tileSize, self.tileSize, self.game, self.currentLevel, self, tile))
 			elseif tile == '_' then
 				table.insert(self.backgrounds, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h = self.tileSize})
 				self.player:reset((x-1)*self.tileSize, (y-1)*self.tileSize)	
+			elseif tile == '.' then
+				table.insert(self.torches, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h = self.tileSize})
 			else
 				print("TILE ISN'T RECOGNIZED:"..tile)
 			end
@@ -238,6 +259,9 @@ function Level:reset()
 	self.camera.x = self.resetInfo.camerax
 	self.camera.y = 0--self.resetInfo.cameray
 	self.player:updateAllDoors(self)
+	for i, gate in pairs(self.gates) do
+		gate.taken = false
+	end
 end
 
 function Level:load()
@@ -257,6 +281,14 @@ function Level:draw()
 		love.graphics.draw(wallImage, wall.x + self.camera.x, wall.y + self.camera.y)
 	end
 	
+	for i, torch in pairs(self.torches) do
+	love.graphics.setColor(255, 255, 255)
+		love.graphics.draw(self.torchImages[math.floor(self.torchAnimation)+1], torch.x + self.camera.x, torch.y + self.camera.y)
+		love.graphics.setColor(255, 255, 255, 25 + math.random()*10)
+		love.graphics.draw(self.glowImage, torch.x + self.camera.x - torch.w, torch.y + self.camera.y - torch.h)
+	end
+	
+	love.graphics.setColor(255, 255, 255)
 	for i, wall in pairs(self.walls) do
 		love.graphics.draw(foregroundImage, wall.x + self.camera.x, wall.y + self.camera.y)
 	end
@@ -281,12 +313,11 @@ function Level:draw()
 	end
 	
 	for i, gate in pairs(self.gates) do
-		if not gate.taken then
-			love.graphics.setColor(255, 128, 128)
+		if gate.taken then
+			love.graphics.draw(self.emptyGate, gate.x + self.camera.x, gate.y + self.camera.y)
 		else
-			love.graphics.setColor(128, 0, 0)
+			love.graphics.draw(self.gateImages[math.floor(gate.gate+.5)][math.floor(self.gateAnimation)+1], gate.x + self.camera.x, gate.y + self.camera.y)
 		end
-		love.graphics.rectangle("fill", gate.x + self.camera.x, gate.y + self.camera.y, gate.w, gate.h)
 	end
 	
 	love.graphics.setColor(255, 255, 255)
@@ -295,7 +326,7 @@ function Level:draw()
 	end
 	
 	love.graphics.setColor(255, 255, 255)
-	self.player:draw(self.camera)
+	self.player:draw(self, self.camera)
 	
 	for i, door in pairs(self.doors) do
 		if door.open then
@@ -325,6 +356,8 @@ end
 
 function Level:animate(dt)
 	self.terminalAnimation = (self.terminalAnimation+.1)%6
+	self.gateAnimation = (self.gateAnimation+.1)%8
+	self.torchAnimation = (self.torchAnimation+.1)%4
 	for i, lever in pairs(self.levers) do
 		if lever.on and lever.animation < 4 then
 			lever.animation = lever.animation + .4
