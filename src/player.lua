@@ -85,7 +85,7 @@ end
 
 function Player:gravityCollision(dt, level, wall)
 	if self.x + self.w > wall.x and self.x < wall.x + wall.w then
-		if self.y + self.h <= wall.y + 1 and self.y + self.h + self.dy*dt > wall.y then
+		if self.y + self.h <= wall.y + wall.h/2 and self.y + self.h + self.dy*dt > wall.y then
 			self.dy = 0
 			self.y = wall.y - self.h
 			self.onGround = true
