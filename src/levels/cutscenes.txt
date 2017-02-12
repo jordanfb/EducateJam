@@ -11,9 +11,9 @@ As you progress farther into the lair, your signal from the outside world dimini
 art/bigGateTile5.png
 It seems the lair was abandoned before all the rooms were finished, perhaps you could find a way though despite this?
 art/gate4-1.png
-PLACEHOLDER TEXT
+Why was this temple abandoned? Why were these doors placed here?
 art/doorGameJam1.png
-PLACEHOLDER TEXT
+This ruin is not like the others, the treasure at the end must be even more precious.
 art/doorGameJam5.png
-YOU WIN
+Your intergalactic treasure hunting has proven fruitful!
 art/treasure1.png
