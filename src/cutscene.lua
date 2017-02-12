@@ -19,13 +19,19 @@ function Cutscene:_init(game)
 	-- self.menu = Menu(self.game, {"Resume", "Exit", "Reset"})
 	self.SCREENWIDTH = self.game.SCREENWIDTH
 	self.SCREENHEIGHT = self.game.SCREENHEIGHT
-	self.font = love.graphics.newFont(32)
+	self.font = love.graphics.newFont("fonts/november.ttf", 50)
+
 	self.fontHeight = self.font:getHeight()
 	
 	-- self.image = love.graphics.newImage('mainmenu.png')
 	self.hasJoysticks = false
 	self.joystickIndicatorGrowing = true
 	self.joystickIndicatorScale = 1
+	self.lines = {}
+	for line in love.filesystem.lines("levels/cutscenes.txt") do
+		print(line)
+		self.lines[#self.lines + 1] = line
+	end
 end
 
 function Cutscene:load()
@@ -33,6 +39,7 @@ function Cutscene:load()
 	love.graphics.setFont(self.font)
 	love.mouse.setVisible(false)
 	love.graphics.setBackgroundColor(0, 0, 0)
+
 end
 
 function Cutscene:leave()
@@ -40,7 +47,7 @@ function Cutscene:leave()
 end
 
 function Cutscene:draw()
-	love.graphics.printf("Welcome to the story of our brave explorer, utilizing logic to find the treasures of the lost space colony", self.SCREENWIDTH / 2 - 250, self.SCREENHEIGHT / 2, 500, "center")
+	love.graphics.printf(self.lines[self.game.level.currentLevel], self.SCREENWIDTH / 2 - 350, self.SCREENHEIGHT / 2, 700, "center")
 end
 
 function Cutscene:update(dt)
