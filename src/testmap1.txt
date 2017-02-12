@@ -1,12 +1,12 @@
-*A
-*B
-*C
+input A
+input B
+input C
 
-#D
-#E
+node D
+node E
 
-%O
+output O
 
-& D A B
-| E C D
-& O D E
+and D A B
+or E C D
+and O D E

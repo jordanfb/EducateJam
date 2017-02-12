@@ -35,7 +35,7 @@ function Gate:setOutput(gates, inputs)
 	elseif self.gateType == "-" then
 		return false
 	else
-		print("ERROR: INVALID GATE gateTYPE:" .. gateType)
+		print("ERROR: INVALID GATE gateTYPE:" .. self.gateType)
 		love.event.quit()
 		return nil
 	end
