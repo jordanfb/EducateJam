@@ -15,18 +15,22 @@ function Level:_init(game, player)
 	self.levers = {}
 	self.levelArray = {}
 	self.backgrounds = {}
+	self.terminals = {}
 
 	ladderImage = love.graphics.newImage('art/wallTileWithLadder.png')
 	wallImage = love.graphics.newImage('art/wallTile1.png')
 	foregroundImage = love.graphics.newImage('art/foregroundWallTile.png')
 	
-
-
-	self.terminals = {}
 	self.terminalAnimation = 0
 	self.terminalImages = {}
 	for i = 1, 6 do
 		self.terminalImages[i] = love.graphics.newImage('art/wallLayerWithTerminal'..i..'.png')
+	end 
+	
+	self.leverAnimation = 0
+	self.leverImages = {}
+	for i = 1, 5 do
+		self.leverImages[i] = love.graphics.newImage('art/wallTileWithLever'..i..'.png')
 	end 
 
 	local lines = {}	
@@ -67,7 +71,7 @@ function Level:_init(game, player)
 			elseif tile == 'l' then
 				table.insert(self.ladders, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize})
 			elseif string.byte(tile) >= string.byte('a') and string.byte(tile) <= string.byte("j") then
-				table.insert(self.levers, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, key=tile, on=false})
+				table.insert(self.levers, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, key=tile, animation = 0, animating = false, on=false})
 			elseif string.byte(tile) >= string.byte('A') and string.byte(tile) <= string.byte("J") then
 				table.insert(self.doors, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h=3*self.tileSize, key=tile, open = false})
 			elseif string.byte(tile) >= string.byte('A') and string.byte(tile) <= string.byte("T") then
@@ -84,7 +88,12 @@ function Level:_init(game, player)
 	for i = 1, #words, 2 do
 		print("LEVEL 72" .. words[i]..words[i+1])
 		if words[i + 1] == "on" then
-			self.levers[i]["on"] = true
+			for k, v in pairs(self.levers) do
+				if v.key == words[i] then
+					v.on = true
+					v.animation = 4
+				end
+			end
 		elseif words[i] == "playerX" then
 			tempX = tonumber(words[i + 1])
 		elseif words[i] == "playerY" then
@@ -126,11 +135,10 @@ function Level:draw()
 	
 	for i, lever in pairs(self.levers) do
 		if lever.on then
-			love.graphics.setColor(255, 155, 155)
+			love.graphics.draw(self.leverImages[math.floor(lever.animation)+1], lever.x + self.camera.x, lever.y + self.camera.y)
 		else
-			love.graphics.setColor(155, 0, 0)
+			love.graphics.draw(self.leverImages[math.floor(lever.animation)+1], lever.x + self.camera.x, lever.y + self.camera.y)
 		end
-		love.graphics.rectangle("fill", lever.x + self.camera.x, lever.y + self.camera.y, lever.w, lever.w)
 	end
 	
 	love.graphics.setColor(0, 155, 0)
@@ -168,6 +176,18 @@ end
 
 function Level:animate(dt)
 	self.terminalAnimation = (self.terminalAnimation+.1)%6
+	for i, lever in pairs(self.levers) do
+		if lever.on and lever.animation < 4 then
+			lever.animation = lever.animation + .4
+		elseif not lever.on and lever.animation > 0 then
+			lever.animation = lever.animation - .4
+		end
+		if lever.animation > 4 then
+			lever.animation = 4
+		elseif lever.animation < 0 then
+			lever.animation = 0
+		end
+	end
 end
 
 function Level:update(dt)
