@@ -69,18 +69,19 @@ function Circuit:loadCircuit(file)
 			-- then it's a gate
 		end
 	end
-	print("MADE IT THROUGH LOAD CIRCUIT")
 end
 
 function Circuit:evaluate()
-	for k, v in pairs(self.inputs) do
-		print("INPUTL "..k)
-	end
+	-- for k, v in pairs(self.inputs) do
+	-- 	print("INPUTL "..k)
+	-- end
 	for k, v in pairs(self.outputs) do
-		print(k.." trying to do stuff")
+		-- print(k.." trying to do stuff")
 		-- k = the name of the output, and the first gate to check.
-		print("inputs len"..self:tablelength(self.inputs))
-		self.outputs[k] = self.gates[k]:evaluate(self.gates, self.inputs)
+		-- print("inputs len"..self:tablelength(self.inputs))
+		local g = self.gates[k]
+		-- print("type of possible gate "..type(g))
+		self.outputs[k] = g:evaluate(self.gates, self.inputs)
 	end
 end
 
