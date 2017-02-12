@@ -2,7 +2,7 @@ wwwwwwwwwwwwwwwwwwww
 ww             w   w
 ww             G    
 wl         d        
-wl  #  c            
+wl  #_ c            
 wl         wwwwwwwww
 wlwwwwwwwwwwwwwwwwww
 wl    w           ww
@@ -14,7 +14,7 @@ wwwwwwwwwwwwwwwwwwlw
 w             w   lw
 w             w   lw
 w             E   lw
-w_      ! a       lw
+w       ! a       lw
 w    w            lw
 wwwwwwwwwwwwwwwwwwww
 --INITIAL STATUS --
