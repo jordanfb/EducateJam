@@ -23,6 +23,18 @@ function Level:_init(game, player)
 					   {'w',' ',' ',' ','l',' ','w',' ',' ',' ',' ',' ',' ',' ','l',' '},
 					   {'w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w'},}
 
+	self.levelArray = {}
+	local lines = {}			
+	
+	for line in io.lines('level1.txt') do
+		lines[#lines + 1] = line
+		self.levelArray[#self.levelArray + 1] = {}
+		for i = 1, #line, 1 do
+			self.levelArray[#self.levelArray][#self.levelArray[#self.levelArray]+1] = string.sub(line, i, i)
+		end
+	end
+
+	
 	self.tileSize = 160
 	
 	self.camera = {x = 0, y = 0, dx = 0, dy = 0}
