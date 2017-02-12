@@ -148,7 +148,7 @@ function Terminal:setColorForTile(override) -- use override for the inventory
 		-- print("editable")
 		love.graphics.setColor(190, 164, 136)
 	else
-		love.graphics.setColor(193, 193, 193)
+		love.graphics.setColor(70, 70, 70)
 	end
 end
 
@@ -169,8 +169,8 @@ end
 function Terminal:drawInventory()
 	love.graphics.setColor(255, 255, 255)
 	love.graphics.draw(self.level.inventoryImages.background, self.inventoryX, self.inventoryY)
-	local x = self.inventoryX + 10
-	local y = self.inventoryY
+	local x = self.inventoryX + 40
+	local y = self.inventoryY + 40
 
 	for k, v in pairs(self.level.player.inventory) do
 		self:setColorForTile(true)
@@ -178,6 +178,8 @@ function Terminal:drawInventory()
 		love.graphics.draw(self.level.inventoryImages.tileBackground, x, y+(k-1)*100)
 		self:setColorToNode("nothing", true)
 		-- draw the gate
+		love.graphics.draw(self.level.inventoryImages["gateTile"..v..".png"], x, y)
+		y = y + 40 + 100 -- the height of the gate and 40 for spacing
 	end
 	love.graphics.setColor(255, 255, 255)
 end
