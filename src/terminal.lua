@@ -27,6 +27,7 @@ function Terminal:_init(x, y, w, h, game, currentLevel, level, key)
 	self.inB = 0
 	self.out = 0
 	self.selected = 1 -- this will be set to what index this terminal is, so it opens to a cool thing!
+	self.gateImage = nil -- just cause
 
 	self.backgroundW = self.level.insideTerminalImages.background:getWidth()
 	self.backgroundH = self.level.insideTerminalImages.background:getHeight()
@@ -40,10 +41,45 @@ function Terminal:_init(x, y, w, h, game, currentLevel, level, key)
 	-- end
 end
 
+function Terminal:nameToLogicGateNumber(name)
+	if name == "buffer" then
+		return 1
+	elseif name == "not" then
+		return 2
+	elseif name == "and" then
+		return 3
+	elseif name == "or" then
+		return 4
+	elseif name == "xor" then
+		return 5
+	elseif name == "nand" then
+		return 6
+	elseif name == "nor" then
+		return 7
+	else
+		-- not a thing!
+		print("TRIED TO GET LOGIC GATE NUMBER OF NOT A GATE")
+		return -1
+	end
+end
+
+function Terminal:setLogicGate(gate, override)
+	if self.editable or override==true then
+		-- then you can change it!
+		self.gateType = self:nameToLogicGateNumber(gate)
+		self.gateImage = self.level.inventoryImages["gateTile"..self.gateType..".png"]
+		return true
+	else
+		-- do nothing?
+		return false
+	end
+end
+
 function Terminal:setTerminalData(numInputs, terminalIndex, gateType, editable, out, inA, inB)
 	--2, i, t[3], t[4], t[5], t[6], t[7]
 	self.numInputs = numInputs
-	self.gateType = gametype
+	self.gateName = gateType
+	self:setLogicGate(gateType, true)
 	self.editable = editable
 	self.inA = inA
 	self.inB = inB
@@ -83,6 +119,41 @@ function Terminal:getRuneForDisplay(rune)
 		return self.level.blueRunes[r]
 	else
 		return self.level.greyRunes[r]
+	end
+end
+
+function Terminal:setColorToGate()
+	if self.level.circuit.drawNodes[self.out] then
+		-- make it bright, since it's on
+		-- print("ongate")
+		love.graphics.setColor(7, 131, 201)
+	else
+		-- print("off gate")
+		love.graphics.setColor(104, 104, 104)
+	end
+end
+
+function Terminal:setColorForTile()
+	if self.editable then
+		-- make it tan, since it's editable?
+		-- print("editable")
+		love.graphics.setColor(210, 192, 176)
+	else
+		love.graphics.setColor(193, 193, 193)
+	end
+end
+
+function Terminal:drawLogicGate()
+	-- print("test")
+	if self.gateName ~= "nil" or true then
+		self:setColorForTile()
+		love.graphics.draw(self.level.inventoryImages.tileBackground, 300+self.terminalX, 300+self.terminalY)
+		self:setColorToGate()
+		if self.gateImage ~= nil then
+			love.graphics.draw(self.gateImage, 300+self.terminalX, 300+self.terminalY)
+		end
+	else
+		-- dont' draw anything?
 	end
 end
 
@@ -128,6 +199,7 @@ function Terminal:drawThisOne()
 		-- it probably isn't initialized yet, so hopefully it will be fixed...
 		print("ERROR! TERMINAL DOESN'T HAVE CORRECT NUMBER OF INPUTS")
 	end
+	self:drawLogicGate()
 end
 
 function Terminal:update(dt)

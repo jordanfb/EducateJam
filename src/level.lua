@@ -7,6 +7,7 @@ Level = class()
 
 function Level:_init(game, player)
 	self.currentLevel = 1
+	self.numberOfLogicGateTypes = 7
 	self.game = game
 	self.player = player
 	
@@ -75,6 +76,12 @@ function Level:_init(game, player)
 							oneInputImages = oneInputImages,
 							twoInputImages = twoInputImages,
 						}
+	self.inventoryImages = {background = love.graphics.newImage('art/playerInventoryPanel.png'),
+							tileBackground = love.graphics.newImage('art/gateTileBackground.png')}
+	for i = 1, self.numberOfLogicGateTypes do
+		-- load the logic gate inputs
+		self.inventoryImages["gateTile"..i..".png"] = love.graphics.newImage('art/gateTile'..i..'.png')
+	end
 
 	self.torchImages = {}
 	for i = 1, 4 do
