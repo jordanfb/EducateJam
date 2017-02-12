@@ -13,7 +13,7 @@ function Helpmenu:_init(game, pausemenu)
 	self.pausemenu = pausemenu
 
 	self.game = game
-	self.back = Button("Back", 950, 880, 300, 100, 32, game)
+	self.button = Button("Back", 950, 880, 300, 100, 32, game)
 	self.SCREENWIDTH = self.game.SCREENWIDTH
 	self.SCREENHEIGHT = self.game.SCREENHEIGHT
 	self.font = love.graphics.newFont(32)
@@ -125,7 +125,7 @@ function Helpmenu:draw()
 	end
 	
 	
-	self.back:draw()
+	self.button:draw()
 end
 
 function Helpmenu:update(dt)
@@ -142,6 +142,7 @@ function Helpmenu:update(dt)
 			self.joystickIndicatorGrowing = true
 		end
 	end
+	self.button:updateMouse(mX, mY)
 end
 
 function Helpmenu:resize(w, h)
@@ -155,12 +156,11 @@ function Helpmenu:keypressed(key, unicode)
 	-- 	self.game:addToScreenStack(self.game.level)
 	-- end
 	if key == "joysticka" then
-		local choice = self.menu:keypressed(key, unicode)
-		if choice ~= nil then
-			self:selectButton(choice)
-		end
+		self:selectButton("Back")
 	elseif key == "joystickb" then
-		self:selectButton("Resume")
+		self:selectButton("Back")
+	elseif key == "escape" then
+		self:selectButton("Back")
 	end
 end
 
@@ -168,14 +168,9 @@ function Helpmenu:selectButton(choice)
 	if choice == "None" then
 		-- print("ERROR ON MAIN MENU BUTTON SELECT!!!!")
 		-- do nothing, it's probably fine.
-	elseif choice == "Resume" then
+	elseif choice == "Back" then
 		self.game:popScreenStack()
-	elseif choice == "Reset" then
-		self.game.level:reset()
-		self.game:popScreenStack()
-	elseif choice == "Exit" then -- exit to menu
-		self.game:popScreenStack()
-		self.game:popScreenStack()
+		self.game:addToScreenStack(self.game.pauseMenu)
 	-- elseif choice == "Test" then
 	-- 	-- test things for jordan
 	-- 	self.game:addToScreenStack(self.game.terminal)
@@ -187,10 +182,13 @@ function Helpmenu:keyreleased(key, unicode)
 end
 
 function Helpmenu:mousepressed(x, y, button)
-	-- self:selectButton(self.menu:mousepressed(x, y, button))
+	--
 end
 
 function Helpmenu:mousereleased(x, y, button)
+	if self.button:updateMouse(x, y, button) then
+		self:selectButton("Back")
+	end
 	-- for k, v in pairs(self.buttons) do
 	-- 	if v:updateMouse(x, y) then  
 	-- 		-- print(v.text .. " was pressed")
@@ -213,5 +211,5 @@ end
 		love.graphics.draw(self.gateImages[i], 100, 300*i - 150)]]
 
 function Helpmenu:mousemoved(x, y, dx, dy, istouch)
-	self.back:mousemoved(x, y, dx, dy, istouch)
+	self.button:mousemoved(x, y, dx, dy, istouch)
 end
