@@ -47,28 +47,29 @@ function Circuit:loadCircuit(file)
 	self.inputs = {}
 	self.outputs = {}
 	self.gates = {}
-	for k, line in pairs(lines) do
-		print(#line)
-		if #line > 1 and string.sub(line, 1, 1) == "*" then
-			self.inputs[string.sub(line, 2, 2)] = false
-		elseif #line > 1 and string.sub(line, 1,1) == "%" then
-			self.outputs[string.sub(line, 2, 2)] = false
-		elseif #line > 1 and string.sub(line, 1, 1) == "#" then
+	for k, lineOfText in pairs(lines) do
+		local line = {}
+		for word in lineOfText:gmatch("%w+") do table.insert(line, word) end
+		print("number of splits in line "..#line)
+		if #line > 1 and line[1] == "input" then
+			self.inputs[line[2]] = false
+		elseif #line > 1 and line[1] == "output" then
+			self.outputs[line[2]] = false
+		elseif #line > 1 and line[1] == "node" then
 			-- do nothing!
 		elseif #line > 0 then
 			-- print("ADDED A GATE")
-			local letters = {}
-			print(#line)
-			for i = 1, #line do
-				if string.sub(line, i, i) ~= " " then
-					letters[#letters+1] = string.sub(line, i, i)
-				end
+			self.gates[line[2]] = Gate(line[1], line[2], line[3], line[4])
+			print("line contents:")
+			for k, v in pairs(line) do
+				print(v)
 			end
-			self.gates[letters[2]] = Gate(letters[1], letters[2], letters[3], letters[4])
+			print("line ended")
 			-- print("HAHA I LIED aCtUAlly")
 			-- then it's a gate
 		end
 	end
+	print("Made all gates")
 end
 
 function Circuit:evaluate()
