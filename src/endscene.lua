@@ -71,6 +71,8 @@ end
 function Endscene:keypressed(key, unicode)
 	self.game:popScreenStack()
 	self.game:addToScreenStack(self.game.mainMenu)
+	self.game.startMusic:play()
+	self.game.gameMusic:stop()
 	self.game.level.currentLevel = 1
 	self.game.player.score = 0
 end
@@ -90,6 +92,8 @@ end
 function Endscene:mousereleased(x, y, button)
 	self.game:popScreenStack()
 	self.game:addToScreenStack(self.game.mainMenu)
+	self.game.startMusic:play()
+	self.game.gameMusic:stop()
 	self.game.level.currentLevel = 1
 	self.game.player.score = 0
 end

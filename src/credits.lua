@@ -86,7 +86,7 @@ function Credits:resize(w, h)
 end
 
 function Credits:keypressed(key, unicode)
-	print("key pressed in pause menu: "..key)
+--	print("key pressed in pause menu: "..key)
 	-- if key == "space" then
 	-- 	self.game.level:reset() -- play
 	-- 	self.game:addToScreenStack(self.game.level)

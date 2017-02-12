@@ -291,7 +291,7 @@ function Level:copyTable(intable)
 			t[k] = self:copyTable(v)
 		else
 			t[k] = v
-			print(k.." = "..tostring(v))
+			-- print(k.." = "..tostring(v))
 		end
 	end
 	return t

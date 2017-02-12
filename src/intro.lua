@@ -59,10 +59,7 @@ function Intro:resize(w, h)
 end
 
 function Intro:keypressed(key, unicode)
-	self.game:popScreenStack()
-	self.game:addToScreenStack(self.game.mainMenu)
-	self.game.level.currentLevel = 1
-	self.game.player.score = 0
+
 end
 
 function Intro:selectButton(choice)

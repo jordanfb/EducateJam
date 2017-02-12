@@ -166,7 +166,7 @@ function Helpmenu:resize(w, h)
 end
 
 function Helpmenu:keypressed(key, unicode)
-	print("key pressed in pause menu: "..key)
+	-- print("key pressed in pause menu: "..key)
 	-- if key == "space" then
 	-- 	self.game.level:reset() -- play
 	-- 	self.game:addToScreenStack(self.game.level)
@@ -194,7 +194,7 @@ function Helpmenu:keypressed(key, unicode)
 end
 
 function Helpmenu:setJoystickSelected()
-	print("HAPPENS")
+	-- print("HAPPENS")
 	if self.joystickSelected <= 3 then
 		self:selectButtonTurnOn(self.joystickSelected)
 	else

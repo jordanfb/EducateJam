@@ -32,7 +32,7 @@ function Cutscene:_init(game)
 	self.joystickIndicatorScale = 1
 	self.lines = {}
 	for line in love.filesystem.lines("levels/cutscenes.txt") do
-		print(line)
+		-- print(line)
 		self.lines[#self.lines + 1] = line
 	end
 
