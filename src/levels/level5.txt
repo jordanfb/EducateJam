@@ -1,0 +1,10 @@
+w         w
+w         w
+w       www
+w      C  w
+w _  !    w
+w         w
+wwwwwwwwwww
+--INITIAL STATUS--
+--TERMINAL STATUS--
+terminal ! nil edit C a b

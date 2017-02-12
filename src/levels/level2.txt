@@ -25,10 +25,10 @@ f on
 g on
 h on
 --TERMINAL STATUS--
-terminal ! or edit I a b
-terminal @ not edit J a
-terminal # xor edit G c e
-terminal $ buffer edit F c
-terminal % and edit H d e
-terminal ^ nor edit i f h
-terminal & and edit A i g
+terminal ! or const I a b
+terminal @ not const J a
+terminal # xor const G c e
+terminal $ buffer const F c
+terminal % and const H d e
+terminal ^ nor const i f h
+terminal & and const A i g

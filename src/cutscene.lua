@@ -32,6 +32,10 @@ function Cutscene:_init(game)
 		print(line)
 		self.lines[#self.lines + 1] = line
 	end
+
+	self.time = 0
+	self.fadeTime = 0.5
+	self.totalTime = 5.5
 end
 
 function Cutscene:load()
@@ -51,6 +55,19 @@ function Cutscene:draw()
 end
 
 function Cutscene:update(dt)
+	self.time = self.time + dt
+
+	if self.time > self.totalTime then
+		self.game:popScreenStack()
+		self.game:addToScreenStack(self.game.level)
+		self.game.level:initialize()
+	elseif self.time > self.totalTime - self.fadeTime then
+		local value = (self.totalTime - self.time) * 255
+		value = 255 - math.abs(math.floor(value + 0.5))
+		love.graphics.setBackgroundColor(value, value, value)
+	end
+
+
 	local mX = love.mouse.getX()
 	local mY = love.mouse.getY()
 end
