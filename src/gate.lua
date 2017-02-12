@@ -16,7 +16,9 @@ function Gate:setOutput(gates, inputs)
 		self.inB = inputs[self.inBname]
 	end
 
-	if self.gateType == "not" then
+	if self.gateType == "buffer" then
+		return self.inA
+	elseif self.gateType == "not" then
 		return not self.inA
 	elseif self.gateType == "and" then
 		return self.inA and self.inB
