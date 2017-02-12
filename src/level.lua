@@ -51,6 +51,14 @@ function Level:_init(game, player)
 	for i = string.byte('A'), string.byte('J') do
 		self.greyRunes[string.char(i)] = love.graphics.newImage('art/rune'..string.char(i)..'Grey.png')
 	end 
+	
+	self.gateImages = {}
+	for i = 1, 1 do
+		table.insert(self.gateImages, {})
+		for j = 1, 8 do
+			self.gateImages[i][#self.gateImages[i]+1] = love.graphics.newImage('art/gate'..i..'-'..j..'.png')
+		end
+	end
 
 	
 	self:initialize()
