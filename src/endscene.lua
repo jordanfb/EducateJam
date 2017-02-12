@@ -60,9 +60,6 @@ end
 
 function Endscene:update(dt)
 	self.time = self.time + dt
-
-
-
 	local mX = love.mouse.getX()
 	local mY = love.mouse.getY()
 end
