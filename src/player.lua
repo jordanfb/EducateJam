@@ -40,6 +40,9 @@ function Player:_init(game)
 		self.climbImages[i] = love.graphics.newImage('art/playerLadder'..i..'.png')
 	end 
 	self.idleImages = {}
+	for i = 1, 6, 1 do
+		self.idleImages[i] = love.graphics.newImage('art/playerIdle'..i..'.png')
+	end
 	
 end
 

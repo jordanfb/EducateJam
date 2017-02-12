@@ -41,16 +41,17 @@ function Menu:update(dt)
 	local mx = love.mouse.getX()
 	local my = love.mouse.getY()
 	local i = 1
-	for k, v in pairs(self.buttons) do
-		if v:updateMouse(mx, my) then
-			self.selected = i
-			self.useJoystick = false
-		elseif not self.useJoystick then
-			v:setSelected(false)
+	if not self.useJoystick then
+		for k, v in pairs(self.buttons) do
+			if v:updateMouse(mx, my) then
+				self.selected = i
+				self.useJoystick = false
+			-- elseif not self.useJoystick then
+			-- 	v:setSelected(false)
+			end
+			i = i + 1
 		end
-		i = i + 1
-	end
-	if self.useJoystick then
+	else
 		i = 1
 		for k, v in pairs(self.buttons) do
 			v:setSelected(i == self.selected)
@@ -60,8 +61,8 @@ function Menu:update(dt)
 end
 
 function Menu:mousepressed(x, y, button)
-	self:update(0) -- because mouse was pressed, assume that we need to use mouse
 	self.useJoystick = false
+	self:update(0) -- because mouse was pressed, assume that we need to use mouse
 	return self:returnPressed()
 end
 
@@ -93,12 +94,12 @@ function Menu:keypressed(key, unicode)
 		self.useJoystick = true
 		return self:returnPressed()
 	elseif key == "joystickb" then
-		love.mouse.setVisible(false)
 		--
 	end
 end
 
 function Menu:mousemoved(x, y, dx, dy, istouch)
 	self.useJoystick = false
+	self:update(0)
 	love.mouse.setVisible(true)
 end

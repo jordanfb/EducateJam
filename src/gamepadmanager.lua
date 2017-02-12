@@ -10,10 +10,16 @@ function GamepadManager:_init(game)
 	self.game = game
 	self.joysticks = {}
 	self.gamepads = {}
+
 	self.leftflickup = false
 	self.leftflickdown = false
 	self.leftflickleft = false
 	self.leftflickright = false
+
+	self.rightflickup = false
+	self.rightflickdown = false
+	self.rightflickleft = false
+	self.rightflickright = false
 
 	self.leftx = 0
 	self.lefty = 0
@@ -46,33 +52,69 @@ end
 
 function GamepadManager:gamepadpressed(gamepad, button)
 	-- self.gamepadManager:(gamepad, button)
-	self.game:keypressed("joystick"..button)
+	self.game:keypressed("joystick"..button, "")
 	love.mouse.setVisible(false)
 end
 
 function GamepadManager:gamepadaxis( joystick, axis, value )
-	love.mouse.setVisible(false)
+	if math.abs(value) > .25 then
+		love.mouse.setVisible(false)
+	-- elseif math.abs(value) < .05 then
+	-- 	self.leftflickup = false
+	-- 	self.leftflickdown = false
+	-- 	self.leftflickleft = false
+	-- 	self.leftflickright = false
+
+	-- 	self.rightflickup = false
+	-- 	self.rightflickdown = false
+	-- 	self.rightflickleft = false
+	-- 	self.rightflickright = false
+	end
 	-- self.gamepadManager:gamepadaxis(joystick, axis, value)
+	-- if axis == "leftx" then
+	-- 	local changeX = value-self.leftx
+	-- 	if changeX > 0 then
+	-- 		if not self.leftflickright then
+	-- 			self.game:keypressed("menuLeft", "")
+	-- 			self.leftflickright = true
+	-- 		end
+	-- 		if self.leftflickleft then
+	-- 			self.leftflickleft = false
+	-- 		end
+	-- 	elseif changeX < 0 then
+	-- 		if not self.leftflickleft then
+	-- 			self.game:keypressed("menuLeft", "")
+	-- 			self.leftflickleft = true
+	-- 		end
+	-- 		if self.leftflickright then
+	-- 			self.leftflickright = false
+	-- 		end
+	-- 	end
+	-- 	self.leftx = value
 	if axis == "leftx" then
 		local changeX = value-self.leftx
-		if changeX > 0 then
-			if not self.leftflickright then
-				self.game:keypressed("menuLeft", "")
-				self.leftflickright = true
-			end
-			if self.leftflickleft then
-				self.leftflickleft = false
-			end
-		elseif changeX < 0 then
-			if not self.leftflickleft then
-				self.game:keypressed("menuLeft", "")
-				self.leftflickleft = true
-			end
-			if self.leftflickright then
+		if value > .1 then
+			if changeX > 0 then
+				if not self.leftflickright then
+					self.game:keypressed("menuRight", "")
+					self.leftflickright = true
+				end
+			else
 				self.leftflickright = false
 			end
+		elseif value < -.1 then
+			if changeX < 0 then
+				if not self.leftflickleft then
+					self.game:keypressed("menuLeft", "")
+					self.leftflickleft = true
+				end
+			else
+				self.leftflickleft = false
+			end
+		elseif math.abs(value) < .1 then
+			self.leftflickright = false
+			self.leftflickleft = false
 		end
-		self.leftx = value
 	elseif axis == "lefty" then
 		local changeY = value-self.lefty
 		if value > .1 then -- it's lower half
@@ -93,23 +135,61 @@ function GamepadManager:gamepadaxis( joystick, axis, value )
 			else
 				self.leftflickup = false
 			end
+		elseif math.abs(value) < .1 then
+			self.leftflickup = false
+			self.leftflickdown = false
 		end
-		-- if changeY > 0 then
-		-- 	if not self.leftflickdown then
-				
-		-- 	end
-		-- 	if self.leftflickup then
-		-- 		self.leftflickup = false
-		-- 	end
-		-- elseif changeY < 0 then
-		-- 	if not self.leftflickup then
-		-- 		self.game:keypressed("menuUp", "")
-		-- 		self.leftflickup = true
-		-- 	end
-		-- 	if self.leftflickdown then
-		-- 		self.leftflickdown = false
-		-- 	end
-		-- end
+		self.lefty = value
+	end
+
+	if axis == "rightx" then
+		local changeX = value-self.rightx
+		if value > .1 then
+			if changeX > 0 then
+				if not self.rightflickright then
+					self.game:keypressed("menuRight", "")
+					self.rightflickright = true
+				end
+			else
+				self.rightflickright = false
+			end
+		elseif value < -.1 then
+			if changeX < 0 then
+				if not self.rightflickleft then
+					self.game:keypressed("menuLeft", "")
+					self.rightflickleft = true
+				end
+			else
+				self.rightflickleft = false
+			end
+		elseif math.abs(value) < .1 then
+			self.rightflickright = false
+			self.rightflickleft = false
+		end
+	elseif axis == "righty" then
+		local changeY = value-self.righty
+		if value > .1 then -- it's lower half
+			if changeY > 0 then
+				if not self.rightflickdown then
+					self.game:keypressed("menuDown", "")
+					self.rightflickdown = true
+				end
+			else
+				self.rightflickdown = false
+			end
+		elseif value < -.1 then
+			if changeY < 0 then
+				if not self.rightflickup then
+					self.game:keypressed("menuUp", "")
+					self.rightflickup = true
+				end
+			else
+				self.rightflickup = false
+			end
+		elseif math.abs(value) < .1 then
+			self.rightflickup = false
+			self.rightflickdown = false
+		end
 		self.lefty = value
 	end
 end
