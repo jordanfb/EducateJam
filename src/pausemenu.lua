@@ -26,6 +26,14 @@ function PauseMenu:_init(game)
 	self.hasJoysticks = false
 	self.joystickIndicatorGrowing = true
 	self.joystickIndicatorScale = 1
+	
+	self.gateImages = {}
+	for i = 1, 7 do
+		--self.gateImages[i] = love.graphics.newImage('art/playerWalk'..i..'.png')
+	end
+	
+	
+	
 end
 
 function PauseMenu:load()
@@ -41,10 +49,15 @@ end
 
 function PauseMenu:draw()
 	-- love.graphics.draw(self.image, 130, 100, 0, 1, 1)
+	love.graphics.setColor(0, 0, 0, 200)
+	love.graphics.rectangle("fill", 80, 80, self.SCREENWIDTH-160, self.SCREENHEIGHT-160)
+	love.graphics.setColor(255, 255, 255)
+	love.graphics.rectangle("line", 80, 80, self.SCREENWIDTH-160, self.SCREENHEIGHT-160)
 	if self.hasJoysticks then -- display that you have a joystick connected
 		love.graphics.setColor(0, 0, 128)--90, 100, 255)
 		love.graphics.printf("With Controllers!", 172, 250, 500, "center", -.27, self.joystickIndicatorScale, self.joystickIndicatorScale)
 	end
+	
 	self.menu:draw()
 end
 

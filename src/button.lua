@@ -23,6 +23,7 @@ function Button:draw()
 	else
 		love.graphics.setColor(self.normalColor[1], self.normalColor[2], self.normalColor[3])
 	end
+	love.graphics.setFont(love.graphics.newFont("fonts/november.ttf", 32))
 	love.graphics.rectangle("fill", self.x-self.width/2, self.y-self.height/2, self.width, self.height, 10, 10)
 	love.graphics.setColor(0, 0, 0)
 	love.graphics.setLineWidth(3)
