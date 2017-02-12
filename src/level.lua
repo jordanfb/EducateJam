@@ -6,20 +6,10 @@ Level = class()
 -- _init, load, draw, update(dt), keypressed, keyreleased, mousepressed, mousereleased, resize, (drawUnder, updateUnder)
 
 function Level:_init(game, player)
-	self.currentLevel = 2
+	self.currentLevel = 1
 	self.game = game
-	-- self.terminal = Terminal(self.game, self.currentLevel, self)
 	self.player = player
-	self.walls = {}
-	self.ladders = {}
-	self.doors = {}
-	self.levers = {}
-	self.levelArray = {}
-	self.backgrounds = {}
-	self.terminals = {}
-	self.gates = {}
-	self.circuit = Circuit("levels/level"..self.currentLevel.."circuit.txt")
-
+	
 	self.terminalNames = {}
 	self.terminalNames["!"]=true
 	self.terminalNames["@"]=true
@@ -61,6 +51,21 @@ function Level:_init(game, player)
 	for i = string.byte('A'), string.byte('J') do
 		self.greyRunes[string.char(i)] = love.graphics.newImage('art/rune'..string.char(i)..'Grey.png')
 	end 
+
+	
+	self:initialize()
+end
+
+function Level:initialize()
+	self.walls = {}
+	self.ladders = {}
+	self.doors = {}
+	self.levers = {}
+	self.levelArray = {}
+	self.backgrounds = {}
+	self.terminals = {}
+	self.gates = {}
+	self.circuit = Circuit("levels/level"..self.currentLevel.."circuit.txt")
 
 	local lines = {}	
 	

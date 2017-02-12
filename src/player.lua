@@ -342,5 +342,10 @@ function Player:update(dt, level)
 		level.camera.y = level.cameraBuffer/2 - self.y
 	end
 	
+	if self.x + level.camera.x > level.screen.w then
+		level.currentLevel = level.currentLevel + 1
+		level:initialize()
+	end
+	
 	self:animate(dt)
 end
