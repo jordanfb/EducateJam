@@ -10,7 +10,9 @@ wwwwwwwwwwww
 
 @#$%
 --INITIAL STATUS--
-c on
+a on
+b on
+d on
 --TERMINAL STATUS--
 terminal ! not edit g a
 terminal @ and edit h g b

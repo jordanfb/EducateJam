@@ -30,6 +30,8 @@ function Player:_init(game)
 	
 	self.animation = 0
 	self.animationType = "still"
+
+	self.score = 0
 	
 	self.inventory = {}	
 	
@@ -80,8 +82,14 @@ end
 --Draws the rectangle
 function Player:draw(level, camera)
 
+	love.graphics.setFont(love.graphics.newFont("fonts/november.ttf", 36))
+	love.graphics.rectangle("fill", 30, 30, 200, 100)
+	love.graphics.setColor(255, 0, 0)
+	love.graphics.printf("Flips: " .. self.score, 40, 50, 1000, "left")
+	love.graphics.setColor(255, 255, 255)
+
 	if self:isTouchingInteractable(level)[1]~="nothing" then
-		love.graphics.setFont(love.graphics.newFont("fonts/november.ttf", 36))
+		-- love.graphics.setFont(love.graphics.newFont("fonts/november.ttf", 36))
 		love.graphics.printf("PRESS E", self:isTouchingInteractable(level)[3] + camera.x, self:isTouchingInteractable(level)[4] + camera.y - 80, level.tileSize, "center")
 	end
 
@@ -116,6 +124,7 @@ function Player:keypressed(key, unicode, level)
 	if (key=="e"or key == "joysticka") and self.onGround then
 		local touching = self:isTouchingInteractable(level)
 		if touching[1]=="lever" then
+			self.score = self.score + 1
 			level.levers[touching[2]].on = not level.levers[touching[2]].on
 			level.circuit.inputs[level.levers[touching[2]].key] = not level.circuit.inputs[level.levers[touching[2]].key]
 			-- then evaluate the circuit and open/deal with all doors.
