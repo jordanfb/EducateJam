@@ -49,10 +49,10 @@ function MainMenu:draw()
 	love.graphics.draw(self.image, 0, 0)
 
 	-- love.graphics.draw(self.image, 130, 100, 0, 1, 1)
-	if self.hasJoysticks then -- display that you have a joystick connected
-		love.graphics.setColor(0, 0, 128)--90, 100, 255)
-		love.graphics.printf("With Controllers!", 172, 250, 500, "center", -.27, self.joystickIndicatorScale, self.joystickIndicatorScale)
-	end
+	-- if self.hasJoysticks then -- display that you have a joystick connected
+	-- 	love.graphics.setColor(0, 0, 128)--90, 100, 255)
+	-- 	love.graphics.printf("With Controllers!", 172, 250, 500, "center", -.27, self.joystickIndicatorScale, self.joystickIndicatorScale)
+	-- end
 	love.graphics.setColor(0, 0, 0)
 	love.graphics.printf("F2 - FullScreen", self.SCREENWIDTH - 1000, 1020, 940, "right")
 	self.menu:draw()

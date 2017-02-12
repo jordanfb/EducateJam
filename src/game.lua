@@ -150,6 +150,7 @@ function Game:update(dt)
 			break
 		end
 	end
+	self.gamepadManager:update(dt)
 end
 
 function Game:popScreenStack()
