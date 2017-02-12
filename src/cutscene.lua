@@ -90,6 +90,9 @@ function Cutscene:resize(w, h)
 end
 
 function Cutscene:keypressed(key, unicode)
+	if key == "menuUp" or key == "menuDown" or key == "menuLeft" or key == "menuRight" then
+		return -- ignore the glitchy controller
+	end
 	self.game:popScreenStack()
 	if self.game.level.currentLevel > self.game.level.totalLevels then
 		self.game:addToScreenStack(self.endScene)

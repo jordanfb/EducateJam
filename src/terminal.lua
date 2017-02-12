@@ -351,6 +351,20 @@ function Terminal:dealWithMouseClick(a, b, button)
 			self:returnSelectedGateToInventory()
 		end
 	end
+	if y > self.terminalY + self.backgroundH-10 and y < self.terminalY + self.backgroundH-10 + 120 then
+		if x > self.terminalX+20 and x < self.terminalX+20+160 then
+			self.selected = self.selected - 1
+			if self.selected <= 0 then
+				self.selected = #self.level.terminals
+			end
+		elseif x > self.terminalX+self.backgroundW-20-160 and x < self.terminalX+self.backgroundW-20 then
+			self.selected = self.selected + 1
+			if self.selected > #self.level.terminals then
+				self.selected = 1
+			end
+		end
+	end
+	-- if y > self.inventoryY + self.backgroundY
 end
 
 function Terminal:mousepressed(x, y, button)

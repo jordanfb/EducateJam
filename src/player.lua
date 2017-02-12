@@ -93,7 +93,7 @@ function Player:draw(level, camera)
 		-- love.graphics.setFont(love.graphics.newFont("fonts/november.ttf", 36))
 		local keybuttonthing = "E"
 		if self.game.useJoystick then
-			keybuttonthing = "A"
+			keybuttonthing = "(X)"
 		end
 		love.graphics.printf("PRESS "..keybuttonthing, self:isTouchingInteractable(level)[3] + camera.x, self:isTouchingInteractable(level)[4] + camera.y - 80, level.tileSize, "center")
 	end
@@ -126,7 +126,7 @@ function Player:draw(level, camera)
 end
 
 function Player:keypressed(key, unicode, level)
-	if (key=="e"or key == "joysticka") then
+	if (key=="e"or key == "joystickx") then
 		local touching = self:isTouchingInteractable(level)
 		if touching[1]=="lever" then
 			self.score = self.score + 1
@@ -141,7 +141,7 @@ function Player:keypressed(key, unicode, level)
 			self.game:addToScreenStack(self.game.cutscene)
 			level.currentLevel = level.currentLevel + 1 
 		end
-	elseif key=="space" then
+	elseif key=="space" or key == "joysticka" then
 		if self.onGround and not self.onLadder then
 			self.dy = -self.jumpStrength
 		end
@@ -285,7 +285,6 @@ function Player:isTouching(item, i)
 end
 
 function Player:getInput(level)
-	
 	if love.keyboard.isDown("a") then		--accelerates the player left
 		self.dx =  -self.speed
 		self.facing = -1
@@ -310,7 +309,7 @@ function Player:getInput(level)
 		if math.abs(cR) > math.abs(c) then
 			c = cR
 		end
-		if math.abs(c) > .1 then
+		if math.abs(c) > .25 then
 			-- use it for movement
 			self.dx = c*self.speed
 			if self.dx < 0 then
@@ -326,13 +325,16 @@ function Player:getInput(level)
 			end
 			self.animationType = "walk"
 		end
+		-- if math.min(self.game.gamepadManager.lefty, self.game.gamepadManager.righty) < .25 then
+			
+		-- end
 	end
 
-	if love.keyboard.isDown("w") and self.touchingLadder then
+	if (love.keyboard.isDown("w") or (self.game.useJoystick and math.min(self.game.gamepadManager.lefty, self.game.gamepadManager.righty) < -.25)) and self.touchingLadder then
 		self.onLadder = true
 		self.dy = - self.ladderSpeed
 		self.animation = (self.animation+.1)%4
-	elseif love.keyboard.isDown("s") and self.onLadder then
+	elseif (love.keyboard.isDown("s") or (self.game.useJoystick and math.max(self.game.gamepadManager.lefty, self.game.gamepadManager.righty) > .25)) and self.onLadder then
 		self.dy = self.ladderSpeed
 		self.animation = (self.animation+.1)%4
 	end
