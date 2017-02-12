@@ -1,0 +1,19 @@
+w          w
+w          w
+w          w
+w          w
+w         ww
+w _!abcdeF  
+w           
+wwwwwwwwwwww
+
+
+@#$%
+--INITIAL STATUS--
+c on
+--TERMINAL STATUS--
+terminal ! not edit g a
+terminal @ and edit h g b
+terminal # and edit i c d
+terminal $ nand edit j g h
+terminal % and edit F j g
