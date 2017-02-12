@@ -22,6 +22,8 @@ function Level:_init(game, player)
 	self.terminalNames["*"]=true
 	self.terminalNames["("]=true
 	self.terminalNames[")"]=true
+	
+	self.treasure = {}
 
 	self.ladderImage = love.graphics.newImage('art/wallTileWithLadder.png')
 	self.foregroundImage = love.graphics.newImage('art/foregroundWallTile.png')
@@ -101,7 +103,6 @@ function Level:_init(game, player)
 		self.treasureImages[i] = love.graphics.newImage('art/treasure'..i..'.png')
 	end 
 
-
 	self.doorSound = love.audio.newSource("music/door.wav") 
 	self.doorSound:setLooping(false)
 	
@@ -123,6 +124,7 @@ function Level:initialize()
 	self.terminals = {}
 	self.gates = {}
 	self.torches = {}
+	self.treasure = {}
 	self.circuit = Circuit("levels/level"..self.currentLevel.."circuit.txt")
 
 	local lines = {}	
@@ -198,6 +200,8 @@ function Level:initialize()
 				self.player:reset((x-1)*self.tileSize, (y-1)*self.tileSize)	
 			elseif tile == '.' then
 				table.insert(self.torches, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h = self.tileSize})
+			elseif tile == ',' then
+				self.treasure = {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h = self.tileSize*2}
 			else
 				print("TILE ISN'T RECOGNIZED:"..tile)
 			end
@@ -361,9 +365,11 @@ function Level:draw()
 	for i, terminal in pairs(self.terminals) do
 		love.graphics.draw(self.terminalImages[math.floor(self.terminalAnimation)+1], terminal.x + self.camera.x, terminal.y + self.camera.y)
 	end
-
-	for i, treasure in pairs(self.treasures) do
-		love.graphics.draw(self.treasureImages)
+	
+	if self.treasure.x then
+		love.graphics.draw(self.wallImages[1], self.treasure.x + self.camera.x, self.treasure.y + self.camera.y)
+		love.graphics.draw(self.treasureImages[math.floor(self.terminalAnimation)+1], self.treasure.x + self.camera.x, self.treasure.y + self.camera.y)
+	end
 	
 	love.graphics.setColor(255, 255, 255)
 	self.player:draw(self, self.camera)
@@ -377,6 +383,7 @@ function Level:draw()
 			love.graphics.draw(self.greyRunes[door.key], door.x + self.camera.x, door.y - 180 + self.camera.y)
 		end
 	end
+
 end
 
 function Level:cameraUpdate(dt)

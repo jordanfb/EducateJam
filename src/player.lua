@@ -137,6 +137,8 @@ function Player:keypressed(key, unicode, level)
 		elseif touching[1]=="terminal" then
 			local id = touching[2]
 			self.game:addToScreenStack(level.terminals[id])
+		elseif touching[1]=="treasure" then
+			self.game:addToScreenStack(self.game.cutscene)
 		end
 	elseif key=="space" then
 		if self.onGround and not self.onLadder then
@@ -262,6 +264,11 @@ function Player:isTouchingInteractable(level)
 	for i, terminal in pairs(level.terminals) do
 		if self:isTouching(terminal, i)~=0 then
 			return {"terminal", self:isTouching(terminal, i), level.terminals[self:isTouching(terminal, i)].x, level.terminals[self:isTouching(terminal, i)].y}
+		end
+	end
+	if level.treasure.x then
+		if self:isTouching(level.treasure, i)~=0 then
+			return {"treasure", self:isTouching(level.treasure, i), level.treasure.x, level.treasure.y}
 		end
 	end
 	return {"nothing", 0, 0, 0}
