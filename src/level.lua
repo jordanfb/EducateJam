@@ -89,10 +89,14 @@ function Level:_init(game, player)
 	end 
 	
 	self.glowImage = love.graphics.newImage('art/torchlightAlphaCircle.png')
-	self:initialize()
+	
+	
+	--self:initialize()
 end
 
 function Level:initialize()
+
+	self.game.gameMusic:play()
 	self.walls = {}
 	self.ladders = {}
 	self.doors = {}

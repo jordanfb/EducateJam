@@ -10,12 +10,13 @@ PauseMenu = class()
 
 -- _init, load, draw, update(dt), keypressed, keyreleased, mousepressed, mousereleased, resize, (drawUnder, updateUnder)
 
-function PauseMenu:_init(game)
+function PauseMenu:_init(game, level)
 	-- this is for the draw stack
 	self.drawUnder = true
 	self.updateUnder = false
 
 	self.game = game
+	self.level = level
 	self.menu = Menu(self.game, {"Resume", "Exit", "Reset"})
 	self.SCREENWIDTH = self.game.SCREENWIDTH
 	self.SCREENHEIGHT = self.game.SCREENHEIGHT
@@ -135,6 +136,8 @@ function PauseMenu:selectButton(choice)
 	elseif choice == "Exit" then -- exit to menu
 		self.game:popScreenStack()
 		self.game:popScreenStack()
+		self.game.gameMusic:stop()
+		self.game.startMusic:play()
 	-- elseif choice == "Test" then
 	-- 	-- test things for jordan
 	-- 	self.game:addToScreenStack(self.game.terminal)

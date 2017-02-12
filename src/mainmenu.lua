@@ -29,6 +29,8 @@ function MainMenu:_init(game)
 	
 	self.image = love.graphics.newImage('art/menuBackground.png')
 	
+	self.game.startMusic:play()
+	
 end
 
 function MainMenu:load()
@@ -97,6 +99,7 @@ function MainMenu:selectButton(choice)
 		-- not actually an error, just there
 		-- print("ERROR ON MAIN MENU BUTTON SELECT!!!!")
 	elseif choice == "Play" then
+		self.game.startMusic:stop()
 		self.game:addToScreenStack(self.game.cutscene)
 	elseif choice == "Exit" then
 		love.event.quit()
