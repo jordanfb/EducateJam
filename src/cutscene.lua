@@ -40,6 +40,7 @@ end
 
 function Cutscene:load()
 	-- run when the level is given control
+	self.time = 0
 	love.graphics.setFont(self.font)
 	love.mouse.setVisible(false)
 	love.graphics.setBackgroundColor(0, 0, 0)

@@ -123,7 +123,7 @@ function Player:draw(level, camera)
 end
 
 function Player:keypressed(key, unicode, level)
-	if (key=="e"or key == "joysticka") and self.onGround then
+	if (key=="e"or key == "joysticka") then
 		local touching = self:isTouchingInteractable(level)
 		if touching[1]=="lever" then
 			self.score = self.score + 1
