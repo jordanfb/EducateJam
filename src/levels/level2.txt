@@ -1,0 +1,22 @@
+ww              w   w
+ww              C    
+wl         d         
+wl  T  c             
+wl         wwwwwwwwww
+wlwwwwwwwwwwwwwwwwwww
+wl    w            ww
+wl    w            ww
+wl    B            lw
+wl        T   b    lw
+wl                 lw
+wwwwwwwwwwwwwwwwwwwlw
+w              w   lw
+w              w   lw
+w              A   lw
+w        T a       lw
+w     w            lw
+wwwwwwwwwwwwwwwwwwwww
+--INITIAL STATUS --
+b on
+playerX 300
+playerY 2300

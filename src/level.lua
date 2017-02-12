@@ -5,8 +5,9 @@ Level = class()
 -- _init, load, draw, update(dt), keypressed, keyreleased, mousepressed, mousereleased, resize, (drawUnder, updateUnder)
 
 function Level:_init(game, player)
+	self.currentLevel = 2
 	self.game = game
-	self.terminal = Terminal(self.game, self)
+	self.terminal = Terminal(self.game, self.currentLevel, self)
 	self.player = player
 	self.walls = {}
 	self.ladders = {}
@@ -30,7 +31,7 @@ function Level:_init(game, player)
 
 	local lines = {}	
 	
-	for line in love.filesystem.lines('level1.txt') do
+	for line in love.filesystem.lines('levels/level'..self.currentLevel..'.txt') do
 		if line == "--INITIAL STATUS --" then
 			break
 		end
@@ -43,7 +44,7 @@ function Level:_init(game, player)
 
 	local configs = false	--set to true after reaching line --INITIAL STATUS --
 	local words = {}
-	for line in love.filesystem.lines('level1.txt') do
+	for line in love.filesystem.lines('levels/level'..self.currentLevel..'.txt') do
 		if configs then
 			for word in line:gmatch("%w+") do table.insert(words, word) end
 		end
