@@ -188,8 +188,11 @@ function Player:movementCollision(dt, level, wall)
 			self.dy = 0
 			self.y = wall.y + wall.h
 		elseif self.y + self.h > wall.y and self.y < wall.y - 5*wall.h/6 and self.onLadder then
+			if self.dy > 0 then
+				self.onGround = true
+				self.onLadder = false
+			end
 			self.dy = 0
-			self.onGround = true
 			self.y = wall.y - self.h
 		end	
 	end
@@ -198,7 +201,7 @@ end
 function Player:ladderCollisions(dt, level)
 	self.touchingLadder = false
 	for i, ladder in pairs(level.ladders) do
-		if self.y > ladder.y and self.y < ladder.y + ladder.w then
+		if self.y > ladder.y or self.y < ladder.y + ladder.w then
 			if self.x + self.w > ladder.x + (1/2)*ladder.w and self.x < ladder.x + (1/2)*ladder.w then
 				self.touchingLadder = true
 				return
@@ -299,9 +302,9 @@ function Player:update(dt, level)
 	self:ladderCollisions(dt, level)
 	self:gravityCollisions(dt, level)
 	self:getInput(level)
-	if self.onGround then
-		self.onLadder = false
-	end
+	-- if self.onGround then
+	-- 	self.onLadder = false
+	-- end
 	self:movePlayer(dt)	
 	self:movementCollisions(dt, level)
 	
