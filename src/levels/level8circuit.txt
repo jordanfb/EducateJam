@@ -1,0 +1,29 @@
+input a
+input b
+input c
+input d
+input e
+input f
+input g
+input h
+
+node i
+node j
+node k
+node l
+node m
+node n
+node o
+node p
+
+output H
+
+not p a
+and i p b
+xor j c d
+not k e
+or l g h
+nand m f k
+and n i l
+and o m j
+and H n o

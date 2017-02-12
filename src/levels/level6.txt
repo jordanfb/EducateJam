@@ -1,9 +1,9 @@
 w          w
 w          w
 w        www
-w       C  w
-w _3 !     w
-w          w
+w       C   
+w _3 !      
+w           
 wwwwwwwwwwww
 --INITIAL STATUS--
 --TERMINAL STATUS--

@@ -8,7 +8,7 @@ wlwwwwwwwwwwwwwwwwww
 wl    w           ww
 wl    w      .    ww
 wl    F           lw
-wl 1      @  b    lw
+wl        @  b    lw
 wl                lw
 wwwwwwwwwwwwwwwwwwlw
 w             w   lw
