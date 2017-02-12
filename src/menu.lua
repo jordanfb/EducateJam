@@ -45,6 +45,8 @@ function Menu:update(dt)
 		if v:updateMouse(mx, my) then
 			self.selected = i
 			self.useJoystick = false
+		elseif not self.useJoystick then
+			v:setSelected(false)
 		end
 		i = i + 1
 	end
@@ -66,7 +68,7 @@ end
 function Menu:returnPressed()
 	local i = 1
 	for k, v in pairs(self.buttons) do
-		if i == self.selected then
+		if i == self.selected and v:getSelected() then
 			return v.text
 		end
 		i = i + 1

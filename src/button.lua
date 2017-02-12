@@ -44,6 +44,10 @@ function Button:updateMouse(mX, mY)
 	return false
 end
 
+function Button:getSelected()
+	return self.selected
+end
+
 function Button:setSelected(select)
 	self.selected = select
 end
