@@ -18,3 +18,6 @@ w_      ! a       lw
 w    w            lw
 wwwwwwwwwwwwwwwwwwww
 --INITIAL STATUS --
+terminal ! buffer E a
+terminal @ not F b
+terminal # and G d c

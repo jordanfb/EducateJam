@@ -6,20 +6,10 @@ Level = class()
 -- _init, load, draw, update(dt), keypressed, keyreleased, mousepressed, mousereleased, resize, (drawUnder, updateUnder)
 
 function Level:_init(game, player)
-	self.currentLevel = 2
+	self.currentLevel = 1
 	self.game = game
-	-- self.terminal = Terminal(self.game, self.currentLevel, self)
 	self.player = player
-	self.walls = {}
-	self.ladders = {}
-	self.doors = {}
-	self.levers = {}
-	self.levelArray = {}
-	self.backgrounds = {}
-	self.terminals = {}
-	self.gates = {}
-	self.circuit = Circuit("levels/level"..self.currentLevel.."circuit.txt")
-
+	
 	self.terminalNames = {}
 	self.terminalNames["!"]=true
 	self.terminalNames["@"]=true
@@ -61,6 +51,29 @@ function Level:_init(game, player)
 	for i = string.byte('A'), string.byte('J') do
 		self.greyRunes[string.char(i)] = love.graphics.newImage('art/rune'..string.char(i)..'Grey.png')
 	end 
+	
+	self.gateImages = {}
+	for i = 1, 1 do
+		table.insert(self.gateImages, {})
+		for j = 1, 8 do
+			self.gateImages[i][#self.gateImages[i]+1] = love.graphics.newImage('art/gate'..i..'-'..j..'.png')
+		end
+	end
+
+	
+	self:initialize()
+end
+
+function Level:initialize()
+	self.walls = {}
+	self.ladders = {}
+	self.doors = {}
+	self.levers = {}
+	self.levelArray = {}
+	self.backgrounds = {}
+	self.terminals = {}
+	self.gates = {}
+	self.circuit = Circuit("levels/level"..self.currentLevel.."circuit.txt")
 
 	local lines = {}	
 	
@@ -191,6 +204,9 @@ function Level:reset()
 	self.camera.x = self.resetInfo.camerax
 	self.camera.y = 0--self.resetInfo.cameray
 	self.player:updateAllDoors(self)
+	for i, gate in pairs(self.gates) do
+		gate.taken = false
+	end
 end
 
 function Level:load()

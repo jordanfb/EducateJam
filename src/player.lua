@@ -65,6 +65,7 @@ function Player:reset(levelXStart, levelYStart)
 	self.y = levelYStart
 	self.dx = 0
 	self.dy = 0
+	self.inventory = {}
 end
 
 --Lets the player jump
@@ -340,6 +341,11 @@ function Player:update(dt, level)
 	end
 	if self.y < level.cameraBuffer/2 - level.camera.y then
 		level.camera.y = level.cameraBuffer/2 - self.y
+	end
+	
+	if self.x + level.camera.x > level.screen.w then
+		level.currentLevel = level.currentLevel + 1
+		level:initialize()
 	end
 	
 	self:animate(dt)
