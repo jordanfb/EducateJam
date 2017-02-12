@@ -27,6 +27,7 @@ function Level:_init(game, player)
 	foregroundImage = love.graphics.newImage('art/foregroundWallTile.png')
 	
 	self.terminalAnimation = 0
+	self.gateAnimation = 0
 	self.terminalImages = {}
 	for i = 1, 6 do
 		self.terminalImages[i] = love.graphics.newImage('art/wallLayerWithTerminal'..i..'.png')
@@ -53,10 +54,11 @@ function Level:_init(game, player)
 	end 
 	
 	self.gateImages = {}
-	for i = 1, 1 do
-		table.insert(self.gateImages, {})
+	self.emptyGate = love.graphics.newImage('art/gate0.png')
+	for i = 1, 7 do
+		self.gateImages[i] = {}
 		for j = 1, 8 do
-			self.gateImages[i][#self.gateImages[i]+1] = love.graphics.newImage('art/gate'..i..'-'..j..'.png')
+			self.gateImages[i][j] = love.graphics.newImage('art/gate'..i..'-'..j..'.png')
 		end
 	end
 
@@ -250,12 +252,12 @@ function Level:draw()
 	end
 	
 	for i, gate in pairs(self.gates) do
-		if not gate.taken then
-			love.graphics.setColor(255, 128, 128)
+		if gate.taken then
+			love.graphics.draw(self.emptyGate, gate.x + self.camera.x, gate.y - gate.h + self.camera.y)
 		else
-			love.graphics.setColor(128, 0, 0)
+			love.graphics.printf(gate.gate, 100, 100, 100)
+			love.graphics.draw(self.gateImages[math.floor(gate.gate+.5)][math.floor(self.gateAnimation)+1], gate.x + self.camera.x, gate.y - gate.h + self.camera.y)
 		end
-		love.graphics.rectangle("fill", gate.x + self.camera.x, gate.y + self.camera.y, gate.w, gate.h)
 	end
 	
 	love.graphics.setColor(255, 255, 255)
@@ -294,6 +296,7 @@ end
 
 function Level:animate(dt)
 	self.terminalAnimation = (self.terminalAnimation+.1)%6
+	self.gateAnimation = (self.gateAnimation+.1)%8
 	for i, lever in pairs(self.levers) do
 		if lever.on and lever.animation < 4 then
 			lever.animation = lever.animation + .4
