@@ -10,7 +10,7 @@ function Circuit:_init(file)
 	self.inputs = {}
 	self.outputs = {}
 	table.insert(self.inputs, "d")
-	print("leng of inpust"..#self.inputs)
+	-- print("leng of inpust"..#self.inputs)
 	-- self.outputs = {}
 	self:loadCircuit(file)
 	self:evaluate()
@@ -32,7 +32,7 @@ function Circuit:loadCircuit(file)
 		-- print("trying to read")
 		lines[#lines + 1] = line
 	end
-	print("read file")
+	-- print("read file")
 
 	-- inputs = {}
 	-- nodes = {}1
@@ -50,7 +50,7 @@ function Circuit:loadCircuit(file)
 	for k, lineOfText in pairs(lines) do
 		local line = {}
 		for word in lineOfText:gmatch("%w+") do table.insert(line, word) end
-		print("number of splits in line "..#line)
+		-- print("number of splits in line "..#line)
 		if #line > 1 and line[1] == "input" then
 			self.inputs[line[2]] = false
 		elseif #line > 1 and line[1] == "output" then
@@ -60,16 +60,18 @@ function Circuit:loadCircuit(file)
 		elseif #line > 0 then
 			-- print("ADDED A GATE")
 			self.gates[line[2]] = Gate(line[1], line[2], line[3], line[4])
-			print("line contents:")
-			for k, v in pairs(line) do
-				print(v)
-			end
-			print("line ended")
+			-- print("line contents:")
+
+			-- for k, v in pairs(line) do
+			-- 	print(v)
+			-- end
+			
+			-- print("line ended")
 			-- print("HAHA I LIED aCtUAlly")
 			-- then it's a gate
 		end
 	end
-	print("Made all gates")
+	-- print("Made all gates")
 end
 
 function Circuit:evaluate()

@@ -86,7 +86,7 @@ function Level:_init(game, player)
 	local tempY = nil
 
 	for i = 1, #words, 2 do
-		print("LEVEL 72" .. words[i]..words[i+1])
+		-- print("LEVEL 72" .. words[i]..words[i+1])
 		if words[i + 1] == "on" then
 			for k, v in pairs(self.levers) do
 				if v.key == words[i] then

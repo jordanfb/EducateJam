@@ -70,6 +70,6 @@ end
 function Gate:evaluate(gates, inputs)
 	self.out = self:setOutput(gates, inputs)
 	-- print("gate evaluate: inA "..self.inAname.." inB "..self.inBname.. " node name/output "..self.output .. " output value ")
-	print(self.out)
+	-- print(self.out)
 	return self.out
 end

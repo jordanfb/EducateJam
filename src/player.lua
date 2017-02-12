@@ -122,8 +122,8 @@ end
 function Player:updateAllDoors(level)
 	for k, lever in pairs(level.levers) do
 		level.terminal.circuit.inputs[lever.key] = lever.on
-		print("BUTTON LEVER IS "..lever.key)
-		print(lever.on)
+		-- print("BUTTON LEVER IS "..lever.key)
+		-- print(lever.on)
 	end
 	-- level.terminal.circuit.inputs[level.levers[self:isTouchingLever(level)].key] = not level.terminal.circuit.inputs[level.levers[self:isTouchingLever(level)].key]
 	level.terminal.circuit:evaluate()
