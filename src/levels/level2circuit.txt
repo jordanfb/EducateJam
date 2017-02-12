@@ -7,9 +7,7 @@ input f
 input g
 input h
 
-node n1
-node n2
-node n3
+node i
 
 output A
 output F
@@ -18,14 +16,12 @@ output H
 output I
 output J
 
-or n1 a b
-buffer I n1
-not n2 a
-buffer J n2
+or I a b
+not J a
 
 xor G c e
 buffer F c
 and H d e
 
-nor n3 f h
-and A n3 g
+nor i f h
+and A i g

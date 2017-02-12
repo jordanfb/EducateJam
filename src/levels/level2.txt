@@ -17,11 +17,18 @@ wl   #f g h
 wl                
 wl   wwwwwwwww    
 wwwwwwwwwwwwwwwwww
+
+
+$%^&
 --INITIAL STATUS--
 f on
 g on
 h on
 --TERMINAL STATUS--
-terminal ! buffer edit E a
-terminal @ not edit F b
-terminal # and edit G d c
+terminal ! or edit I a b
+terminal @ not edit J a
+terminal # xor edit G c e
+terminal $ buffer edit F c
+terminal % and edit H d e
+terminal ^ nor edit i f h
+terminal & and edit A i g

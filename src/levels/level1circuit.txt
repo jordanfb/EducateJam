@@ -3,19 +3,12 @@ input b
 input c
 input d
 
-node n1
-node n2
-node n3
-
 output E
 output F
 output G
 
-buffer n1 a
-buffer E n1
+buffer E a
 
-not n2 b
-buffer F n2
+buffer F b
 
-and n3 c d
-buffer G n3
+and G c d
