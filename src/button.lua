@@ -15,6 +15,7 @@ function Button:_init(text, x, y, width, height, fontHeight, game)
 	self.selectedColor = {100, 100, 100}
 	self.fontHeight = fontHeight
 	self.game = game
+	self.image = love.graphics.newImage('art/buttonGameJam.png')
 end
 
 function Button:draw()
@@ -24,7 +25,7 @@ function Button:draw()
 		love.graphics.setColor(self.normalColor[1], self.normalColor[2], self.normalColor[3])
 	end
 	love.graphics.setFont(love.graphics.newFont("fonts/november.ttf", 32))
-	love.graphics.rectangle("fill", self.x-self.width/2, self.y-self.height/2, self.width, self.height, 10, 10)
+	love.graphics.draw(self.image, self.x-self.width/2, self.y-self.height/2)
 	love.graphics.setColor(0, 0, 0)
 	love.graphics.setLineWidth(3)
 	love.graphics.rectangle("line", self.x-self.width/2, self.y-self.height/2, self.width, self.height, 10, 10)
