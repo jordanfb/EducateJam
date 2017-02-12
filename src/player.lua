@@ -106,13 +106,26 @@ function Player:keypressed(key, unicode, level)
 	if key=="e" then
 		if self.onGround and self:isTouchingLever(level)~=0 then
 			level.levers[self:isTouchingLever(level)].on = not level.levers[self:isTouchingLever(level)].on
-			level.terminal.circuit.inputs["A"] = not level.terminal.circuit.inputs["A"]
-			level.terminal.circuit:evaluate()
-			level.doors[1]["open"] = level.terminal.circuit.outputs["O"]
-			print("door status")
-			print(level.terminal.circuit.outputs["O"])
+			level.terminal.circuit.inputs[level.levers[self:isTouchingLever(level)].key] = not level.terminal.circuit.inputs[level.levers[self:isTouchingLever(level)].key]
+			-- then evaluate the circuit and open/deal with all doors.
+			self:updateAllDoors(level)
 		end
 	end
+end
+
+function Player:updateAllDoors(level)
+	for k, lever in pairs(level.levers) do
+		print(lever.on==nil)
+		level.terminal.circuit.inputs[lever.key] = lever.on
+	end
+	-- level.terminal.circuit.inputs[level.levers[self:isTouchingLever(level)].key] = not level.terminal.circuit.inputs[level.levers[self:isTouchingLever(level)].key]
+	level.terminal.circuit:evaluate()
+	-- level.doors[1]["open"] = level.terminal.circuit.outputs["O"]
+	for k, door in pairs(level.doors) do
+		door.open = level.terminal.circuit.outputs[door.key]
+	end
+	-- print("door status")
+	-- print(level.terminal.circuit.outputs["O"])
 end
 
 --Runs collision checking

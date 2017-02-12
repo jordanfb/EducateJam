@@ -1,5 +1,5 @@
-input A
+input a
 
-output O
+output A
 
-not O A
+not A a

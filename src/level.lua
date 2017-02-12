@@ -13,7 +13,7 @@ function Level:_init(game, player)
 	self.doors = {}
 	self.levers = {}
 	self.levelArray = {}
-	local lines = {}			
+	local lines = {}
 	
 	for line in love.filesystem.lines('level1.txt') do
 		if line == "--buttons--" then
@@ -36,9 +36,6 @@ function Level:_init(game, player)
 		end
 	end
 	
-	
-	
-	
 	self.tileSize = 160
 	
 	self.camera = {x = 0, y = 0, dx = 0, dy = 0}
@@ -58,6 +55,8 @@ function Level:_init(game, player)
 	end
 	self.screen = {w = 1920, h = 1080}
 	self.cameraBuffer = 900
+
+	self.player:updateAllDoors(self)
 end
 
 function Level:load()
