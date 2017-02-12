@@ -9,19 +9,20 @@ Terminal = class()
 
 -- _init, load, draw, update(dt), keypressed, keyreleased, mousepressed, mousereleased, resize, (drawUnder, updateUnder)
 
-function Terminal:_init(game)
+function Terminal:_init(game, level)
 	-- this is for the draw stack
 	self.drawUnder = true
 	self.updateUnder = false
 	self.game = game
-	self.circuit = Circuit("testmap2.txt")
+	self.level = level
+	self.circuit = Circuit("level1circuit.txt")
 
 	self.circuit.inputs["A"] = true
 	self.circuit.inputs["B"] = false
 	self.circuit.inputs["C"] = true
 	self.circuit.inputs["D"] = true
 
-	self.circuit:evaluate()
+	-- self.circuit:evaluate()
 	for k, v in pairs(self.circuit.outputs) do
 		print("Output "..k.." = ")
 		print(v)

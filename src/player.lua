@@ -80,6 +80,9 @@ function Player:keypressed(key, unicode, level)
 	if key=="e" then
 		if self.onGround and self:isTouchingLever(level)~=0 then
 			level.levers[self:isTouchingLever(level)].on = not level.levers[self:isTouchingLever(level)].on
+			level.terminal.circuit.inputs["A"] = not level.terminal.circuit.inputs["A"]
+			level.terminal.circuit:evaluate()
+			level.doors[1]["open"] = level.terminal.circuit.outputs["O"]
 		end
 	end
 end

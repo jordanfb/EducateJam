@@ -1,0 +1,5 @@
+input A
+
+output O
+
+not O A
