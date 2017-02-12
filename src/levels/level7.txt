@@ -7,8 +7,8 @@ w               lw
 wwwwwwwwwwwwwwwwlw
 ww       w      lw
 ww              lw
-wl       B 3 @  lw
-wl              lw
+wl       B      lw
+wl         3 @  lw
 wl ww           lw
 wlwwwwwwwwwwwwwwww
 wl            wwww
@@ -20,8 +20,8 @@ wwwwwwwwwwwwwwwwww
 
 
 $
---INITIAL CONFIGS--
---TERMINAL CONFIGS--
+--INITIAL STATUS--
+--TERMINAL STATUS--
 terminal ! nil edit A d e
 terminal @ nil edit B f g
 terminal # nil edit k h i

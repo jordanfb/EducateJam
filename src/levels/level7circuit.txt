@@ -12,13 +12,13 @@ output B
 output C
 
 on d
-on e
+off e
 on f
 on g
 on h
-on i
+off i
 on j 
-on k
+
 
 nil A d e
 nil B f g
