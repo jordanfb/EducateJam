@@ -1,45 +1,56 @@
-require class
+require "class"
 
 Gate = class()
 
 -- _init, load, draw, update(dt), keypressed, keyreleased, mousepressed, mousereleased, resize, (drawUnder, updateUnder)
 
-function Gate:setOutput(self.type, self.inA, self.inB)
-	if self.type == "not" then
+function Gate:setOutput(gates, inputs)
+	if gates[self.inAname] ~= nil then
+		self.inA = gates[self.inAname]:evaluate(gates, inputs)
+	else
+		self.inA = inputs[self.inAname]
+	end
+	if gates[self.inBname] ~= nil then
+		self.inB = gates[self.inBname]:evaluate(gates, inputs)
+	else
+		self.inB = inputs[self.inBname]
+	end
+
+	if self.gateType == "~" then
 		return not self.inA
-	elseif self.type == "and" then
+	elseif self.gateType == "&" then
 		return self.inA and self.inB
-	elseif self.type == "or" then
+	elseif self.gateType == "|" then
 		return self.inA or self.inB
-	elseif self.type == "xor" then
-		if self.inA and self.inB  then
-			return false
-		return self.inA or self.inB
-	elseif self.type == "nand" then
-		return not self.inA and self.inB
-	elseif self.type == "nor" then
-		return not self.inA or self.inB
-	elseif self.type == "on" then
+	-- elseif self.gateType == "xor" then
+	-- 	if self.inA and self.inB  then
+	-- 		return false
+	-- 	return self.inA or self.inB
+	-- elseif self.gateType == "nand" then
+	-- 	return not self.inA and self.inB
+	-- elseif self.gateType == "nor" then
+	-- 	return not self.inA or self.inB
+	elseif self.gateType == "+" then
 		return true	
-	elseif self.type == "off" then
+	elseif self.gateType == "-" then
 		return false
 	else
-		print("ERROR: INVALID GATE TYPE:" .. type)
+		print("ERROR: INVALID GATE gateTYPE:" .. gateType)
 		love.event.quit()
 		return nil
 	end
 end
 
-function Gate:_init(type, inA, inB)
-	self.type = type
-	self.inA = inA
-	self.inB = inB
-	self.out = self.setOutput()
+function Gate:_init(gateType, output, ia, ib)
+	self.gateType = gateType
+	self.inAname = ia
+	self.inBname = ib
+	self.output = output
 end
 
---Change the gate type, for toggling inputs
-function Gate:setType(type)
-	self.type = type
+--Change the gate gateType, for toggling inputs
+function Gate:setgateType(gateType)
+	self.gateType = gateType
 end
 
 --Changes the input, passing a 0 adjusts inA, 1 adjusts inB
@@ -48,9 +59,11 @@ function Gate:changeInput(input, value)
 		inA = value
 	else
 		inB = value
+	end
 end
 
-function Gate:getOutput()
-	self.out = self.setOutput()
+function Gate:evaluate(gates, inputs)
+	self.out = self.setOutput(gates, inputs)
+	print("gate evaluate: inA "..self.inAname.." inB "..self.inBname.. " node name/output "..self.output .. " output value "..self.out)
 	return self.out
 end
