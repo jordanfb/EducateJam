@@ -19,6 +19,6 @@ w    w            lw
 wwwwwwwwwwwwwwwwwwww
 --INITIAL STATUS--
 --TERMINAL STATUS--
-terminal ! buffer const E a
-terminal @ not const F b
-terminal # and const G d c
+terminal ! buffer edit E a
+terminal @ not edit F b
+terminal # and edit G d c

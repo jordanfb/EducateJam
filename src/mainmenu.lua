@@ -26,6 +26,9 @@ function MainMenu:_init(game)
 	self.hasJoysticks = false
 	self.joystickIndicatorGrowing = true
 	self.joystickIndicatorScale = 1
+	
+	self.image = love.graphics.newImage('art/menuBackground.png')
+	
 end
 
 function MainMenu:load()
@@ -40,6 +43,9 @@ function MainMenu:leave()
 end
 
 function MainMenu:draw()
+
+	love.graphics.draw(self.image, 0, 0)
+
 	-- love.graphics.draw(self.image, 130, 100, 0, 1, 1)
 	if self.hasJoysticks then -- display that you have a joystick connected
 		love.graphics.setColor(0, 0, 128)--90, 100, 255)
