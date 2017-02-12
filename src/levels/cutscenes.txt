@@ -1,5 +1,11 @@
+
 Welcome to the story of our brave explorer, utilizing logic to find the treasures of the lost space colony
+art/playerFalling.png
 To navigate through the elaborate lair, you must utilize the information available to you and select the correct levers to proceed
+art/wallTileWithLever5.png
 It seems that the various symbols and gates relate to different functions, suggesting that learning the codes could fast track your journey to riches
+art/runeHBlue.png
 As you progress farther into the lair, your signal from the outside world diminishes, meaning you must become more reliant on your own intuition
+art/bigGateTile5.png
 It seems the lair was abandoned before all the rooms were finished, perhaps you could find a way though despite this?
+art/gate4-1.png

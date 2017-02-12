@@ -52,7 +52,12 @@ function Cutscene:leave()
 end
 
 function Cutscene:draw()
-	love.graphics.printf(self.lines[self.game.level.currentLevel], self.SCREENWIDTH / 2 - 350, self.SCREENHEIGHT / 2, 700, "center")
+	local thisLevel = self.game.level.currentLevel * 2
+	local pic = love.graphics.newImage(self.lines[thisLevel + 1])
+	width = pic:getWidth()
+	height = pic:getHeight()
+	love.graphics.draw(pic, self.SCREENWIDTH / 2, 200, 0, 1, 1, width / 2, height / 2)
+	love.graphics.printf(self.lines[thisLevel], self.SCREENWIDTH / 2 - 350, self.SCREENHEIGHT / 2, 700, "center")
 end
 
 function Cutscene:update(dt)
