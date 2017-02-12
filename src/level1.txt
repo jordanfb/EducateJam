@@ -9,3 +9,5 @@ w   l       A l
 w   l     a   l 
 w   l w       l 
 wwwwwwwwwwwwwwww
+--INITIAL STATUS --
+a on

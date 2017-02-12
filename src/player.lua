@@ -110,6 +110,11 @@ function Player:keypressed(key, unicode, level)
 			-- then evaluate the circuit and open/deal with all doors.
 			self:updateAllDoors(level)
 		end
+	elseif key=="space" then
+		if self.onGround and not self.onLadder then
+			self.dy = -self.jumpStrength
+		end
+		self.onLadder = false
 	end
 end
 
@@ -238,12 +243,6 @@ function Player:getInput(level)
 	elseif love.keyboard.isDown("s") and self.onLadder then
 		self.dy = self.ladderSpeed
 		self.animation = (self.animation+.1)%4
-	end
-	if love.keyboard.isDown("space") then
-		if self.onGround or self.onLadder then
-			self.dy = -self.jumpStrength
-		end
-		self.onLadder = false
 	end
 end
 
