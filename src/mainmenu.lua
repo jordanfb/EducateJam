@@ -100,7 +100,7 @@ function MainMenu:selectButton(choice)
 		-- print("ERROR ON MAIN MENU BUTTON SELECT!!!!")
 	elseif choice == "Play" then
 		self.game.startMusic:stop()
-		self.game:addToScreenStack(self.game.cutscene)
+		self.game:addToScreenStack(self.game.intro)
 	elseif choice == "Exit" then
 		love.event.quit()
 	elseif choice == "Credits" then
