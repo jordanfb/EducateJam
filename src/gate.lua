@@ -30,9 +30,9 @@ function Gate:setOutput(gates, inputs)
 		end
 		return self.inA or self.inB
 	elseif self.gateType == "nand" then
-		return not self.inA and self.inB
+		return not (self.inA and self.inB)
 	elseif self.gateType == "nor" then
-		return not self.inA or self.inB
+		return not (self.inA or self.inB)
 	elseif self.gateType == "on" then
 		return true
 	elseif self.gateType == "off" then
