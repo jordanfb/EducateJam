@@ -40,7 +40,7 @@ function Player:_init(game)
 		self.climbImages[i] = love.graphics.newImage('art/playerLadder'..i..'.png')
 	end 
 	self.idleImages = {}
-	for i = 1, 6, 1 do
+	for i = 1, 5, 1 do
 		self.idleImages[i] = love.graphics.newImage('art/playerIdle'..i..'.png')
 	end
 	
@@ -265,7 +265,7 @@ function Player:animate(dt)
 	elseif self.animationType=="climb" then
 		--self.animation = (self.animation+.1)%4
 	elseif self.animationType=="still" then
-		self.animation = 2
+		self.animation = (self.animation+.1)%5
 	end
 end
 
