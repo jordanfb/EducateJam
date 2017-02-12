@@ -20,10 +20,10 @@ function Helpmenu:_init(game, pausemenu)
 	self.fontHeight = self.font:getHeight()
 	
 	-- self.image = love.graphics.newImage('mainmenu.png')
-	self.hasJoysticks = false
 	self.joystickIndicatorGrowing = true
 	self.joystickIndicatorScale = 1
 	self.selection = 0
+	self.joystickSelected = 1
 							--1			--2			--3			--4			--5			--6			--7
 	self.gateNames = {"BUFFER GATE", "NOT GATE", "AND GATE", "OR GATE", "XOR GATE", "NAND GATE", "NOR"}
 	
@@ -85,7 +85,23 @@ function Helpmenu:_init(game, pausemenu)
 	for i = 1, 7 do
 		self.gateImages[i] = love.graphics.newImage('art/bigGateTile'..i..'.png')
 	end
-	
+end
+
+function Helpmenu:selectButtonTurnOn(i)
+	local c = 1
+	for k, v in pairs(self.menu.buttons) do
+		v.selected = (i == c)
+		c = c + 1
+	end
+	self.selection = 0
+end
+
+function Helpmenu:selectOtherthing(i)
+	local c = 1
+	for k, v in pairs(self.menu.buttons) do
+		v.selected = false
+	end
+	self.selection = i
 end
 
 function Helpmenu:load()
@@ -162,7 +178,30 @@ function Helpmenu:keypressed(key, unicode)
 	elseif key == "escape" then
 		self:selectButton("Back")
 	end
+	if key == "menuUp" or key == "menuLeft" then
+		self.joystickSelected = self.joystickSelected-1
+		if self.joystickSelected <= 0 then
+			self.joystickSelected = 10
+		end
+		self:setJoystickSelected()
+	elseif key == "menuDown" or key == "menuRight" then
+		self.joystickSelected = self.joystickSelected + 1
+		if self.joystickSelected > 10 then
+			self.joystickSelected =1
+		end
+		self:setJoystickSelected()
+	end
 end
+
+function Helpmenu:setJoystickSelected()
+	print("HAPPENS")
+	if self.joystickSelected <= 3 then
+		self:selectButtonTurnOn(self.joystickSelected)
+	else
+		self.selectOtherthing(self.joystickSelected-3)
+	end
+end
+
 
 function Helpmenu:selectButton(choice)
 	if choice == "None" then
