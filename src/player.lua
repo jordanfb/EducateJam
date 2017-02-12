@@ -246,6 +246,7 @@ function Player:itemCollisions(dt, level)
 				if self.x + self.w > gate.x + (1/2)*gate.w and self.x < gate.x + (1/2)*gate.w then
 					table.insert(self.inventory, gate.gate)
 					gate.taken = true
+					level.gateSound:play()
 				end
 			end
 		end

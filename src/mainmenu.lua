@@ -16,7 +16,7 @@ function MainMenu:_init(game)
 	self.updateUnder = false
 
 	self.game = game
-	self.menu = Menu(self.game, {"Play", "Exit", "Test"}, 750, 310)
+	self.menu = Menu(self.game, {"Play", "Exit", "Credits"}, 750, 310)
 	self.SCREENWIDTH = self.game.SCREENWIDTH
 	self.SCREENHEIGHT = self.game.SCREENHEIGHT
 	self.font = love.graphics.newFont(32)
@@ -103,9 +103,9 @@ function MainMenu:selectButton(choice)
 		self.game:addToScreenStack(self.game.cutscene)
 	elseif choice == "Exit" then
 		love.event.quit()
-	elseif choice == "Test" then
+	elseif choice == "Credits" then
 		-- test things for jordan
-		self.game:addToScreenStack(self.game.pauseMenu)
+		self.game:addToScreenStack(self.game.credits)
 	end
 end
 
