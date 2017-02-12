@@ -77,7 +77,9 @@ function Level:_init(game, player)
 							twoInputImages = twoInputImages,
 						}
 	self.inventoryImages = {background = love.graphics.newImage('art/playerInventoryPanel.png'),
-							tileBackground = love.graphics.newImage('art/gateTileBackground.png')}
+							tileBackground = love.graphics.newImage('art/gateTileBackground.png'), 
+							leftArrow = love.graphics.newImage('art/leftArrow.png'),
+							rightArrow = love.graphics.newImage('art/rightArrow.png'),}
 	for i = 1, self.numberOfLogicGateTypes do
 		-- load the logic gate inputs
 		self.inventoryImages["gateTile"..i..".png"] = love.graphics.newImage('art/gateTile'..i..'.png')
