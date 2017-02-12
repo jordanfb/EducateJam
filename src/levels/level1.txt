@@ -1,15 +1,21 @@
-w   w         ww
-w   l         lw
-w   l   T  c  lw
-w   l         lw
-wwwwl wwwwwww lw
-w   l       w lw
-w   l   ww  w lw
-w   l       A l 
-w   l   b a   l 
-w   l w       l 
-wwwwwwwwwwwwwwww
+ww             w   w
+ww             C    
+wl         d        
+wl  T  c            
+wl         wwwwwwwww
+wlwwwwwwwwwwwwwwwwww
+wl    w           ww
+wl    w           ww
+wl    B           lw
+wl        T  b    lw
+wl                lw
+wwwwwwwwwwwwwwwwwwlw
+w             w   lw
+w             w   lw
+w             A   lw
+w       T a       lw
+w    w            lw
+wwwwwwwwwwwwwwwwwwww
 --INITIAL STATUS --
-a on
-playerX 600
-playerY 300
+playerX 300
+playerY 2300

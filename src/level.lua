@@ -5,7 +5,7 @@ Level = class()
 -- _init, load, draw, update(dt), keypressed, keyreleased, mousepressed, mousereleased, resize, (drawUnder, updateUnder)
 
 function Level:_init(game, player)
-	self.currentLevel = 2
+	self.currentLevel = 1
 	self.game = game
 	self.terminal = Terminal(self.game, self.currentLevel, self)
 	self.player = player
@@ -92,7 +92,8 @@ function Level:_init(game, player)
 				if v.key == words[i] then
 					v.on = true
 					v.animation = 4
-				end
+				end--INITIAL STATUS --
+
 			end
 		elseif words[i] == "playerX" then
 			tempX = tonumber(words[i + 1])
