@@ -8,23 +8,40 @@ function Level:_init(game, player)
 	self.game = game
 	self.player = player
 	self.walls = {}
-	self.levelArray = {{'w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w'},
-					   {'w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'},
-					   {'w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'},
-					   {'w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'},
-					   {'w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'},
-					   {'w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'},
+	self.ladders = {}
+	self.levers = {}
+	self.levelArray = {{'w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'},
+					   {'w',' ',' ',' ','w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'},
+					   {'w',' ',' ',' ','l',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'},
+					   {'w',' ',' ',' ','l',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'},
+					   {'w','w','w','w','l',' ','w','w','w','w','w','w','w','w','w','w'},
+					   {'w',' ',' ',' ','l',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'},
+					   {'w',' ',' ',' ','l',' ',' ',' ','w','w',' ',' ',' ',' ',' ','w'},
+					   {'w',' ',' ',' ','l',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'},
+					   {'w',' ',' ',' ','l',' ',' ',' ',' ',' ','(',' ',' ',' ',' ','w'},
+					   {'w',' ',' ',' ','l',' ','w',' ',' ',' ',' ',' ',' ',' ',' ','w'},
 					   {'w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w'},}
 
 	self.tileSize = 160
+	
+	self.camera = {x = 0, y = 0, dx = 0, dy = 0}
 
 	for y, row in pairs(self.levelArray) do
 		for x, tile in pairs(row) do
 			if tile == 'w' then
 				table.insert(self.walls, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize})
+			elseif tile == 'l' then
+				table.insert(self.ladders, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize})
+			elseif tile == '(' then
+				table.insert(self.levers, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, on=false})
+			elseif tile == ')' then
+				table.insert(self.levers, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, on=true})
 			end
 		end
 	end
+	
+	self.screen = {w = 1920, h = 1080}
+	self.cameraBuffer = 900
 end
 
 function Level:load()
@@ -37,17 +54,49 @@ end
 
 function Level:draw()
 	love.graphics.setBackgroundColor(100, 100, 100)
-	love.graphics.setColor(255, 255, 255)
 	
+	love.graphics.setColor(255, 255, 255)
 	for i, wall in pairs(self.walls) do
-		love.graphics.rectangle("fill", wall.x, wall.y, wall.w, wall.w)
+		love.graphics.rectangle("fill", wall.x + self.camera.x, wall.y + self.camera.y, wall.w, wall.w)
 	end
 	
-	self.player:draw()
+	love.graphics.setColor(0, 0, 155)
+	for i, ladder in pairs(self.ladders) do
+		love.graphics.rectangle("fill", ladder.x + self.camera.x, ladder.y + self.camera.y, ladder.w, ladder.w)
+	end
+	
+	for i, lever in pairs(self.levers) do
+		if lever.on then
+			love.graphics.setColor(255, 155, 155)
+		else
+			love.graphics.setColor(155, 0, 0)
+		end
+			love.graphics.rectangle("fill", lever.x + self.camera.x, lever.y + self.camera.y, lever.w, lever.w)
+	end
+	
+	love.graphics.setColor(255, 255, 255)
+	self.player:draw(self.camera)
+end
+
+
+function Level:cameraUpdate(dt)
+	self.camera.x = self.camera.x + self.camera.dx*dt
+	self.camera.y = self.camera.y + self.camera.dy*dt
+	if self.camera.x > 0 then
+		self.camera.x = 0
+	elseif self.camera.x < -#self.levelArray[1]*self.tileSize + self.screen.w then
+		self.camera.x = -#self.levelArray[1]*self.tileSize + self.screen.w
+	end
+	if self.camera.y > 0 then
+		--self.camera.y = 0
+	elseif self.camera.y < -#self.levelArray*self.tileSize + self.screen.h then
+		--self.camera.y = -#self.levelArray[1]*self.tileSize + self.screen.h
+	end
 end
 
 function Level:update(dt)
 	self.player:update(dt, self)
+	self:cameraUpdate(dt)
 end
 
 function Level:resize(w, h)
@@ -55,7 +104,7 @@ function Level:resize(w, h)
 end
 
 function Level:keypressed(key, unicode)
-	--
+	self.player:keypressed(key, unicode, self)
 end
 
 function Level:keyreleased(key, unicode)
@@ -67,5 +116,10 @@ function Level:mousepressed(x, y, button)
 end
 
 function Level:mousereleased(x, y, button)
+	--
+end
+
+
+function Level:mousemoved(x, y, dx, dy, istouch)
 	--
 end
