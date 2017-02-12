@@ -28,7 +28,7 @@ function Circuit:loadCircuit(file)
 	-- print("loading circuit"..file)
 	local lines = {}						--Reads in the file to a table
 	-- openfile = io.open(file)
-	for line in io.lines(file) do
+	for line in love.filesystem.lines(file) do
 		-- print("trying to read")
 		lines[#lines + 1] = line
 	end
