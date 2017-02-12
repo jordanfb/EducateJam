@@ -189,9 +189,9 @@ function Level:initialize()
 				table.insert(self.backgrounds, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h = self.tileSize, sprite = s})
 			elseif tile == 'l' then
 				table.insert(self.ladders, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize})
-			elseif string.byte(tile) >= string.byte('a') and string.byte(tile) <= string.byte("j") then
+			elseif string.byte(tile) >= string.byte('a') and string.byte(tile) <= string.byte("p") then
 				table.insert(self.levers, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, key=tile, animation = 0, animating = false, on=false})
-			elseif string.byte(tile) >= string.byte('A') and string.byte(tile) <= string.byte("J") then
+			elseif string.byte(tile) >= string.byte('A') and string.byte(tile) <= string.byte("P") then
 				table.insert(self.doors, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h=3*self.tileSize, key=tile, open = false, animation = 0})
 			elseif string.byte(tile) >= string.byte('1') and string.byte(tile) <= string.byte("9") then
 				table.insert(self.gates, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize*2, h=self.tileSize*2, gate=tile, taken=false, animation = 0})

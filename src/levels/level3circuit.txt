@@ -9,19 +9,19 @@ input h
 
 node i
 
-output P
-output F
-output L
-output K
-output I
 output J
+output L
+output M
+output N
+output O
+output P
 
-or I a b
+or P a b
 not J a
 
-xor L c e
-buffer F c
-and K d e
+xor N c e
+buffer M c
+and O d e
 
 nor i f h
-and P i g
+and L i g
