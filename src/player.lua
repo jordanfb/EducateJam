@@ -31,6 +31,8 @@ function Player:_init(game)
 	self.animation = 0
 	self.animationType = "still"
 	
+	self.inventory = {}	
+	
 	self.walkImages = {}
 	for i = 1, 12, 1 do
 		self.walkImages[i] = love.graphics.newImage('art/playerWalk'..i..'.png')
@@ -210,6 +212,19 @@ function Player:ladderCollisions(dt, level)
 		end
 	end
 	self.onLadder = false
+end
+
+function Player:ladderCollisions(dt, level)
+	for i, gate in pairs(level.gates) do
+		if not gate.taken then
+			if self.y +self.h > gate.y and self.y < gate.y + gate.w then
+				if self.x + self.w > gate.x + (1/2)*gate.w and self.x < gate.x + (1/2)*gate.w then
+					table.insert(self.inventory, gate.gate)
+					gate.taken = true
+				end
+			end
+		end
+	end
 end
 
 function Player:isTouchingInteractable(level)

@@ -3,7 +3,7 @@ w      w   w    ww
 w      w   w    ww
 w      A   B    lw
 w_  T a  b      lw
-w               lw
+w            1  lw
 wwwwwwwwwwwwwwwwlw
 ww   w  w  w    lw
 ww   w  w  w    lw
