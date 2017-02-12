@@ -15,6 +15,9 @@ function Gate:setOutput(gates, nodes, inputs)
 	else
 		self.inB = inputs[self.inBname]
 	end
+	if self.gateType == nil then
+		self.gateType = "nil"
+	end
 
 	if self.gateType == "buffer" then
 		return self.inA

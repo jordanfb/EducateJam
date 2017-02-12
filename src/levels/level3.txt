@@ -1,18 +1,18 @@
 wwwwwwwwwwwwwwwwww
 w      w   w    ww
-w      w   w    ww
+w  .   w   w .  ww
 w      I   J    lw
-w_  ! a  b      lw
+w_  ! a  b   .  lw
 w               lw
 wwwwwwwwwwwwwwwwlw
 ww   w  w  w    lw
-ww   w  w  w    lw
+ww   w  w  w  . lw
 wl   H  G  F    lw
-wl    e  d  c@  lw
+wl .  e  d  c@  lw
 wl              lw
 wlwwwwwwwwwwwwwwww
 wl          w    w
-wl          A    w
+wl   .   .  A .  w
 wl   #f g h        
 wl                
 wl   wwwwwwwww    

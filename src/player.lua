@@ -302,6 +302,32 @@ function Player:getInput(level)
 		end
 		self.animationType = "walk"
 	end
+
+	if self.game.useJoystick then
+		-- then move with joystick, assuming that the thing is greater than the dead value
+		local c = self.game.gamepadManager.leftx
+		local cR = self.game.gamepadManager.rightx
+		if math.abs(cR) > math.abs(c) then
+			c = cR
+		end
+		if math.abs(c) > .1 then
+			-- use it for movement
+			self.dx = c*self.speed
+			if self.dx < 0 then
+				self.facing = -1
+				if self.x < level.cameraBuffer - level.camera.x then
+					level.camera.dx = self.speed
+				end
+			else
+				self.facing = 1
+				if self.x > level.screen.w - level.cameraBuffer - level.camera.x then
+					level.camera.dx = -self.speed
+				end
+			end
+			self.animationType = "walk"
+		end
+	end
+
 	if love.keyboard.isDown("w") and self.touchingLadder then
 		self.onLadder = true
 		self.dy = - self.ladderSpeed

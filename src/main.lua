@@ -8,7 +8,7 @@ require "class"
 local game = Game()
 
 function love.load(args)
-	local name = "EducateMaBrain"
+	local name = "Boolean Sunset"
 	love.window.setTitle(name)
 	love.filesystem.setIdentity(name)
 	game:load(args)

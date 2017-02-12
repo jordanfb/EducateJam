@@ -75,7 +75,7 @@ function Terminal:logicGateNumberToName(num)
 end
 
 function Terminal:setLogicGate(gate, override)
-	if self.editable or override==true then
+	if self.editable == "edit" or override==true then
 		-- then you can change it!
 		self.gateName = gate
 		self.gateType = self:nameToLogicGateNumber(gate)
@@ -161,7 +161,7 @@ end
 
 function Terminal:drawLogicGate()
 	-- print("test")
-	if self.gateName ~= "nil" or true then
+	if self.gateName ~= "nil" then
 		self:setColorForTile()
 		love.graphics.draw(self.level.inventoryImages.tileBackground, 300+self.terminalX, 300+self.terminalY)
 		self:setColorToGate()
@@ -174,18 +174,26 @@ function Terminal:drawLogicGate()
 end
 
 function Terminal:addSelectedGateToGate(index)
+	if index > #self.level.player.inventory then
+		return false
+	end
 	local gate = self.level.player.inventory[index]
-	print("INVENTORY VALUE"..self.level.player.inventory[index])
+	-- print("INVENTORY VALUE"..self.level.player.inventory[index])
 	local gt = self:logicGateNumberToName(gate)
-	print("GT "..gt)
+	-- print("GT "..gt)
+	local oldGate = self.level.terminals[self.selected].gateType
 	if self.level.terminals[self.selected]:setLogicGate(gt) then
 		table.remove(self.level.player.inventory, index)
-		print("ADDED CIRCUIT")
+		if oldGate > 0 and oldGate ~= 8 and oldGate ~= "nil" and oldGate ~= nil then
+			-- print("ADDING OLDGATE TO INVENTORY "..oldGate)
+			table.insert(self.level.player.inventory, oldGate)
+		end
+		-- print("ADDED CIRCUIT")
 		for k, v in pairs(self.level.circuit.gates) do
 			if v.output == self.level.terminals[self.selected].out then --and v.inA == self.level.terminals[self.selected].inA and v.inB == self.level.terminals[self.selected].inB then
 				-- delete it or whatever
 				v.gateType = gt
-				print("Found it to add it to the thing")
+				-- print("Found it to add it to the thing")
 				break
 			end
 		end
@@ -195,13 +203,16 @@ function Terminal:addSelectedGateToGate(index)
 end
 
 function Terminal:returnSelectedGateToInventory()
-	print("RETURNING GATE")
+	-- print("RETURNING GATE")
 	local oldGate = self.level.terminals[self.selected].gateType
-	if self.level.terminals[self.selected].gateType ~= nil then
+	if oldGate == "nil" or oldGate == -1 or oldGate == nil or oldGate == 8 then
+		return false
+	end
+	if oldGate ~= "nil" then
 		if self.level.terminals[self.selected]:setLogicGate("nil") then
 			table.insert(self.level.player.inventory, oldGate)
 			for k, v in pairs(self.level.circuit.gates) do
-				print(tostring(v.output).."sdfkj"..tostring(self.level.terminals[self.selected].out))
+				-- print(tostring(v.output).."sdfkj"..tostring(self.level.terminals[self.selected].out))
 				if v.output == self.level.terminals[self.selected].out then --and v.inA == self.level.terminals[self.selected].inA and v.inB == self.level.terminals[self.selected].inB then
 					-- delete it or whatever
 					v.gateType = "nil"
@@ -222,13 +233,17 @@ function Terminal:drawInventory()
 	local y = self.inventoryY + 40
 
 	for k, v in pairs(self.level.player.inventory) do
+		if k > 4 then
+			break
+		end
 		self:setColorForTile(true)
 		-- draw the tile
-		love.graphics.draw(self.level.inventoryImages.tileBackground, x, y+(k-1)*100)
+		love.graphics.draw(self.level.inventoryImages.tileBackground, x, y+(k-1)*185)
 		self:setColorToNode("nothing", true)
 		-- draw the gate
-		love.graphics.draw(self.level.inventoryImages["gateTile"..v..".png"], x, y+(k-1)*100)
-		y = y + 40 + 100 -- the height of the gate and 40 for spacing
+		-- print("GATE VALUE THAT'S CAUSING CRASH "..v)
+		love.graphics.draw(self.level.inventoryImages["gateTile"..v..".png"], x, y+(k-1)*185)
+		-- y = y + 10 -- the height of the gate and 40 for spacing -- but not, since it does it above
 	end
 	love.graphics.setColor(255, 255, 255)
 end
@@ -312,15 +327,42 @@ function Terminal:keyreleased(key, unicode)
 	--
 end
 
-function Terminal:mousepressed(x, y, button)
-	print(self.level.terminals[self.selected].gateName)
-	if self.level.terminals[self.selected].gateName == "nil" then
-		-- add the gate
-		self:addSelectedGateToGate(1)
-	else
-		-- remove the gate
-		self:returnSelectedGateToInventory()
+function Terminal:dealWithMouseClick(a, b, button)
+	local m = self.game:realToFakeMouse(a, b, button)
+	local x = m.x
+	local y = m.y
+	-- this just pretty much just clicks the things, I also have to do selection for joystick controlls
+	if x > self.inventoryX+40 and x < self.inventoryX + 40+240 then
+		if y > self.inventoryY+40 and y < self.inventoryY+800 then
+			local modY = (y-self.inventoryY-40) %(185)
+			-- print("could be cool")
+			if modY < 160 then
+				-- on a button
+				local inventorySlot = math.floor((y-self.inventoryY-40)/(185))+1
+				if inventorySlot <= #self.level.player.inventory then
+					self:addSelectedGateToGate(inventorySlot)
+				end
+			end
+		end
 	end
+	if math.abs(1920/2-x) < 240/2 then
+		if math.abs(1080/2-y) < 160/2 then
+			-- remove the thing in teh middle
+			self:returnSelectedGateToInventory()
+		end
+	end
+end
+
+function Terminal:mousepressed(x, y, button)
+	-- print(self.level.terminals[self.selected].gateName)
+	self:dealWithMouseClick(x, y, button)
+	-- if self.level.terminals[self.selected].gateName == "nil" then
+	-- 	-- add the gate
+	-- 	self:addSelectedGateToGate(1)
+	-- else
+	-- 	-- remove the gate
+	-- 	self:returnSelectedGateToInventory()
+	-- end
 end
 
 function Terminal:mousereleased(x, y, button)
@@ -329,4 +371,14 @@ end
 
 function Terminal:mousemoved(x, y, dx, dy, istouch)
 	love.mouse.setVisible(true)
+	-- local m = self.game:realToFakeMouse(x, y, button)
+	-- if m.x > self.inventoryX+40 and m.x < self.inventoryX + 40+240 then
+	-- 	if m.y > self.inventoryY+40 and m.y < self.inventoryY+800 then
+	-- 		print("is inside")
+	-- 	else
+	-- 		print("is not")
+	-- 	end
+	-- else
+	-- 	print("xwrong")
+	-- end
 end
