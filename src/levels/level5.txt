@@ -1,10 +1,10 @@
-w         w
-w         w
-w       www
-w      C  w
-w _  !    w
-w         w
-wwwwwwwwwww
+w          w
+w          w
+w        www
+w       C  w
+w _  !     w
+w          w
+wwwwwwwwwwww
 --INITIAL STATUS--
 --TERMINAL STATUS--
 terminal ! nil edit C a b
