@@ -21,6 +21,16 @@ function Game:_init()
 	self.drawUnder = false
 	self.updateUnder = false
 
+	--music
+	
+	self.startMusic = love.audio.newSource("music/startScreen.mp3") 
+	self.startMusic:setLooping( true )
+	
+	self.gameMusic = love.audio.newSource("music/mainGame.mp3") 
+	self.gameMusic:setLooping( true )
+	
+	
+	
 	-- here are the actual variables
 	self.SCREENWIDTH = 1920
 	self.SCREENHEIGHT = 1080
@@ -30,9 +40,9 @@ function Game:_init()
 	self.player = Player(self)
 	self.level = Level(self, self.player) -- we should have it load by filename or something.
 	self.mainMenu = MainMenu(self)
-	self.pauseMenu = PauseMenu(self)
+	self.pauseMenu = PauseMenu(self, self.level)
 	self.gamepadManager = GamepadManager(self)
-	self.helpmenu = Helpmenu(self, self.pausemenu)
+	self.helpmenu = Helpmenu(self, self.pauseMenu)
 	self.cutscene = Cutscene(self, self.level)
 	-- self.player = Player(self)
 	-- self.level= Level(self, self.player)

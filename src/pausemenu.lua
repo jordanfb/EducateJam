@@ -10,12 +10,13 @@ PauseMenu = class()
 
 -- _init, load, draw, update(dt), keypressed, keyreleased, mousepressed, mousereleased, resize, (drawUnder, updateUnder)
 
-function PauseMenu:_init(game)
+function PauseMenu:_init(game, level)
 	-- this is for the draw stack
 	self.drawUnder = true
 	self.updateUnder = false
 
 	self.game = game
+	self.level = level
 	self.menu = Menu(self.game, {"Resume", "Exit", "Reset"})
 	self.SCREENWIDTH = self.game.SCREENWIDTH
 	self.SCREENHEIGHT = self.game.SCREENHEIGHT
@@ -49,9 +50,9 @@ end
 function PauseMenu:draw()
 	-- love.graphics.draw(self.image, 130, 100, 0, 1, 1)
 	love.graphics.setColor(0, 0, 0, 200)
-	love.graphics.rectangle("fill", 80, 80, self.SCREENWIDTH-160, self.SCREENHEIGHT-160)
+	love.graphics.rectangle("fill", 80, 80, self.SCREENWIDTH-160, self.SCREENHEIGHT-160, 50, 50)
 	love.graphics.setColor(255, 255, 255)
-	love.graphics.rectangle("line", 80, 80, self.SCREENWIDTH-160, self.SCREENHEIGHT-160)
+	love.graphics.rectangle("line", 80, 80, self.SCREENWIDTH-160, self.SCREENHEIGHT-160, 50, 50)
 	if self.hasJoysticks then -- display that you have a joystick connected
 		love.graphics.setColor(0, 0, 128)--90, 100, 255)
 		love.graphics.printf("With Controllers!", 172, 250, 500, "center", -.27, self.joystickIndicatorScale, self.joystickIndicatorScale)
@@ -135,6 +136,8 @@ function PauseMenu:selectButton(choice)
 	elseif choice == "Exit" then -- exit to menu
 		self.game:popScreenStack()
 		self.game:popScreenStack()
+		self.game.gameMusic:stop()
+		self.game.startMusic:play()
 	-- elseif choice == "Test" then
 	-- 	-- test things for jordan
 	-- 	self.game:addToScreenStack(self.game.terminal)

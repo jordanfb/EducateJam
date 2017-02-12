@@ -5,7 +5,7 @@ To progress through the levels, you must learn to take advantages of the logic g
 art/wallLayerWithTerminal1.png
 The terminals throughout the abandoned lair display logic gates that can open the doors associated with the output symbol, allowing you to get closer to whatever this alien landscape holds. Be sure to study different competitions.
 art/wallTileWithLever5.png
-It seems that the various symbols and gates relate to different functions, suggesting that learning the codes could fast track your journey to riches
+It seems that the various symbols and gates relate to different functions (press escape for some help), suggesting that learning the codes could fast track your journey to riches
 art/runeHBlue.png
 As you progress farther into the lair, your signal from the outside world diminishes, meaning you must become more reliant on your own intuition
 art/bigGateTile5.png
