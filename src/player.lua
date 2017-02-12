@@ -28,12 +28,18 @@ function Player:_init(game)
 	self.maxSpeed = 70
 	self.friction = 2
 	
-	self.walkAnimation = 0
+	self.animation = 0
+	self.animationType = "still"
 	
 	self.walkImages = {}
 	for i = 1, 12, 1 do
 		self.walkImages[i] = love.graphics.newImage('art/playerWalk'..i..'.png')
 	end 
+	self.climbImages = {}
+	for i = 1, 4, 1 do
+		self.climbImages[i] = love.graphics.newImage('art/playerLadder'..i..'.png')
+	end 
+	
 end
 
 --Returns the sign of the number passed in
@@ -65,11 +71,27 @@ end
 
 --Draws the rectangle
 function Player:draw(camera)
-	if self.facing==1 then
-		love.graphics.draw(self.walkImages[math.floor(self.walkAnimation)+1], self.x + camera.x - self.w/2, self.y + camera.y, 0, self.facing, 1)		--Placeholder
-	else
-		love.graphics.draw(self.walkImages[math.floor(self.walkAnimation)+1], self.x + camera.x + self.w, self.y + camera.y, 0, self.facing, 1)		--Placeholder
+	if self.animationType == "still" then
+		if self.facing==1 then
+			love.graphics.draw(self.walkImages[2], self.x + camera.x - self.w/2, self.y + camera.y, 0, self.facing, 1)		--Placeholder
+		else
+			love.graphics.draw(self.walkImages[2], self.x + camera.x + 3*self.w/2, self.y + camera.y, 0, self.facing, 1)		--Placeholder
+		end
+
+	elseif self.animationType == "walk" then
+		if self.facing==1 then
+			love.graphics.draw(self.walkImages[math.floor(self.animation)+1], self.x + camera.x - self.w/2, self.y + camera.y, 0, self.facing, 1)		--Placeholder
+		else
+			love.graphics.draw(self.walkImages[math.floor(self.animation)+1], self.x + camera.x + 3*self.w/2, self.y + camera.y, 0, self.facing, 1)		--Placeholder
+		end
+	elseif self.animationType == "climb" then
+		if self.facing==1 then
+			love.graphics.draw(self.climbImages[math.floor(self.animation)+1], self.x + camera.x - self.w/2, self.y + camera.y, 0, self.facing, 1)		--Placeholder
+		else
+			love.graphics.draw(self.climbImages[math.floor(self.animation)+1], self.x + camera.x + 3*self.w/2, self.y + camera.y, 0, self.facing, 1)		--Placeholder
+		end
 	end
+	love.graphics.rectangle("line", self.x + camera.x, self.y + camera.y, self.w, self.h)		--Placeholder
 	
 	--if self.touchingLadder then
 	--	love.graphics.printf("TOUCHING LADDER", 300, 300, 300, "right")
@@ -169,12 +191,14 @@ function Player:isTouchingLever(level)
 end
 
 function Player:getInput(level)
+	
 	if love.keyboard.isDown("a") then		--accelerates the player left
 		self.dx =  -self.speed
 		self.facing = -1
 		if self.x < level.cameraBuffer - level.camera.x then
 			level.camera.dx = self.speed
 		end
+		self.animationType = "walk"
 	end
 	if love.keyboard.isDown("d") then	--accelerates the player right
 		self.dx = self.speed
@@ -182,12 +206,15 @@ function Player:getInput(level)
 		if self.x > level.screen.w - level.cameraBuffer - level.camera.x then
 			level.camera.dx = -self.speed
 		end
+		self.animationType = "walk"
 	end
 	if love.keyboard.isDown("w") and self.touchingLadder then
 		self.onLadder = true
 		self.dy = - self.ladderSpeed
+		self.animation = (self.animation+.1)%4
 	elseif love.keyboard.isDown("s") and self.onLadder then
 		self.dy = self.ladderSpeed
+		self.animation = (self.animation+.1)%4
 	end
 	if love.keyboard.isDown("space") then
 		if self.onGround or self.onLadder then
@@ -208,11 +235,22 @@ function Player:movePlayer(dt)
 end
 
 function Player:animate(dt)
-	self.walkAnimation = (self.walkAnimation+.1)%12
+	if self.onLadder then
+		self.animationType = "climb"
+	end
+	if self.animationType=="walk" then
+		self.animation = (self.animation+.1)%12
+	elseif self.animationType=="climb" then
+		--self.animation = (self.animation+.1)%4
+	elseif self.animationType=="still" then
+		self.animation = 2
+	end
 end
 
 --Moves the player
 function Player:update(dt, level)
+
+	self.animationType = "still"
 	
 	level.camera.dx = 0
 	level.camera.dy = 0
@@ -223,7 +261,6 @@ function Player:update(dt, level)
 		self.dy = 0
 	end
 	
-	self:animate(dt)
 	self:ladderCollisions(dt, level)
 	self:gravityCollisions(dt, level)
 	self:getInput(level)
@@ -241,4 +278,5 @@ function Player:update(dt, level)
 		level.camera.y = level.cameraBuffer/2 - self.y
 	end
 	
+	self:animate(dt)
 end
