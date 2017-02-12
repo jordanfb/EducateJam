@@ -11,3 +11,5 @@ w   l w       l
 wwwwwwwwwwwwwwww
 --INITIAL STATUS --
 a on
+playerX 600
+playerY 300

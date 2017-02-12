@@ -77,12 +77,22 @@ function Level:_init(game, player)
 	self.screen = {w = 1920, h = 1080}
 	self.cameraBuffer = 900
 
+	local tempX = nil
+	local tempY = nil
 
 	for i = 1, #words, 2 do
 		print("LEVEL 72" .. words[i]..words[i+1])
 		if words[i + 1] == "on" then
 			self.levers[i]["on"] = true
+		elseif words[i] == "playerX" then
+			tempX = tonumber(words[i + 1])
+		elseif words[i] == "playerY" then
+			tempY = tonumber(words[i + 1])
 		end
+	end
+
+	if tempX ~= nil then
+		self.player:reset(tempX, tempY)
 	end
 
 	self.player:updateAllDoors(self)
