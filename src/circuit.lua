@@ -13,9 +13,16 @@ function Circuit:_init(file)
 	print("leng of inpust"..#self.inputs)
 	-- self.outputs = {}
 	self:loadCircuit(file)
-	-- self:evaluate()
+	self:evaluate()
 end
 
+function Circuit:tablelength(t)
+	local count = 0
+	for k, v in pairs(t) do
+		count = count + 1
+	end
+	return count
+end
 
 function Circuit:loadCircuit(file)
 	-- print("loading circuit"..file)
@@ -24,7 +31,6 @@ function Circuit:loadCircuit(file)
 	for line in io.lines(file) do
 		-- print("trying to read")
 		lines[#lines + 1] = line
-		print("read"..line)
 	end
 	print("read file")
 
@@ -38,20 +44,15 @@ function Circuit:loadCircuit(file)
 	-- end
 
 	-- jordan's guess
-	-- self.inputs = {a=1, b=2}
-	-- self.outputs = {}
+	self.inputs = {}
+	self.outputs = {}
 	self.gates = {}
-	print("len"..#self.inputs)
 	for k, line in pairs(lines) do
 		print(#line)
 		if #line > 1 and string.sub(line, 1, 1) == "*" then
-			print("ADDED INPUT"..string.sub(line, 2, 2))
-			table.insert(self.inputs, string.sub(line, 2, 2), false)
-			print("leninpus"..#self.inputs)
+			self.inputs[string.sub(line, 2, 2)] = false
 		elseif #line > 1 and string.sub(line, 1,1) == "%" then
 			self.outputs[string.sub(line, 2, 2)] = false
-			print(type(string.sub(line, 2, 2)))
-			print("output len "..#self.outputs)
 		elseif #line > 1 and string.sub(line, 1, 1) == "#" then
 			-- do nothing!
 		elseif #line > 0 then
@@ -63,20 +64,22 @@ function Circuit:loadCircuit(file)
 					letters[#letters+1] = string.sub(line, i, i)
 				end
 			end
-			print(letters[2])
 			self.gates[letters[2]] = Gate(letters[1], letters[2], letters[3], letters[4])
 			-- print("HAHA I LIED aCtUAlly")
 			-- then it's a gate
 		end
 	end
-	-- print("MADE IT THROUGH LOAD CIRCUIT")
+	print("MADE IT THROUGH LOAD CIRCUIT")
 end
 
 function Circuit:evaluate()
+	for k, v in pairs(self.inputs) do
+		print("INPUTL "..k)
+	end
 	for k, v in pairs(self.outputs) do
 		print(k.." trying to do stuff")
 		-- k = the name of the output, and the first gate to check.
-		print("inputs len"..#self.inputs)
+		print("inputs len"..self:tablelength(self.inputs))
 		self.outputs[k] = self.gates[k]:evaluate(self.gates, self.inputs)
 	end
 end
