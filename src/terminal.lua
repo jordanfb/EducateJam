@@ -20,7 +20,7 @@ function Terminal:_init(x, y, w, h, game, currentLevel, level, terminalName)
 	self.y = y
 	self.w = w
 	self.h = h
-	self.terminalName = terminalName
+	self.terminalName = terminalName -- what images we use for this terminal
 
 	-- self.circuit:evaluate()
 	-- for k, v in pairs(self.circuit.outputs) do
@@ -51,7 +51,7 @@ function Terminal:resize(w, h)
 end
 
 function Terminal:keypressed(key, unicode)
-	if key == "escape" or key == "joystickB" then
+	if key == "escape" or key == "joystickB" or key == "e" then
 		self.game:popScreenStack()
 	end
 end

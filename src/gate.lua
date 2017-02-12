@@ -4,14 +4,14 @@ Gate = class()
 
 -- _init, load, draw, update(dt), keypressed, keyreleased, mousepressed, mousereleased, resize, (drawUnder, updateUnder)
 
-function Gate:setOutput(gates, inputs)
+function Gate:setOutput(gates, nodes, inputs)
 	if gates[self.inAname] ~= nil then
-		self.inA = gates[self.inAname]:evaluate(gates, inputs)
+		self.inA = gates[self.inAname]:evaluate(gates, nodes, inputs)
 	else
 		self.inA = inputs[self.inAname]
 	end
 	if gates[self.inBname] ~= nil then
-		self.inB = gates[self.inBname]:evaluate(gates, inputs)
+		self.inB = gates[self.inBname]:evaluate(gates, nodes, inputs)
 	else
 		self.inB = inputs[self.inBname]
 	end
@@ -67,9 +67,13 @@ function Gate:changeInput(input, value)
 	end
 end
 
-function Gate:evaluate(gates, inputs)
-	self.out = self:setOutput(gates, inputs)
+function Gate:evaluate(gates, nodes, inputs)
+	self.out = self:setOutput(gates, nodes, inputs)
 	-- print("gate evaluate: inA "..self.inAname.." inB "..self.inBname.. " node name/output "..self.output .. " output value ")
 	-- print(self.out)
+	-- then set the node version of it if it exists, so that you can then display correctly
+	if nodes[self.output] ~= nil then
+		nodes[self.output] = self.out
+	end
 	return self.out
 end

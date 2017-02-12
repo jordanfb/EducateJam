@@ -46,6 +46,7 @@ function Circuit:loadCircuit(file)
 	-- jordan's guess
 	self.inputs = {}
 	self.outputs = {}
+	self.drawNodes = {}
 	self.gates = {}
 	for k, lineOfText in pairs(lines) do
 		local line = {}
@@ -53,10 +54,11 @@ function Circuit:loadCircuit(file)
 		-- print("number of splits in line "..#line)
 		if #line > 1 and line[1] == "input" then
 			self.inputs[line[2]] = false
+			self.drawNodes[line[2]] = false
 		elseif #line > 1 and line[1] == "output" then
 			self.outputs[line[2]] = false
 		elseif #line > 1 and line[1] == "node" then
-			-- do nothing!
+			self.drawNodes[line[2]] = false
 		elseif #line > 0 then
 			-- print("ADDED A GATE")
 			self.gates[line[2]] = Gate(line[1], line[2], line[3], line[4])
@@ -75,16 +77,17 @@ function Circuit:loadCircuit(file)
 end
 
 function Circuit:evaluate()
-	-- for k, v in pairs(self.inputs) do
-	-- 	print("INPUTL "..k)
-	-- end
+	for k, v in pairs(self.inputs) do
+		-- set the node equivalent to the same so that it will display correctly
+		self.drawNodes[k] = v
+	end
 	for k, v in pairs(self.outputs) do
 		-- print(k.." trying to do stuff")
 		-- k = the name of the output, and the first gate to check.
 		-- print("inputs len"..self:tablelength(self.inputs))
 		local g = self.gates[k]
 		-- print("type of possible gate "..type(g))
-		self.outputs[k] = g:evaluate(self.gates, self.inputs)
+		self.outputs[k] = g:evaluate(self.gates, self.drawNodes, self.inputs)
 	end
 end
 

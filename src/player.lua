@@ -107,11 +107,15 @@ end
 
 function Player:keypressed(key, unicode, level)
 	if (key=="e"or key == "joysticka") and self.onGround then
-		if self:isTouchingInteractable(level)[1]=="lever" then
-			level.levers[self:isTouchingInteractable(level)[2]].on = not level.levers[self:isTouchingInteractable(level)[2]].on
-			level.circuit.inputs[level.levers[self:isTouchingInteractable(level)[2]].key] = not level.circuit.inputs[level.levers[self:isTouchingInteractable(level)[2]].key]
+		local touching = self:isTouchingInteractable(level)
+		if touching[1]=="lever" then
+			level.levers[touching[2]].on = not level.levers[touching[2]].on
+			level.circuit.inputs[level.levers[touching[2]].key] = not level.circuit.inputs[level.levers[touching[2]].key]
 			-- then evaluate the circuit and open/deal with all doors.
 			self:updateAllDoors(level)
+		elseif touching[1]=="terminal" then
+			local id = touching[2]
+			self.game:addToScreenStack(level.terminals[id])
 		end
 	elseif key=="space" then
 		if self.onGround and not self.onLadder then
@@ -214,7 +218,7 @@ function Player:ladderCollisions(dt, level)
 	self.onLadder = false
 end
 
-function Player:ladderCollisions(dt, level)
+function Player:itemCollisions(dt, level)
 	for i, gate in pairs(level.gates) do
 		if not gate.taken then
 			if self.y +self.h > gate.y and self.y < gate.y + gate.w then
@@ -322,6 +326,7 @@ function Player:update(dt, level)
 	
 	self:ladderCollisions(dt, level)
 	self:gravityCollisions(dt, level)
+	self:itemCollisions(dt, level)
 	self:getInput(level)
 	-- if self.onGround then
 	-- 	self.onLadder = false
