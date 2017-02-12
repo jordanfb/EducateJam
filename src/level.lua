@@ -39,7 +39,9 @@ function Level:_init(game, player)
 			elseif tile == ')' then
 				table.insert(self.levers, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, on=true})
 			elseif tile == 'D' then
-				table.insert(self.doors, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h=3*self.tileSize, open = false})
+				self.terminal.circuit:evaluate()
+				local doorValue = self.terminal.circuit.outputs["O"]
+				table.insert(self.doors, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h=3*self.tileSize, open = doorValue})
 			end
 		end
 	end
@@ -80,9 +82,9 @@ function Level:draw()
 	love.graphics.setColor(0, 155, 0)
 	for i, door in pairs(self.doors) do
 		if door["open"] then
-			love.graphics.rectangle("fill", door.x + self.camera.x, door.y + self.camera.y, door.w, door.h)
-		else
 			love.graphics.rectangle("fill", door.x + self.camera.x, door.y + self.camera.y, 0.2 * door.w, door.h)
+		else
+			love.graphics.rectangle("fill", door.x + self.camera.x, door.y + self.camera.y, door.w, door.h)
 		end
 	end
 	

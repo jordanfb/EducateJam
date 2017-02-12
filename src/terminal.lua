@@ -17,11 +17,6 @@ function Terminal:_init(game, level)
 	self.level = level
 	self.circuit = Circuit("level1circuit.txt")
 
-	self.circuit.inputs["A"] = true
-	self.circuit.inputs["B"] = false
-	self.circuit.inputs["C"] = true
-	self.circuit.inputs["D"] = true
-
 	-- self.circuit:evaluate()
 	for k, v in pairs(self.circuit.outputs) do
 		print("Output "..k.." = ")
