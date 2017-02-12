@@ -60,6 +60,8 @@ function Terminal:nameToLogicGateNumber(name)
 		return 6
 	elseif name == "nor" then
 		return 7
+	elseif name == "nil" then
+		return 8
 	else
 		-- not a thing!
 		print("TRIED TO GET LOGIC GATE NUMBER OF NOT A GATE")
@@ -68,15 +70,20 @@ function Terminal:nameToLogicGateNumber(name)
 end
 
 function Terminal:logicGateNumberToName(num)
-	local convert = {"buffer", "not", "and", "or", "xor", "nand", "nor"}
-	return convert[num]
+	local convert = {"buffer", "not", "and", "or", "xor", "nand", "nor", "nil"}
+	return convert[tonumber(num)]
 end
 
 function Terminal:setLogicGate(gate, override)
 	if self.editable or override==true then
 		-- then you can change it!
+		self.gateName = gate
 		self.gateType = self:nameToLogicGateNumber(gate)
-		self.gateImage = self.level.inventoryImages["gateTile"..self.gateType..".png"]
+		if self.gateType ~= 8 then
+			self.gateImage = self.level.inventoryImages["gateTile"..self.gateType..".png"]
+		else
+			self.gateImage = nil
+		end
 		return true
 	else
 		-- do nothing?
@@ -164,6 +171,48 @@ function Terminal:drawLogicGate()
 	else
 		-- dont' draw anything?
 	end
+end
+
+function Terminal:addSelectedGateToGate(index)
+	local gate = self.level.player.inventory[index]
+	print("INVENTORY VALUE"..self.level.player.inventory[index])
+	local gt = self:logicGateNumberToName(gate)
+	print("GT "..gt)
+	if self.level.terminals[self.selected]:setLogicGate(gt) then
+		table.remove(self.level.player.inventory, index)
+		print("ADDED CIRCUIT")
+		for k, v in pairs(self.level.circuit.gates) do
+			if v.output == self.level.terminals[self.selected].out then --and v.inA == self.level.terminals[self.selected].inA and v.inB == self.level.terminals[self.selected].inB then
+				-- delete it or whatever
+				v.gateType = gt
+				print("Found it to add it to the thing")
+				break
+			end
+		end
+	end
+	self.level.circuit:evaluate()
+	self.level.player:updateAllDoors(self.level)
+end
+
+function Terminal:returnSelectedGateToInventory()
+	print("RETURNING GATE")
+	local oldGate = self.level.terminals[self.selected].gateType
+	if self.level.terminals[self.selected].gateType ~= nil then
+		if self.level.terminals[self.selected]:setLogicGate("nil") then
+			table.insert(self.level.player.inventory, oldGate)
+			for k, v in pairs(self.level.circuit.gates) do
+				print(tostring(v.output).."sdfkj"..tostring(self.level.terminals[self.selected].out))
+				if v.output == self.level.terminals[self.selected].out then --and v.inA == self.level.terminals[self.selected].inA and v.inB == self.level.terminals[self.selected].inB then
+					-- delete it or whatever
+					v.gateType = "nil"
+					break
+				end
+			end
+		end
+	end
+	
+	self.level.circuit:evaluate()
+	self.level.player:updateAllDoors(self.level)
 end
 
 function Terminal:drawInventory()
@@ -262,7 +311,14 @@ function Terminal:keyreleased(key, unicode)
 end
 
 function Terminal:mousepressed(x, y, button)
-	--
+	print(self.level.terminals[self.selected].gateName)
+	if self.level.terminals[self.selected].gateName == "nil" then
+		-- add the gate
+		self:addSelectedGateToGate(1)
+	else
+		-- remove the gate
+		self:returnSelectedGateToInventory()
+	end
 end
 
 function Terminal:mousereleased(x, y, button)
