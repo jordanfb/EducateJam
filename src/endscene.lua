@@ -1,7 +1,3 @@
-
-
-
-
 require "class"
 require "menu"
 -- require "button"
@@ -54,10 +50,10 @@ function Endscene:draw()
 	height = pic:getHeight()
 	love.graphics.draw(pic, self.SCREENWIDTH / 2, 200, 0, 1, 1, width / 2, height / 2)
 	local text = ""
-	if self.game.player.score == 25 then
+	if self.game.player.score == 26 then
 		text = "Congratulations!!! You are awesome and completed the game in the minimum possible moves!  Try to see if you can go faster!"
 	else
-		text = "You win! You completed the game in " .. self.game.player.score .. " moves, while the perfect score is 25.  Try to see if you can do better!"
+		text = "You win! You completed the game in " .. self.game.player.score .. " moves, while the perfect score is 26.  Try to see if you can do better!"
 	end
 	love.graphics.printf(text, self.SCREENWIDTH / 2 - 350, self.SCREENHEIGHT / 2, 700, "center")
 end
