@@ -196,6 +196,9 @@ function Level:reset()
 	self.camera.x = self.resetInfo.camerax
 	self.camera.y = 0--self.resetInfo.cameray
 	self.player:updateAllDoors(self)
+	for i, gate in pairs(self.gates) do
+		gate.taken = false
+	end
 end
 
 function Level:load()

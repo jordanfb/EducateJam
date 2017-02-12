@@ -65,6 +65,7 @@ function Player:reset(levelXStart, levelYStart)
 	self.y = levelYStart
 	self.dx = 0
 	self.dy = 0
+	self.inventory = {}
 end
 
 --Lets the player jump
