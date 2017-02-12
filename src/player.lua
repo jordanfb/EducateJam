@@ -77,9 +77,9 @@ end
 function Player:draw(camera)
 	if self.animationType == "still" then
 		if self.facing==1 then
-			love.graphics.draw(self.walkImages[2], self.x + camera.x - self.w/2, self.y + camera.y, 0, self.facing, 1)		--Placeholder
+			love.graphics.draw(self.idleImages[math.floor(self.animation)+1], self.x + camera.x - self.w/2, self.y + camera.y, 0, self.facing, 1)		--Placeholder
 		else
-			love.graphics.draw(self.walkImages[2], self.x + camera.x + 3*self.w/2, self.y + camera.y, 0, self.facing, 1)		--Placeholder
+			love.graphics.draw(self.idleImages[math.floor(self.animation)+1], self.x + camera.x + 3*self.w/2, self.y + camera.y, 0, self.facing, 1)		--Placeholder
 		end
 
 	elseif self.animationType == "walk" then
@@ -95,7 +95,7 @@ function Player:draw(camera)
 			love.graphics.draw(self.climbImages[math.floor(self.animation)+1], self.x + camera.x + 3*self.w/2, self.y + camera.y, 0, self.facing, 1)		--Placeholder
 		end
 	end
-	love.graphics.rectangle("line", self.x + camera.x, self.y + camera.y, self.w, self.h)		--Placeholder
+	--love.graphics.rectangle("line", self.x + camera.x, self.y + camera.y, self.w, self.h)		--Placeholder
 	
 	--if self.touchingLadder then
 	--	love.graphics.printf("TOUCHING LADDER", 300, 300, 300, "right")

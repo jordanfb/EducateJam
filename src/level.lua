@@ -39,6 +39,7 @@ function Level:_init(game, player)
 	
 	ladderImage = love.graphics.newImage('art/wallTileWithLadder.png')
 	wallImage = love.graphics.newImage('art/wallTile1.png')
+	foregroundImage = love.graphics.newImage('art/foregroundWallTile.png')
 	
 	self.tileSize = 160
 	
@@ -80,13 +81,9 @@ function Level:draw()
 	end
 	
 	for i, wall in pairs(self.walls) do
-		love.graphics.rectangle("fill", wall.x + self.camera.x, wall.y + self.camera.y, wall.w, wall.w)
+		love.graphics.draw(foregroundImage, wall.x + self.camera.x, wall.y + self.camera.y)
 	end
-	
-	love.graphics.setColor(255, 255, 255)
-	for i, wall in pairs(self.walls) do
-		love.graphics.rectangle("fill", wall.x + self.camera.x, wall.y + self.camera.y, wall.w, wall.w)
-	end
+	--foregroundImage
 	
 	for i, ladder in pairs(self.ladders) do
 		love.graphics.draw(ladderImage, ladder.x + self.camera.x, ladder.y + self.camera.y)
