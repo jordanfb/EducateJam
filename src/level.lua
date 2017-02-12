@@ -28,6 +28,8 @@ function Level:_init(game, player)
 	
 	self.terminalAnimation = 0
 	self.gateAnimation = 0
+	self.torchAnimation = 0
+	
 	self.terminalImages = {}
 	for i = 1, 6 do
 		self.terminalImages[i] = love.graphics.newImage('art/wallLayerWithTerminal'..i..'.png')
@@ -62,6 +64,12 @@ function Level:_init(game, player)
 		end
 	end
 
+	self.torchImages = {}
+	for i = 1, 4 do
+		self.torchImages[i] = love.graphics.newImage('art/wallTorch'..i..'.png')
+	end 
+	
+	self.glowImage = love.graphics.newImage('art/torchlightAlphaCircle.png')
 	
 	self:initialize()
 end
@@ -75,6 +83,7 @@ function Level:initialize()
 	self.backgrounds = {}
 	self.terminals = {}
 	self.gates = {}
+	self.torches = {}
 	self.circuit = Circuit("levels/level"..self.currentLevel.."circuit.txt")
 
 	local lines = {}	
@@ -125,6 +134,8 @@ function Level:initialize()
 			elseif tile == '_' then
 				table.insert(self.backgrounds, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h = self.tileSize})
 				self.player:reset((x-1)*self.tileSize, (y-1)*self.tileSize)	
+			elseif tile == '.' then
+				table.insert(self.torches, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h = self.tileSize})
 			else
 				print("TILE ISN'T RECOGNIZED:"..tile)
 			end
@@ -228,6 +239,14 @@ function Level:draw()
 		love.graphics.draw(wallImage, wall.x + self.camera.x, wall.y + self.camera.y)
 	end
 	
+	for i, torch in pairs(self.torches) do
+	love.graphics.setColor(255, 255, 255)
+		love.graphics.draw(self.torchImages[math.floor(self.torchAnimation)+1], torch.x + self.camera.x, torch.y + self.camera.y)
+		love.graphics.setColor(255, 255, 255, 25 + math.random()*10)
+		love.graphics.draw(self.glowImage, torch.x + self.camera.x - torch.w, torch.y + self.camera.y - torch.h)
+	end
+	
+	love.graphics.setColor(255, 255, 255)
 	for i, wall in pairs(self.walls) do
 		love.graphics.draw(foregroundImage, wall.x + self.camera.x, wall.y + self.camera.y)
 	end
@@ -296,6 +315,7 @@ end
 function Level:animate(dt)
 	self.terminalAnimation = (self.terminalAnimation+.1)%6
 	self.gateAnimation = (self.gateAnimation+.1)%8
+	self.torchAnimation = (self.torchAnimation+.1)%4
 	for i, lever in pairs(self.levers) do
 		if lever.on and lever.animation < 4 then
 			lever.animation = lever.animation + .4
