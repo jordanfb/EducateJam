@@ -398,6 +398,9 @@ function Level:keypressed(key, unicode)
 	self.player:keypressed(key, unicode, self)
 	if key == "escape" then
 		self.game:addToScreenStack(self.game.pauseMenu)
+	elseif key == "k" then
+		self.currentLevel = self.currentLevel + 1
+		self:initialize()
 	end
 end
 
