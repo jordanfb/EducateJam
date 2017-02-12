@@ -24,7 +24,7 @@ function Intro:_init(game)
 
 	self.images = {}
 	for i = 1, 20 do
-		images[i] = love.graphics.newImage('art/openingScene'..i..'.png')
+		self.images[i] = love.graphics.newImage('art/openingScene'..i..'.png')
 	end
 	self.frame = 1
 end
@@ -32,7 +32,6 @@ end
 function Intro:load()
 	-- run when the level is given control
 	self.time = 0
-	love.graphics.setFont(self.font)
 	love.mouse.setVisible(false)
 	love.graphics.setBackgroundColor(0, 0, 0)
 
@@ -43,13 +42,14 @@ function Intro:leave()
 end
 
 function Intro:draw()
-	love.graphics.draw(self.images[math.floor(self.frame)]+1), 0, 0)
+	love.graphics.draw(self.images[math.floor(self.frame)+1], 0, 0)
 end
 
 function Intro:update(dt)
-	self.frame = self.frame + 0.1
-	if self.frame > #self.images - 1then
+	self.frame = self.frame + 0.05
+	if self.frame > #self.images - 1 then
 		self.frame = #self.images - 1
+		self.game:popScreenStack()
 		self.game:addToScreenStack(self.game.cutscene)
 	end
 end
