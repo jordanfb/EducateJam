@@ -92,6 +92,8 @@ function Level:_init(game, player)
 	
 	self.glowImage = love.graphics.newImage('art/torchlightAlphaCircle.png')
 	
+	self.doorSound = love.audio.newSource("music/door.wav") 
+	self.doorSound:setLooping(false)
 	
 	--self:initialize()
 end
@@ -384,6 +386,9 @@ function Level:animate(dt)
 		end
 	end
 	for i, door in pairs(self.doors) do
+		if (math.floor(door.animation)==2) then
+			self.doorSound:play()
+		end
 		if door.open and door.animation < 4 then
 			door.animation = door.animation + .4
 		elseif not door.open and door.animation > 0 then

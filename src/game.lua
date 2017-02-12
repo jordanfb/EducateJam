@@ -25,9 +25,11 @@ function Game:_init()
 	
 	self.startMusic = love.audio.newSource("music/startScreen.mp3") 
 	self.startMusic:setLooping( true )
+	self.startMusic:setVolume (0.4)
 	
 	self.gameMusic = love.audio.newSource("music/mainGame.mp3") 
 	self.gameMusic:setLooping( true )
+	self.gameMusic:setVolume (0.2)
 	
 	
 	
