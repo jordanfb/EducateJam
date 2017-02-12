@@ -93,6 +93,10 @@ function PauseMenu:keypressed(key, unicode)
 		if choice ~= nil then
 			self:selectButton(choice)
 		end
+	elseif key == "joystickback" then
+		self:selectButton("Exit")
+	elseif key == "joystickstart" then
+		self:selectButton("Resume")
 	elseif key == "joystickb" then
 		self:selectButton("Resume")
 	end

@@ -211,16 +211,17 @@ function Terminal:resize(w, h)
 end
 
 function Terminal:keypressed(key, unicode)
+	print(key)
 	if key == "escape" or key == "joystickb" or key == "e" then
 		self.game:popScreenStack()
 	end
-	if key == "right" or key == "joystickrightbumper" then
+	if key == "right" or key == "joystickrightshoulder" or key == "d" then
 		-- swap to a right-er page
 		self.selected = self.selected - 1
 		if self.selected <= 0 then
 			self.selected = #self.level.terminals
 		end
-	elseif key == "left" or key == "joystickleftbumper" then
+	elseif key == "left" or key == "joystickleftshoulder" or key == "a" then
 		self.selected = self.selected + 1
 		if self.selected > #self.level.terminals then
 			self.selected = 1

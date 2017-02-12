@@ -26,9 +26,11 @@ g on
 h on
 --TERMINAL STATUS--
 terminal ! or edit I a b
-terminal @ not edit J a
-terminal # xor edit G c e
-terminal $ buffer edit F c
+terminal $ not edit J a
+
+terminal @ buffer edit F c
+terminal ^ xor edit G c e
 terminal % and edit H d e
-terminal ^ nor edit i f h
+
+terminal # nor edit i f h
 terminal & and edit A i g

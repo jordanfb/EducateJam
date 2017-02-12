@@ -79,6 +79,10 @@ function MainMenu:keypressed(key, unicode)
 	local choice = self.menu:keypressed(key, unicode)
 	if choice ~= nil then
 		self:selectButton(choice)
+	elseif key == "joystickback" then
+		self:selectButton("Exit")
+	elseif key == "joystickstart" then
+		self:selectButton("Play")
 	end
 end
 
