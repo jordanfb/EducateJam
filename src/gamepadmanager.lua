@@ -46,6 +46,9 @@ function GamepadManager:getJoysticks()
 			self.gamepads[#self.gamepads+1] = v
 		end
 	end
+	if #self.gamepads == 0 then
+		self.game.useJoystick = false
+	end
 end
 
 function GamepadManager:hasJoysticks()
@@ -119,6 +122,7 @@ function GamepadManager:gamepadaxis( joystick, axis, value )
 			self.leftflickright = false
 			self.leftflickleft = false
 		end
+		self.leftx = value
 	elseif axis == "lefty" then
 		local changeY = value-self.lefty
 		if value > .1 then -- it's lower half
@@ -170,6 +174,7 @@ function GamepadManager:gamepadaxis( joystick, axis, value )
 			self.rightflickright = false
 			self.rightflickleft = false
 		end
+		self.rightx = value
 	elseif axis == "righty" then
 		local changeY = value-self.righty
 		if value > .1 then -- it's lower half
@@ -196,4 +201,5 @@ function GamepadManager:gamepadaxis( joystick, axis, value )
 		end
 		self.lefty = value
 	end
+	print("axis values ".. self.lefty..", "..self.righty)
 end

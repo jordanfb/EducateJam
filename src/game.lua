@@ -200,11 +200,13 @@ end
 function Game:joystickadded(joystick)
 	self.gamepadManager:getJoysticks()
 	self.mainMenu.hasJoysticks = self.gamepadManager:hasJoysticks()
+	self.useJoystick = true
 end
 
 function Game:joystickremoved(joystick)
 	self.gamepadManager:getJoysticks()
 	self.mainMenu.hasJoysticks = self.gamepadManager:hasJoysticks()
+	self.useJoystick = self.gamepadManager:hasJoysticks()
 end
 
 function Game:quit()

@@ -351,6 +351,7 @@ function Terminal:dealWithMouseClick(a, b, button)
 			self:returnSelectedGateToInventory()
 		end
 	end
+	-- if y > self.inventoryY + self.backgroundY
 end
 
 function Terminal:mousepressed(x, y, button)
