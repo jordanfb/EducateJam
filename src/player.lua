@@ -86,8 +86,8 @@ function Player:draw(level, camera)
 
 	love.graphics.setFont(love.graphics.newFont("fonts/november.ttf", 36))
 	love.graphics.draw(self.scoreBackground, 30, 30)
-	love.graphics.setColor(255, 0, 0)
-	love.graphics.printf("Flips: " .. self.score, 80, 90, 300, "left")
+	love.graphics.setColor(7, 131, 201)
+	love.graphics.printf("Flips: " .. self.score, 30, 90, 320, "center")
 	love.graphics.setColor(255, 255, 255)
 
 	if self:isTouchingInteractable(level)[1]~="nothing" then
