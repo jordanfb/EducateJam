@@ -22,17 +22,20 @@ function Gate:setOutput(gates, inputs)
 		return self.inA and self.inB
 	elseif self.gateType == "or" then
 		return self.inA or self.inB
-	-- elseif self.gateType == "xor" then
-	-- 	if self.inA and self.inB  then
-	-- 		return false
-	-- 	return self.inA or self.inB
-	-- elseif self.gateType == "nand" then
-	-- 	return not self.inA and self.inB
-	-- elseif self.gateType == "nor" then
-	-- 	return not self.inA or self.inB
+	elseif self.gateType == "xor" then
+		if self.inA and self.inB  then
+			return false
+		end
+		return self.inA or self.inB
+	elseif self.gateType == "nand" then
+		return not self.inA and self.inB
+	elseif self.gateType == "nor" then
+		return not self.inA or self.inB
 	elseif self.gateType == "on" then
 		return true
 	elseif self.gateType == "off" then
+		return false
+	elseif self.gateType == nil then
 		return false
 	else
 		print("ERROR: INVALID GATE gateTYPE:" .. self.gateType)

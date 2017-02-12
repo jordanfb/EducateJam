@@ -1,0 +1,13 @@
+input A
+input B
+input C
+input D
+
+node E
+node F
+
+output O
+
+xor E A B
+nand F C D
+nor O E F

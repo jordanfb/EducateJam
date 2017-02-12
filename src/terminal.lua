@@ -14,11 +14,12 @@ function Terminal:_init(game)
 	self.drawUnder = true
 	self.updateUnder = false
 	self.game = game
-	self.circuit = Circuit("testmap1.txt")
+	self.circuit = Circuit("testmap2.txt")
 
-	self.circuit.inputs["A"] = false
+	self.circuit.inputs["A"] = true
 	self.circuit.inputs["B"] = false
 	self.circuit.inputs["C"] = true
+	self.circuit.inputs["D"] = true
 
 	self.circuit:evaluate()
 	for k, v in pairs(self.circuit.outputs) do
