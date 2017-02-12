@@ -11,3 +11,9 @@ As you progress farther into the lair, your signal from the outside world dimini
 art/bigGateTile5.png
 It seems the lair was abandoned before all the rooms were finished, perhaps you could find a way though despite this?
 art/gate4-1.png
+PLACEHOLDER TEXT
+art/doorGameJam1.png
+PLACEHOLDER TEXT
+art/doorGameJam5.png
+YOU WIN
+art/treasure1.png
