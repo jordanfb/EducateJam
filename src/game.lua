@@ -5,6 +5,7 @@ require "mainmenu"
 require "player"
 require "terminal"
 require "pausemenu"
+require "helpmenu"
 -- require "deathmenu"
 require "gamepadmanager"
 require "cutscene"
@@ -31,6 +32,7 @@ function Game:_init()
 	self.mainMenu = MainMenu(self)
 	self.pauseMenu = PauseMenu(self)
 	self.gamepadManager = GamepadManager(self)
+	self.helpmenu = Helpmenu(self, self.pausemenu)
 	self.cutscene = Cutscene(self, self.level)
 	-- self.player = Player(self)
 	-- self.level= Level(self, self.player)
