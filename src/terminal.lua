@@ -16,9 +16,9 @@ function Terminal:_init(game)
 	self.game = game
 	self.circuit = Circuit("testmap1.txt")
 
-	self.circuit.input[A] = true
-	self.circuit.input[B] = true
-	self.circuit.input[C] = true
+	self.circuit.inputs["A"] = true
+	self.circuit.inputs["B"] = true
+	self.circuit.inputs["C"] = true
 
 	self.circuit:evaluate()
 	for k, v in pairs(self.circuit.outputs) do
