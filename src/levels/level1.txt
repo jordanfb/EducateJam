@@ -18,7 +18,6 @@ w_  .   ! a       lw
 w    w            lw
 wwwwwwwwwwwwwwwwwwww
 --INITIAL STATUS--
-b on
 --TERMINAL STATUS--
 terminal ! buffer edit E a
 terminal @ not edit F b
