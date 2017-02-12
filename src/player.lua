@@ -103,8 +103,8 @@ function Player:draw(camera)
 end
 
 function Player:keypressed(key, unicode, level)
-	if key=="e" then
-		if self.onGround and self:isTouchingLever(level)~=0 then
+	if key=="e" and self.onGround then
+		if self:isTouchingLever(level)[2]=="lever" then
 			level.levers[self:isTouchingLever(level)].on = not level.levers[self:isTouchingLever(level)].on
 			level.terminal.circuit.inputs[level.levers[self:isTouchingLever(level)].key] = not level.terminal.circuit.inputs[level.levers[self:isTouchingLever(level)].key]
 			-- then evaluate the circuit and open/deal with all doors.
@@ -207,12 +207,24 @@ function Player:ladderCollisions(dt, level)
 	self.onLadder = false
 end
 
-function Player:isTouchingLever(level)
+function Player:isTouchingInteractable(level)
 	for i, lever in pairs(level.levers) do
-		if self.y + self.h > lever.y and self.y < lever.y + lever.w then
-			if self.x + self.w > lever.x and self.x < lever.x + lever.w then
-				return i
-			end
+		if self:isTouching(lever)~=0 then
+			return {"lever", self:isTouching(lever)}
+		end
+	end
+	for i, terminal in pairs(level.terminals) do
+		if self:isTouching(lever)~=0 then
+			return {"terminal", self:isTouching(terminal)}
+		end
+	end
+	return {0, "nothing"}
+end
+
+function Player:isTouching(item)
+	if self.y + self.h > item.y and self.y < item.y + item.w then
+		if self.x + self.w > item.x and self.x < item.x + item.w then
+			return i
 		end
 	end
 	return 0

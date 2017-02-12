@@ -14,6 +14,7 @@ function Level:_init(game, player)
 	self.levers = {}
 	self.levelArray = {}
 	self.backgrounds = {}
+	self.terminals = {}
 	local lines = {}			
 	
 	for line in love.filesystem.lines('level1.txt') do
@@ -57,6 +58,8 @@ function Level:_init(game, player)
 				table.insert(self.levers, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, key=tile, on=false})
 			elseif string.byte(tile) >= string.byte('A') and string.byte(tile) <= string.byte("J") then
 				table.insert(self.doors, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h=3*self.tileSize, key=tile, open = false})
+			elseif string.byte(tile) >= string.byte('A') and string.byte(tile) <= string.byte("T") then
+				table.insert(self.terminals, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h=self.tileSize})
 			end
 		end
 	end
