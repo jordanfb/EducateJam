@@ -1,0 +1,9 @@
+node a
+node b
+
+output C
+
+on a
+on b
+
+nil C a b

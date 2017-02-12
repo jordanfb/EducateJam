@@ -14,9 +14,9 @@ wwwwwwwwwwwwwwwwwwwwww
 --INITIAL STATUS--
 d on
 --TERMINAL STATUS--
-terminal ! not edit G c
-terminal @ and edit e b d
-terminal # xor edit H e c
-terminal $ xor edit f a b
-terminal % or edit J f c
-terminal ^ nor I a d
+terminal ! not const G c
+terminal @ and const e b d
+terminal # xor const H e c
+terminal $ xor const f a b
+terminal % or const J f c
+terminal ^ nor const I a d

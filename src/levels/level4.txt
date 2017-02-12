@@ -14,9 +14,9 @@ a on
 b on
 d on
 --TERMINAL STATUS--
-terminal ! not edit g a
-terminal @ and edit h g b
-terminal # and edit i c d
-terminal $ nand edit j g h
-terminal % and edit F j g
-terminal ^ and edit F k e
+terminal ! not const g a
+terminal @ and const h g b
+terminal # and const i c d
+terminal $ nand const j g h
+terminal % and const F j g
+terminal ^ and const F k e
