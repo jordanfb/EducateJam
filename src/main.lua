@@ -71,3 +71,11 @@ end
 function love.mousemoved( x, y, dx, dy, istouch )
 	game:mousemoved(x, y, dx, dy, istouch)
 end
+
+function love.gamepadpressed(gamepad, button)
+	game:gamepadpressed(gamepad, button)
+end
+
+function love.gamepadaxis( joystick, axis, value )
+	game:gamepadaxis(joystick, axis, value)
+end

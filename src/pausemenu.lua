@@ -83,8 +83,9 @@ function PauseMenu:keypressed(key, unicode)
 end
 
 function PauseMenu:selectButton(choice)
-	if choice == "ERROR" then
-		print("ERROR ON MAIN MENU BUTTON SELECT!!!!")
+	if choice == "None" then
+		-- print("ERROR ON MAIN MENU BUTTON SELECT!!!!")
+		-- do nothing, it's probably fine.
 	elseif choice == "Resume" then
 		self.game:popScreenStack()
 	elseif choice == "Exit" then -- exit to menu

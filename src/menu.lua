@@ -89,12 +89,16 @@ function Menu:keypressed(key, unicode)
 		if self.selected > #self.buttons then
 			self.selected = 1
 		end
-	elseif key == "joystickA" then
+	elseif key == "joysticka" then
 		self.useJoystick = true
 		return self:returnPressed()
+	elseif key == "joystickb" then
+		love.mouse.setVisible(false)
+		--
 	end
 end
 
 function Menu:mousemoved(x, y, dx, dy, istouch)
 	self.useJoystick = false
+	love.mouse.setVisible(true)
 end
