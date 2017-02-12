@@ -9,6 +9,6 @@ output G
 
 buffer E a
 
-buffer F b
+not F b
 
 and G c d
