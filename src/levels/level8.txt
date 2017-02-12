@@ -5,3 +5,14 @@ w                      HHHHHH    w
 w _  ! a b c d e f g          ,  w
 w                                w
 wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+--INITIAL STATUS--
+--TERMINAL STATUS--
+terminal ! not const p q
+terminal @ and const i p b
+terminal # xor const j c d
+terminal $ not const k e
+terminal % or const l g h
+terminal ^ nand const m f k
+terminal & and const n i l
+terminal * and const o m j
+terminal ( and const H n o

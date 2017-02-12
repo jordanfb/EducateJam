@@ -4,6 +4,7 @@
 
 require "class"
 require "menu"
+require "endscene"
 -- require "button"
 
 Cutscene = class()
@@ -16,6 +17,8 @@ function Cutscene:_init(game)
 	self.updateUnder = false
 
 	self.game = game
+	self.endScene = Endscene(self.game)
+
 	-- self.menu = Menu(self.game, {"Resume", "Exit", "Reset"})
 	self.SCREENWIDTH = self.game.SCREENWIDTH
 	self.SCREENHEIGHT = self.game.SCREENHEIGHT

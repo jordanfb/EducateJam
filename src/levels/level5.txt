@@ -18,5 +18,5 @@ terminal ! not const g a
 terminal @ and const h g b
 terminal # and const i c d
 terminal $ nand const j g h
-terminal % and const F j g
+terminal % and const k j g
 terminal ^ and const F k e

@@ -139,6 +139,7 @@ function Player:keypressed(key, unicode, level)
 			self.game:addToScreenStack(level.terminals[id])
 		elseif touching[1]=="treasure" then
 			self.game:addToScreenStack(self.game.cutscene)
+			level.currentLevel = level.currentLevel + 1 
 		end
 	elseif key=="space" then
 		if self.onGround and not self.onLadder then
