@@ -23,13 +23,18 @@ function Level:_init(game, player)
 	self.terminalNames["("]=true
 	self.terminalNames[")"]=true
 
-	ladderImage = love.graphics.newImage('art/wallTileWithLadder.png')
-	wallImage = love.graphics.newImage('art/wallTile1.png')
-	foregroundImage = love.graphics.newImage('art/foregroundWallTile.png')
+	self.ladderImage = love.graphics.newImage('art/wallTileWithLadder.png')
+	self.foregroundImage = love.graphics.newImage('art/foregroundWallTile.png')
 	
 	self.terminalAnimation = 0
 	self.gateAnimation = 0
 	self.torchAnimation = 0
+	
+	
+	self.wallImages = {}
+	for i = 1, 4 do
+		self.wallImages[i] = love.graphics.newImage('art/wallTile'..i..'.png')
+	end
 	
 	self.terminalImages = {}
 	for i = 1, 6 do
@@ -160,7 +165,16 @@ function Level:initialize()
 			if tile == 'w' then
 				table.insert(self.walls, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h = self.tileSize})
 			elseif tile == ' ' then
-				table.insert(self.backgrounds, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h = self.tileSize})
+				local s = 1
+				local r = math.random()*10
+				if r < 1 then
+					s = 2
+				elseif r < 2 then
+					s = 2
+				elseif r < 3 then
+					s = 3
+				end
+				table.insert(self.backgrounds, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h = self.tileSize, sprite = s})
 			elseif tile == 'l' then
 				table.insert(self.ladders, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize})
 			elseif string.byte(tile) >= string.byte('a') and string.byte(tile) <= string.byte("j") then
@@ -172,7 +186,7 @@ function Level:initialize()
 			elseif self.terminalNames[tile] ~= nil then
 				table.insert(self.terminals, Terminal((x-1)*self.tileSize, (y-1)*self.tileSize, self.tileSize, self.tileSize, self.game, self.currentLevel, self, tile))
 			elseif tile == '_' then
-				table.insert(self.backgrounds, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h = self.tileSize})
+				table.insert(self.backgrounds, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h = self.tileSize, sprite = 1})
 				self.player:reset((x-1)*self.tileSize, (y-1)*self.tileSize)	
 			elseif tile == '.' then
 				table.insert(self.torches, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h = self.tileSize})
@@ -293,7 +307,7 @@ function Level:draw()
 	
 	love.graphics.setColor(255, 255, 255)
 	for i, wall in pairs(self.backgrounds) do
-		love.graphics.draw(wallImage, wall.x + self.camera.x, wall.y + self.camera.y)
+		love.graphics.draw(self.wallImages[wall.sprite], wall.x + self.camera.x, wall.y + self.camera.y)
 	end
 	
 	for i, torch in pairs(self.torches) do
@@ -305,12 +319,12 @@ function Level:draw()
 	
 	love.graphics.setColor(255, 255, 255)
 	for i, wall in pairs(self.walls) do
-		love.graphics.draw(foregroundImage, wall.x + self.camera.x, wall.y + self.camera.y)
+		love.graphics.draw(self.foregroundImage, wall.x + self.camera.x, wall.y + self.camera.y)
 	end
 	--foregroundImage
 	
 	for i, ladder in pairs(self.ladders) do
-		love.graphics.draw(ladderImage, ladder.x + self.camera.x, ladder.y + self.camera.y)
+		love.graphics.draw(self.ladderImage, ladder.x + self.camera.x, ladder.y + self.camera.y)
 	end
 	
 	for i, lever in pairs(self.levers) do
@@ -324,7 +338,7 @@ function Level:draw()
 	end
 	
 	for i, door in pairs(self.doors) do
-		love.graphics.draw(wallImage, door.x + self.camera.x, door.y + self.camera.y)
+		love.graphics.draw(self.wallImages[1], door.x + self.camera.x, door.y + self.camera.y)
 	end
 	
 	for i, gate in pairs(self.gates) do
