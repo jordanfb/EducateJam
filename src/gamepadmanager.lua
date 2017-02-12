@@ -220,5 +220,5 @@ function GamepadManager:gamepadaxis( joystick, axis, value )
 		end
 		self.lefty = value
 	end
-	print("axis values ".. self.lefty..", "..self.righty)
+	-- print("axis values ".. self.lefty..", "..self.righty)
 end

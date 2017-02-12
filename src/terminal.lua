@@ -43,6 +43,7 @@ function Terminal:_init(x, y, w, h, game, currentLevel, level, key)
 	-- 	print("Output "..k.." = ")
 	-- 	print(v)
 	-- end
+	self.joystickSelected = 1-- goes from 1 to 2 to three to four to five, only those things
 end
 
 function Terminal:nameToLogicGateNumber(name)
@@ -221,7 +222,6 @@ function Terminal:returnSelectedGateToInventory()
 			end
 		end
 	end
-	
 	self.level.circuit:evaluate()
 	self.level.player:updateAllDoors(self.level)
 end
@@ -244,6 +244,19 @@ function Terminal:drawInventory()
 		-- print("GATE VALUE THAT'S CAUSING CRASH "..v)
 		love.graphics.draw(self.level.inventoryImages["gateTile"..v..".png"], x, y+(k-1)*185)
 		-- y = y + 10 -- the height of the gate and 40 for spacing -- but not, since it does it above
+	end
+	if self.game.useJoystick then
+		local hx = 0
+		local hy = 0
+		if self.joystickSelected > 1 then
+			hx = x
+			hy = y+(self.joystickSelected-2)*185
+		else
+			hx = 300+self.terminalX
+			hy = 300+self.terminalY
+		end
+		love.graphics.setColor(255, 255, 255)
+		love.graphics.draw(self.level.inventoryImages.highlight, hx, hy)
 	end
 	love.graphics.setColor(255, 255, 255)
 end
@@ -306,7 +319,13 @@ end
 
 function Terminal:keypressed(key, unicode)
 	-- print(key)
-	if key == "escape" or key == "joystickb" or key == "e" then
+	if key == "joysticka" then
+		if self.game.level.terminals[self.selected].joystickSelected == 1 then
+			self.game.level.terminals[self.selected]:returnSelectedGateToInventory()
+		else
+			self.game.level.terminals[self.selected]:addSelectedGateToGate(self.joystickSelected-1)
+		end
+	elseif key == "escape" or key == "joystickb" or key == "e" then
 		self.game:popScreenStack()
 	end
 	if key == "right" or key == "joystickrightshoulder" or key == "d" then
@@ -320,6 +339,28 @@ function Terminal:keypressed(key, unicode)
 		if self.selected > #self.level.terminals then
 			self.selected = 1
 		end
+	end
+	if key == "menuUp" then
+		self.game.level.terminals[self.selected].joystickSelected = self.game.level.terminals[self.selected].joystickSelected-1
+	elseif key == "menuDown" then
+		self.game.level.terminals[self.selected].joystickSelected = self.game.level.terminals[self.selected].joystickSelected+1
+	elseif key == "menuLeft" then
+		if self.game.level.terminals[self.selected].joystickSelected == 1 then
+			self.game.level.terminals[self.selected].joystickSelected = 2
+		else
+			self.game.level.terminals[self.selected].joystickSelected = 1
+		end
+	elseif key == "menuRight" then
+		if self.game.level.terminals[self.selected].joystickSelected == 1 then
+			self.game.level.terminals[self.selected].joystickSelected = 2
+		else
+			self.game.level.terminals[self.selected].joystickSelected = 1
+		end
+	end
+	if self.game.level.terminals[self.selected].joystickSelected <= 0 then
+		self.game.level.terminals[self.selected].joystickSelected = 1+#self.level.player.inventory
+	elseif self.game.level.terminals[self.selected].joystickSelected > 1+#self.level.player.inventory then
+		self.game.level.terminals[self.selected].joystickSelected = 1
 	end
 end
 
