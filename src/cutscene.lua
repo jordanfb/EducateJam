@@ -65,8 +65,8 @@ function Cutscene:update(dt)
 
 	if self.time > self.totalTime then
 		self.game:popScreenStack()
-		if self.game.level.currentLevel >= self.game.level.totalLevels then
-			self.game:addToScreenStackScreenStack(self.endScene)
+		if self.game.level.currentLevel > self.game.level.totalLevels then
+			self.game:addToScreenStack(self.endScene)
 		else
 			self.game:addToScreenStack(self.game.level)
 			self.game.level:initialize()
@@ -88,8 +88,8 @@ end
 
 function Cutscene:keypressed(key, unicode)
 	self.game:popScreenStack()
-	if self.game.level.currentLevel >= self.game.level.totalLevels then
-		self.game:addToScreenStackScreenStack(self.endScene)
+	if self.game.level.currentLevel > self.game.level.totalLevels then
+		self.game:addToScreenStack(self.endScene)
 	else
 		self.game:addToScreenStack(self.game.level)
 		self.game.level:initialize()
@@ -110,8 +110,8 @@ end
 
 function Cutscene:mousereleased(x, y, button)
 	self.game:popScreenStack()
-	if self.game.level.currentLevel >= self.game.level.totalLevels then
-		self.game:addToScreenStackScreenStack(self.endScene)
+	if self.game.level.currentLevel > self.game.level.totalLevels then
+		self.game:addToScreenStack(self.endScene)
 	else
 		self.game:addToScreenStack(self.game.level)
 		self.game.level:initialize()
