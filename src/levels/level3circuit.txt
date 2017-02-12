@@ -9,19 +9,19 @@ input h
 
 node i
 
-output A
+output P
 output F
-output G
-output H
+output L
+output K
 output I
 output J
 
 or I a b
 not J a
 
-xor G c e
+xor L c e
 buffer F c
-and H d e
+and K d e
 
 nor i f h
-and A i g
+and P i g
