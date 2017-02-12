@@ -48,6 +48,8 @@ function Player:_init(game)
 		self.idleImages[i] = love.graphics.newImage('art/playerIdle'..i..'.png')
 	end
 	self.fallingImage = love.graphics.newImage('art/playerFalling.png')
+
+	self.scoreBackground = love.graphics.newImage('art/clickTrackerBackground.png')
 	
 end
 
@@ -83,9 +85,9 @@ end
 function Player:draw(level, camera)
 
 	love.graphics.setFont(love.graphics.newFont("fonts/november.ttf", 36))
-	love.graphics.rectangle("fill", 30, 30, 200, 100)
+	love.graphics.draw(self.scoreBackground, 30, 30)
 	love.graphics.setColor(255, 0, 0)
-	love.graphics.printf("Flips: " .. self.score, 40, 50, 1000, "left")
+	love.graphics.printf("Flips: " .. self.score, 80, 90, 300, "left")
 	love.graphics.setColor(255, 255, 255)
 
 	if self:isTouchingInteractable(level)[1]~="nothing" then

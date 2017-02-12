@@ -8,6 +8,7 @@ node g
 node h
 node i
 node j
+node k
 
 output F
 
@@ -15,4 +16,5 @@ not g a
 and h g b
 and i c d
 nand j g h
-and F j g
+and k j g
+and F k e
