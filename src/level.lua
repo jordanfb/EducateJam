@@ -27,10 +27,14 @@ function Level:_init(game, player)
 		self.terminalImages[i] = love.graphics.newImage('art/wallLayerWithTerminal'..i..'.png')
 	end 
 	
-	self.leverAnimation = 0
 	self.leverImages = {}
 	for i = 1, 5 do
 		self.leverImages[i] = love.graphics.newImage('art/wallTileWithLever'..i..'.png')
+	end 
+	
+	self.doorImages = {}
+	for i = 1, 5 do
+		self.doorImages[i] = love.graphics.newImage('art/doorGameJam'..i..'.png')
 	end 
 
 	local lines = {}	
@@ -73,7 +77,7 @@ function Level:_init(game, player)
 			elseif string.byte(tile) >= string.byte('a') and string.byte(tile) <= string.byte("j") then
 				table.insert(self.levers, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, key=tile, animation = 0, animating = false, on=false})
 			elseif string.byte(tile) >= string.byte('A') and string.byte(tile) <= string.byte("J") then
-				table.insert(self.doors, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h=3*self.tileSize, key=tile, open = false})
+				table.insert(self.doors, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h=3*self.tileSize, key=tile, open = false, animation = 0})
 			elseif string.byte(tile) >= string.byte('A') and string.byte(tile) <= string.byte("T") then
 				table.insert(self.terminals, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h=self.tileSize})
 			elseif tile == '_' then
@@ -145,14 +149,15 @@ function Level:draw()
 		end
 	end
 	
-	love.graphics.setColor(0, 155, 0)
 	for i, door in pairs(self.doors) do
-		if door["open"] then
-			love.graphics.rectangle("fill", door.x + self.camera.x, door.y + self.camera.y, 0.2 * door.w, door.h)
+		love.graphics.draw(wallImage, door.x + self.camera.x, door.y + self.camera.y)
+		if door.open then
+			love.graphics.draw(self.doorImages[math.floor(door.animation)+1], door.x + self.camera.x, door.y - self.tileSize + self.camera.y)
 		else
-			love.graphics.rectangle("fill", door.x + self.camera.x, door.y + self.camera.y, door.w, door.h)
+			love.graphics.draw(self.doorImages[math.floor(door.animation)+1], door.x + self.camera.x, door.y - self.tileSize + self.camera.y)
 		end
 	end
+	
 	
 	love.graphics.setColor(255, 255, 255)
 	for i, terminal in pairs(self.terminals) do
@@ -190,6 +195,18 @@ function Level:animate(dt)
 			lever.animation = 4
 		elseif lever.animation < 0 then
 			lever.animation = 0
+		end
+	end
+	for i, door in pairs(self.doors) do
+		if door.open and door.animation < 4 then
+			door.animation = door.animation + .4
+		elseif not door.open and door.animation > 0 then
+			door.animation = door.animation - .4
+		end
+		if door.animation > 4 then
+			door.animation = 4
+		elseif door.animation < 0 then
+			door.animation = 0
 		end
 	end
 end
