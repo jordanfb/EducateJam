@@ -27,6 +27,13 @@ function Player:_init(game)
 	self.ladderSpeed = 160*2 		--Rate at which a player climbs ladders
 	self.maxSpeed = 70
 	self.friction = 2
+	
+	self.walkAnimation = 0
+	
+	self.walkImages = {}
+	for i = 1, 12, 1 do
+		self.walkImages[i] = love.graphics.newImage('art/playerWalk'..i..'.png')
+	end 
 end
 
 --Returns the sign of the number passed in
@@ -58,7 +65,12 @@ end
 
 --Draws the rectangle
 function Player:draw(camera)
-	love.graphics.rectangle("fill", self.x + camera.x, self.y + camera.y, self.w, self.h)		--Placeholder
+	if self.facing==1 then
+		love.graphics.draw(self.walkImages[math.floor(self.walkAnimation)+1], self.x + camera.x - self.w/2, self.y + camera.y, 0, self.facing, 1)		--Placeholder
+	else
+		love.graphics.draw(self.walkImages[math.floor(self.walkAnimation)+1], self.x + camera.x + self.w, self.y + camera.y, 0, self.facing, 1)		--Placeholder
+	end
+	
 	--if self.touchingLadder then
 	--	love.graphics.printf("TOUCHING LADDER", 300, 300, 300, "right")
 	--end
@@ -192,6 +204,10 @@ function Player:movePlayer(dt)
 
 end
 
+function Player:animate(dt)
+	self.walkAnimation = (self.walkAnimation+.1)%12
+end
+
 --Moves the player
 function Player:update(dt, level)
 	
@@ -204,6 +220,7 @@ function Player:update(dt, level)
 		self.dy = 0
 	end
 	
+	self:animate(dt)
 	self:ladderCollisions(dt, level)
 	self:gravityCollisions(dt, level)
 	self:getInput(level)

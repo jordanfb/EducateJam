@@ -111,6 +111,9 @@ end
 
 function Level:keypressed(key, unicode)
 	self.player:keypressed(key, unicode, self)
+	if key == "escape" then
+		self.game:addToScreenStack(self.game.pauseMenu)
+	end
 end
 
 function Level:keyreleased(key, unicode)
