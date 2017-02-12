@@ -76,41 +76,56 @@ end
 function Player:gravityCollisions(dt, level)
 	--level has level.walls, which holds (x, y, w)
 	for i, wall in pairs(level.walls) do
-		if self.x + self.w > wall.x and self.x < wall.x + wall.w then
-			if self.y + self.h <= wall.y + 1 and self.y + self.h + self.dy*dt > wall.y then
-				self.dy = 0
-				self.y = wall.y - self.h
-				self.onGround = true
-			elseif self.y >= wall.y + wall.w - 1 and self.y + self.dy*dt < wall.y + wall.w then
-				self.dy = 0
-				self.y = wall.y + wall.w
-			end
+		self:gravityCollision(dt, level, wall)
+	end
+	for i, door in pairs(level.doors) do
+		self:gravityCollision(dt, level, door)
+	end
+end
+
+function Player:gravityCollision(dt, level, wall)
+	if self.x + self.w > wall.x and self.x < wall.x + wall.w then
+		if self.y + self.h <= wall.y + 1 and self.y + self.h + self.dy*dt > wall.y then
+			self.dy = 0
+			self.y = wall.y - self.h
+			self.onGround = true
+		elseif self.y >= wall.y + wall.h - 1 and self.y + self.dy*dt < wall.y + wall.h then
+			self.dy = 0
+			self.y = wall.y + wall.h
 		end
 	end
 end
+
 --Runs collision checking
 function Player:movementCollisions(dt, level)
 	--level has level.walls, which holds (x, y, w)
 	for i, wall in pairs(level.walls) do
-		if self.y + self.h > wall.y + 1 and self.y < wall.y + wall.w then
-			if self.x < wall.x + wall.w and self.x > wall.x + 5*wall.w/6 then
-				self.dx = 0
-				self.x = wall.x + wall.w
-			elseif self.x + self.w > wall.x and self.x < wall.x - 5*wall.w/6 then
-				self.dx = 0
-				self.x = wall.x - self.w
-			end
+		self:movementCollision(dt, level, wall)
+	end
+	for i, door in pairs(level.doors) do
+		self:movementCollision(dt, level, door)
+	end
+end
+
+function Player:movementCollision(dt, level, wall)
+	if self.y + self.h > wall.y + 1 and self.y < wall.y + wall.h then
+		if self.x < wall.x + wall.w and self.x > wall.x + 5*wall.w/6 then
+			self.dx = 0
+			self.x = wall.x + wall.w
+		elseif self.x + self.w > wall.x and self.x < wall.x - 5*wall.w/6 then
+			self.dx = 0
+			self.x = wall.x - self.w
 		end
-		if self.x + self.w > wall.x + 1 and self.x < wall.x + wall.w then
-			if self.y < wall.y + wall.w and self.y > wall.y + 5*wall.w/6 then
-				self.dy = 0
-				self.y = wall.y + wall.w
-			elseif self.y + self.h > wall.y and self.y < wall.y - 5*wall.w/6 and self.onLadder then
-				self.dy = 0
-				self.onGround = true
-				self.y = wall.y - self.h
-			end	
-		end
+	end
+	if self.x + self.w > wall.x + 1 and self.x < wall.x + wall.w then
+		if self.y < wall.y + wall.h and self.y > wall.y + 5*wall.h/6 then
+			self.dy = 0
+			self.y = wall.y + wall.h
+		elseif self.y + self.h > wall.y and self.y < wall.y - 5*wall.h/6 and self.onLadder then
+			self.dy = 0
+			self.onGround = true
+			self.y = wall.y - self.h
+		end	
 	end
 end
 

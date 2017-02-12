@@ -9,17 +9,18 @@ function Level:_init(game, player)
 	self.player = player
 	self.walls = {}
 	self.ladders = {}
+	self.doors = {}
 	self.levers = {}
 	self.levelArray = {{'w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'},
 					   {'w',' ',' ',' ','w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'},
 					   {'w',' ',' ',' ','l',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'},
 					   {'w',' ',' ',' ','l',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'},
 					   {'w','w','w','w','l',' ','w','w','w','w','w','w','w','w','w','w'},
-					   {'w',' ',' ',' ','l',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'},
-					   {'w',' ',' ',' ','l',' ',' ',' ','w','w',' ',' ',' ',' ',' ','w'},
-					   {'w',' ',' ',' ','l',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'},
-					   {'w',' ',' ',' ','l',' ',' ',' ',' ',' ','(',' ',' ',' ',' ','w'},
-					   {'w',' ',' ',' ','l',' ','w',' ',' ',' ',' ',' ',' ',' ',' ','w'},
+					   {'w',' ',' ',' ','l',' ',' ',' ',' ',' ',' ',' ','w',' ',' ','w'},
+					   {'w',' ',' ',' ','l',' ',' ',' ','w','w',' ',' ','w',' ',' ','w'},
+					   {'w',' ',' ',' ','l',' ',' ',' ',' ',' ',' ',' ','D',' ',' ',' '},
+					   {'w',' ',' ',' ','l',' ',' ',' ',' ',' ','(',' ',' ',' ',' ',' '},
+					   {'w',' ',' ',' ','l',' ','w',' ',' ',' ',' ',' ',' ',' ',' ',' '},
 					   {'w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w'},}
 
 	self.tileSize = 160
@@ -29,17 +30,18 @@ function Level:_init(game, player)
 	for y, row in pairs(self.levelArray) do
 		for x, tile in pairs(row) do
 			if tile == 'w' then
-				table.insert(self.walls, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize})
+				table.insert(self.walls, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h = self.tileSize})
 			elseif tile == 'l' then
 				table.insert(self.ladders, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize})
 			elseif tile == '(' then
 				table.insert(self.levers, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, on=false})
 			elseif tile == ')' then
 				table.insert(self.levers, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, on=true})
+			elseif tile == 'D' then
+				table.insert(self.doors, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h=3*self.tileSize})
 			end
 		end
 	end
-	
 	self.screen = {w = 1920, h = 1080}
 	self.cameraBuffer = 900
 end
@@ -71,13 +73,17 @@ function Level:draw()
 		else
 			love.graphics.setColor(155, 0, 0)
 		end
-			love.graphics.rectangle("fill", lever.x + self.camera.x, lever.y + self.camera.y, lever.w, lever.w)
+		love.graphics.rectangle("fill", lever.x + self.camera.x, lever.y + self.camera.y, lever.w, lever.w)
+	end
+	
+	love.graphics.setColor(0, 155, 0)
+	for i, door in pairs(self.doors) do
+		love.graphics.rectangle("fill", door.x + self.camera.x, door.y + self.camera.y, door.w, door.h)
 	end
 	
 	love.graphics.setColor(255, 255, 255)
 	self.player:draw(self.camera)
 end
-
 
 function Level:cameraUpdate(dt)
 	self.camera.x = self.camera.x + self.camera.dx*dt
