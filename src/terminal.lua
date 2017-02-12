@@ -3,6 +3,7 @@
 
 
 require "class"
+require "circuit"
 
 Terminal = class()
 
@@ -13,6 +14,15 @@ function Terminal:_init(game)
 	self.drawUnder = true
 	self.updateUnder = false
 	self.game = game
+	self.circuit = Circuit("testmap1.txt")
+	for k, v in pairs(self.circuit.inputs) do
+		self.circuit.inputs[k] = true
+	end
+	self.circuit:evaluate()
+	for k, v in pairs(self.circuit.outputs) do
+		print("Output "..k.." = ")
+		print(v)
+	end
 end
 
 function Terminal:load()
