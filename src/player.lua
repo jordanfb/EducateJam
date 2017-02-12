@@ -202,7 +202,7 @@ end
 function Player:ladderCollisions(dt, level)
 	self.touchingLadder = false
 	for i, ladder in pairs(level.ladders) do
-		if self.y > ladder.y or self.y < ladder.y + ladder.w then
+		if self.y +self.h > ladder.y and self.y < ladder.y + ladder.w then
 			if self.x + self.w > ladder.x + (1/2)*ladder.w and self.x < ladder.x + (1/2)*ladder.w then
 				self.touchingLadder = true
 				return
