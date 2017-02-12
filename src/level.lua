@@ -16,6 +16,7 @@ function Level:_init(game, player)
 	self.levelArray = {}
 	self.backgrounds = {}
 	self.terminals = {}
+	self.gates = {}
 
 	ladderImage = love.graphics.newImage('art/wallTileWithLadder.png')
 	wallImage = love.graphics.newImage('art/wallTile1.png')
@@ -78,7 +79,9 @@ function Level:_init(game, player)
 				table.insert(self.levers, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, key=tile, animation = 0, animating = false, on=false})
 			elseif string.byte(tile) >= string.byte('A') and string.byte(tile) <= string.byte("J") then
 				table.insert(self.doors, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h=3*self.tileSize, key=tile, open = false, animation = 0})
-			elseif string.byte(tile) >= string.byte('A') and string.byte(tile) <= string.byte("T") then
+			elseif string.byte(tile) >= string.byte('1') and string.byte(tile) <= string.byte("9") then
+				table.insert(self.gates, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h=self.tileSize, gate=tile, animation = 0})
+			elseif tile == 'T' then
 				table.insert(self.terminals, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h=self.tileSize})
 			elseif tile == '_' then
 				table.insert(self.backgrounds, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h = self.tileSize})
@@ -158,6 +161,10 @@ function Level:draw()
 		end
 	end
 	
+	love.graphics.setColor(128, 0, 0)
+	for i, gate in pairs(self.gates) do
+		love.graphics.rectangle("fill", gate.x + self.camera.x, gate.y + self.camera.y, gate.w, gate.h)
+	end
 	
 	love.graphics.setColor(255, 255, 255)
 	for i, terminal in pairs(self.terminals) do
