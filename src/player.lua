@@ -43,6 +43,7 @@ function Player:_init(game)
 	for i = 1, 5, 1 do
 		self.idleImages[i] = love.graphics.newImage('art/playerIdle'..i..'.png')
 	end
+	self.fallingImage = love.graphics.newImage('art/playerFalling.png')
 	
 end
 
@@ -260,6 +261,8 @@ function Player:getInput(level)
 		self.dy = self.ladderSpeed
 		self.animation = (self.animation+.1)%4
 	end
+
+	
 end
 
 function Player:movePlayer(dt)
@@ -275,6 +278,9 @@ end
 function Player:animate(dt)
 	if self.onLadder then
 		self.animationType = "climb"
+	end
+	if (self.animationType~="climb" and not self.onGround) then
+		self.animationType = "still"
 	end
 	if self.animationType=="walk" then
 		self.animation = (self.animation+.1)%12
