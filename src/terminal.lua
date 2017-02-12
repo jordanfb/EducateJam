@@ -28,11 +28,15 @@ function Terminal:_init(x, y, w, h, game, currentLevel, level, key)
 	self.out = 0
 	self.selected = 1 -- this will be set to what index this terminal is, so it opens to a cool thing!
 	self.gateImage = nil -- just cause
+	self.inventorySelected = 1
+
 
 	self.backgroundW = self.level.insideTerminalImages.background:getWidth()
 	self.backgroundH = self.level.insideTerminalImages.background:getHeight()
 	self.terminalX = 1920/2-self.backgroundW/2
 	self.terminalY = 1080/2-self.backgroundH/2
+	self.inventoryX = self.terminalX + self.backgroundW
+	self.inventoryY = self.terminalY
 
 	-- self.circuit:evaluate()
 	-- for k, v in pairs(self.circuit.outputs) do
@@ -61,6 +65,11 @@ function Terminal:nameToLogicGateNumber(name)
 		print("TRIED TO GET LOGIC GATE NUMBER OF NOT A GATE")
 		return -1
 	end
+end
+
+function Terminal:logicGateNumberToName(num)
+	local convert = {"buffer", "not", "and", "or", "xor", "nand", "nor"}
+	return convert[num]
 end
 
 function Terminal:setLogicGate(gate, override)
@@ -105,8 +114,8 @@ function Terminal:leave()
 	-- run when the level no longer has control
 end
 
-function Terminal:setColorToNode(node)
-	if self.level.circuit.drawNodes[node] then
+function Terminal:setColorToNode(node, override) -- sets the color to dark
+	if (self.level.circuit.drawNodes[node] and override == nil) then
 		love.graphics.setColor(7, 131, 201)
 	else
 		love.graphics.setColor(104, 104, 104)
@@ -133,11 +142,11 @@ function Terminal:setColorToGate()
 	end
 end
 
-function Terminal:setColorForTile()
-	if self.editable then
+function Terminal:setColorForTile(override) -- use override for the inventory
+	if self.editable == "edit" or override then
 		-- make it tan, since it's editable?
 		-- print("editable")
-		love.graphics.setColor(210, 192, 176)
+		love.graphics.setColor(190, 164, 136)
 	else
 		love.graphics.setColor(193, 193, 193)
 	end
@@ -155,6 +164,22 @@ function Terminal:drawLogicGate()
 	else
 		-- dont' draw anything?
 	end
+end
+
+function Terminal:drawInventory()
+	love.graphics.setColor(255, 255, 255)
+	love.graphics.draw(self.level.inventoryImages.background, self.inventoryX, self.inventoryY)
+	local x = self.inventoryX + 10
+	local y = self.inventoryY
+
+	for k, v in pairs(self.level.player.inventory) do
+		self:setColorForTile(true)
+		-- draw the tile
+		love.graphics.draw(self.level.inventoryImages.tileBackground, x, y+(k-1)*100)
+		self:setColorToNode("nothing", true)
+		-- draw the gate
+	end
+	love.graphics.setColor(255, 255, 255)
 end
 
 function Terminal:draw()
@@ -200,6 +225,7 @@ function Terminal:drawThisOne()
 		print("ERROR! TERMINAL DOESN'T HAVE CORRECT NUMBER OF INPUTS")
 	end
 	self:drawLogicGate()
+	self:drawInventory()
 end
 
 function Terminal:update(dt)
@@ -211,7 +237,7 @@ function Terminal:resize(w, h)
 end
 
 function Terminal:keypressed(key, unicode)
-	print(key)
+	-- print(key)
 	if key == "escape" or key == "joystickb" or key == "e" then
 		self.game:popScreenStack()
 	end

@@ -37,7 +37,7 @@ function Gate:setOutput(gates, nodes, inputs)
 		return true
 	elseif self.gateType == "off" then
 		return falsed
-	elseif self.gateType == nil then
+	elseif self.gateType == "nil" then
 		return false
 	else
 		print("ERROR: INVALID GATE gateTYPE:" .. self.gateType)

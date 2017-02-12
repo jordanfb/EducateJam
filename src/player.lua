@@ -83,7 +83,6 @@ end
 
 --Draws the rectangle
 function Player:draw(level, camera)
-
 	love.graphics.setFont(love.graphics.newFont("fonts/november.ttf", 36))
 	love.graphics.draw(self.scoreBackground, 30, 30)
 	love.graphics.setColor(7, 131, 201)
@@ -92,7 +91,11 @@ function Player:draw(level, camera)
 
 	if self:isTouchingInteractable(level)[1]~="nothing" then
 		-- love.graphics.setFont(love.graphics.newFont("fonts/november.ttf", 36))
-		love.graphics.printf("PRESS E", self:isTouchingInteractable(level)[3] + camera.x, self:isTouchingInteractable(level)[4] + camera.y - 80, level.tileSize, "center")
+		local keybuttonthing = "E"
+		if self.game.useJoystick then
+			keybuttonthing = "A"
+		end
+		love.graphics.printf("PRESS "..keybuttonthing, self:isTouchingInteractable(level)[3] + camera.x, self:isTouchingInteractable(level)[4] + camera.y - 80, level.tileSize, "center")
 	end
 
 	if self.animationType == "still" then
