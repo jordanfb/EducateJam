@@ -16,7 +16,7 @@ function PauseMenu:_init(game)
 	self.updateUnder = false
 
 	self.game = game
-	self.menu = Menu(self.game, {"Resume", "Exit"})
+	self.menu = Menu(self.game, {"Resume", "Reset", "Exit"})
 	self.SCREENWIDTH = self.game.SCREENWIDTH
 	self.SCREENHEIGHT = self.game.SCREENHEIGHT
 	self.font = love.graphics.newFont(32)
@@ -92,6 +92,9 @@ function PauseMenu:selectButton(choice)
 		-- print("ERROR ON MAIN MENU BUTTON SELECT!!!!")
 		-- do nothing, it's probably fine.
 	elseif choice == "Resume" then
+		self.game:popScreenStack()
+	elseif choice == "Reset" then
+		self.game.level:reset()
 		self.game:popScreenStack()
 	elseif choice == "Exit" then -- exit to menu
 		self.game:popScreenStack()

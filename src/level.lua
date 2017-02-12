@@ -117,6 +117,57 @@ function Level:_init(game, player)
 	end
 
 	self.player:updateAllDoors(self)
+
+	self.resetInfo = {playerx = self.player.x, playery = self.player.y, levers = self:deepcopy(self.levers), camerax = self.camera.x, camery = self.camera.y}
+	print("RESET INFO"..tostring(self.resetInfo.levers==nil))
+end
+
+function Level:deepcopy(orig)
+    local orig_type = type(orig)
+    local copy
+    if orig_type == 'table' then
+        copy = {}
+        for orig_key, orig_value in next, orig, nil do
+            copy[self:deepcopy(orig_key)] = self:deepcopy(orig_value)
+        end
+        setmetatable(copy, self:deepcopy(getmetatable(orig)))
+    else -- number, string, boolean, etc
+        copy = orig
+    end
+    return copy
+end
+
+function Level:copyTable(intable)
+	-- returns a copy of the lever table passed in
+	local t = {}
+	for k, v in pairs(intable) do
+		if type(v) == "table" then
+			t[k] = {unpack(v)}
+		else
+			t[k] = v
+		end
+	end
+	-- local t = {}
+	-- for k, v in pairs(table) do
+	-- 	if type(v) == "table" then
+	-- 		print("EWNT RECURSIVE")
+	-- 		t[k] = self:copyTable(v)
+	-- 	else
+	-- 		t[k] = v
+	-- 		print(k.." = "..tostring(v))
+	-- 	end
+	-- end
+	return t
+end
+
+function Level:reset()
+	print("PLAYER LOC "..tostring(type(self.resetInfo.cameray)=="number"))
+	self.player:reset(self.resetInfo.playerx, self.resetInfo.playery)
+	self.levers = self:deepcopy(self.resetInfo.levers)
+	-- print("MADE LEVER"..tostring(self.resetInfo.levers==nil))
+	self.camera.x = self.resetInfo.camerax
+	self.camera.y = 0--self.resetInfo.cameray
+	self.player:updateAllDoors(self)
 end
 
 function Level:load()
