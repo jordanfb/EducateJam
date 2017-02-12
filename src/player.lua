@@ -176,10 +176,10 @@ function Player:getInput(level)
 		self.dy = self.ladderSpeed
 	end
 	if love.keyboard.isDown("space") then
-		self.onLadder = false
-		if self.onGround then
+		if self.onGround or self.onLadder then
 			self.dy = -self.jumpStrength
 		end
+		self.onLadder = false
 	end
 end
 
