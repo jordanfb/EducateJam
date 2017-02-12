@@ -1,7 +1,7 @@
 
 Welcome to the story of our brave explorer, utilizing logic to find the treasures of the lost space colony
 art/playerFalling.png
-To navigate through the elaborate lair, you must utilize the information available to you and select the correct levers to proceed
+The terminals throughout the abandoned lair display logic gates that can open the doors associated with the output symbol, allowing you to get closer to whatever this alien landscape holds.
 art/wallTileWithLever5.png
 It seems that the various symbols and gates relate to different functions, suggesting that learning the codes could fast track your journey to riches
 art/runeHBlue.png
