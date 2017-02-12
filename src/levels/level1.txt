@@ -9,7 +9,7 @@ wl    w           ww
 wl    w           ww
 wl    B           lw
 wl        T  b    lw
-wl                lw
+wl 1              lw
 wwwwwwwwwwwwwwwwwwlw
 w             w   lw
 w             w   lw

@@ -176,19 +176,19 @@ end
 
 function Player:movementCollision(dt, level, wall)
 	if self.y + self.h > wall.y + 1 and self.y < wall.y + wall.h then
-		if self.x < wall.x + wall.w and self.x > wall.x + 5*wall.w/6 then
+		if self.x < wall.x + wall.w and self.x > wall.x + 3*wall.w/4 then
 			self.dx = 0
 			self.x = wall.x + wall.w
-		elseif self.x + self.w > wall.x and self.x < wall.x - 5*wall.w/6 then
+		elseif self.x + self.w > wall.x and self.x < wall.x - 3*wall.w/4 then
 			self.dx = 0
 			self.x = wall.x - self.w
 		end
 	end
 	if self.x + self.w > wall.x + 1 and self.x < wall.x + wall.w then
-		if self.y < wall.y + wall.h and self.y > wall.y + 5*wall.h/6 then
+		if self.y < wall.y + wall.h and self.y > wall.y + 3*wall.h/4 then
 			self.dy = 0
 			self.y = wall.y + wall.h
-		elseif self.y + self.h > wall.y and self.y < wall.y - 5*wall.h/6 and self.onLadder then
+		elseif self.y + self.h > wall.y and self.y < wall.y - 3*wall.h/4 and self.onLadder then
 			if self.dy > 0 then
 				self.onGround = true
 				self.onLadder = false

@@ -16,6 +16,7 @@ function Level:_init(game, player)
 	self.levelArray = {}
 	self.backgrounds = {}
 	self.terminals = {}
+	self.gates = {}
 
 	ladderImage = love.graphics.newImage('art/wallTileWithLadder.png')
 	wallImage = love.graphics.newImage('art/wallTile1.png')
@@ -27,10 +28,14 @@ function Level:_init(game, player)
 		self.terminalImages[i] = love.graphics.newImage('art/wallLayerWithTerminal'..i..'.png')
 	end 
 	
-	self.leverAnimation = 0
 	self.leverImages = {}
 	for i = 1, 5 do
 		self.leverImages[i] = love.graphics.newImage('art/wallTileWithLever'..i..'.png')
+	end 
+	
+	self.doorImages = {}
+	for i = 1, 5 do
+		self.doorImages[i] = love.graphics.newImage('art/doorGameJam'..i..'.png')
 	end 
 
 	local lines = {}	
@@ -73,8 +78,10 @@ function Level:_init(game, player)
 			elseif string.byte(tile) >= string.byte('a') and string.byte(tile) <= string.byte("j") then
 				table.insert(self.levers, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, key=tile, animation = 0, animating = false, on=false})
 			elseif string.byte(tile) >= string.byte('A') and string.byte(tile) <= string.byte("J") then
-				table.insert(self.doors, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h=3*self.tileSize, key=tile, open = false})
-			elseif string.byte(tile) >= string.byte('A') and string.byte(tile) <= string.byte("T") then
+				table.insert(self.doors, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h=3*self.tileSize, key=tile, open = false, animation = 0})
+			elseif string.byte(tile) >= string.byte('1') and string.byte(tile) <= string.byte("9") then
+				table.insert(self.gates, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h=self.tileSize, gate=tile, animation = 0})
+			elseif tile == 'T' then
 				table.insert(self.terminals, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h=self.tileSize})
 			elseif tile == '_' then
 				table.insert(self.backgrounds, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h = self.tileSize})
@@ -109,6 +116,57 @@ function Level:_init(game, player)
 		self.player:reset(tempX, tempY)
 	end
 
+	self.player:updateAllDoors(self)
+
+	self.resetInfo = {playerx = self.player.x, playery = self.player.y, levers = self:deepcopy(self.levers), camerax = self.camera.x, camery = self.camera.y}
+	print("RESET INFO"..tostring(self.resetInfo.levers==nil))
+end
+
+function Level:deepcopy(orig)
+    local orig_type = type(orig)
+    local copy
+    if orig_type == 'table' then
+        copy = {}
+        for orig_key, orig_value in next, orig, nil do
+            copy[self:deepcopy(orig_key)] = self:deepcopy(orig_value)
+        end
+        setmetatable(copy, self:deepcopy(getmetatable(orig)))
+    else -- number, string, boolean, etc
+        copy = orig
+    end
+    return copy
+end
+
+function Level:copyTable(intable)
+	-- returns a copy of the lever table passed in
+	local t = {}
+	for k, v in pairs(intable) do
+		if type(v) == "table" then
+			t[k] = {unpack(v)}
+		else
+			t[k] = v
+		end
+	end
+	-- local t = {}
+	-- for k, v in pairs(table) do
+	-- 	if type(v) == "table" then
+	-- 		print("EWNT RECURSIVE")
+	-- 		t[k] = self:copyTable(v)
+	-- 	else
+	-- 		t[k] = v
+	-- 		print(k.." = "..tostring(v))
+	-- 	end
+	-- end
+	return t
+end
+
+function Level:reset()
+	print("PLAYER LOC "..tostring(type(self.resetInfo.cameray)=="number"))
+	self.player:reset(self.resetInfo.playerx, self.resetInfo.playery)
+	self.levers = self:deepcopy(self.resetInfo.levers)
+	-- print("MADE LEVER"..tostring(self.resetInfo.levers==nil))
+	self.camera.x = self.resetInfo.camerax
+	self.camera.y = 0--self.resetInfo.cameray
 	self.player:updateAllDoors(self)
 end
 
@@ -145,13 +203,18 @@ function Level:draw()
 		end
 	end
 	
-	love.graphics.setColor(0, 155, 0)
 	for i, door in pairs(self.doors) do
-		if door["open"] then
-			love.graphics.rectangle("fill", door.x + self.camera.x, door.y + self.camera.y, 0.2 * door.w, door.h)
+		love.graphics.draw(wallImage, door.x + self.camera.x, door.y + self.camera.y)
+		if door.open then
+			love.graphics.draw(self.doorImages[math.floor(door.animation)+1], door.x + self.camera.x, door.y - self.tileSize + self.camera.y)
 		else
-			love.graphics.rectangle("fill", door.x + self.camera.x, door.y + self.camera.y, door.w, door.h)
+			love.graphics.draw(self.doorImages[math.floor(door.animation)+1], door.x + self.camera.x, door.y - self.tileSize + self.camera.y)
 		end
+	end
+	
+	love.graphics.setColor(128, 0, 0)
+	for i, gate in pairs(self.gates) do
+		love.graphics.rectangle("fill", gate.x + self.camera.x, gate.y + self.camera.y, gate.w, gate.h)
 	end
 	
 	love.graphics.setColor(255, 255, 255)
@@ -190,6 +253,18 @@ function Level:animate(dt)
 			lever.animation = 4
 		elseif lever.animation < 0 then
 			lever.animation = 0
+		end
+	end
+	for i, door in pairs(self.doors) do
+		if door.open and door.animation < 4 then
+			door.animation = door.animation + .4
+		elseif not door.open and door.animation > 0 then
+			door.animation = door.animation - .4
+		end
+		if door.animation > 4 then
+			door.animation = 4
+		elseif door.animation < 0 then
+			door.animation = 0
 		end
 	end
 end
