@@ -30,7 +30,6 @@ function Level:_init(game, player)
 	self.gateAnimation = 0
 	self.torchAnimation = 0
 	
-	
 	self.wallImages = {}
 	for i = 1, 4 do
 		self.wallImages[i] = love.graphics.newImage('art/wallTile'..i..'.png')
