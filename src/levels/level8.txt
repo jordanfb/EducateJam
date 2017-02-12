@@ -5,9 +5,13 @@ w   . . . . . . . . . . HHHHHH . w
 w _  ! a b c d e f g          ,  w
 w                                w
 wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+
+
+
+@#$%^&*(
 --INITIAL STATUS--
 --TERMINAL STATUS--
-terminal ! not const p q
+terminal ! not const p a
 terminal @ and const i p b
 terminal # xor const j c d
 terminal $ not const k e
