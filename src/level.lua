@@ -14,10 +14,16 @@ function Level:_init(game, player)
 	self.levers = {}
 	self.levelArray = {}
 	self.backgrounds = {}
+	
+	ladderImage = love.graphics.newImage('art/wallTileWithLadder.png')
+	wallImage = love.graphics.newImage('art/wallTile1.png')
+	foregroundImage = love.graphics.newImage('art/foregroundWallTile.png')
+	
+
 	local lines = {}			
 	
 	for line in love.filesystem.lines('level1.txt') do
-		if line == "--buttons--" then
+		if line == "--INITIAL STATUS --" then
 			break
 		end
 		lines[#lines + 1] = line
@@ -27,19 +33,17 @@ function Level:_init(game, player)
 		end
 	end
 
-	local lineCount = 0
+	local configs = false	--set to true after reaching line --INITIAL STATUS --
+	local words = {}
 	for line in love.filesystem.lines('level1.txt') do
-		lineCount = lineCount + 1
-		if lineCount > #self.levelArray then
-			for word in line:gmatch("%w+") do
-				table.insert(line, word)
-			end
+		if configs then
+			for word in line:gmatch("%w+") do table.insert(words, word) end
+		end
+		if line == "--INITIAL STATUS --" then
+			configs = true
 		end
 	end
-	
-	ladderImage = love.graphics.newImage('art/wallTileWithLadder.png')
-	wallImage = love.graphics.newImage('art/wallTile1.png')
-	foregroundImage = love.graphics.newImage('art/foregroundWallTile.png')
+
 	
 	self.tileSize = 160
 	
@@ -62,6 +66,14 @@ function Level:_init(game, player)
 	end
 	self.screen = {w = 1920, h = 1080}
 	self.cameraBuffer = 900
+
+
+	for i = 1, #words, 2 do
+		print("LEVEL 72" .. words[i]..words[i+1])
+		if words[i + 1] == "on" then
+			self.levers[i]["on"] = true
+		end
+	end
 
 	self.player:updateAllDoors(self)
 end
