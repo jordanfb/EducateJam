@@ -1,9 +1,20 @@
-node a
-node b
+input a
+input b
+input c
+input d
+input e
 
-output C
+node g
+node h
+node i
+node j
+node k
 
-on a
-on b
+output F
 
-nil C a b
+not g a
+and h g b
+and i c d
+nand j g h
+and k j g
+and F k e

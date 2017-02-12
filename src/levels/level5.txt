@@ -1,10 +1,22 @@
 w          w
 w          w
-w        www
-w       C  w
-w _3 !     w
 w          w
+w         ww
+w        F  
+w _!abcde   
+w           
 wwwwwwwwwwww
+
+
+@#$%^
 --INITIAL STATUS--
+a on
+b on
+d on
 --TERMINAL STATUS--
-terminal ! nil edit C a b
+terminal ! not const g a
+terminal @ and const h g b
+terminal # and const i c d
+terminal $ nand const j g h
+terminal % and const F j g
+terminal ^ and const F k e

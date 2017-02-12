@@ -1,22 +1,22 @@
-w          w
-w          w
-w          w
-w         ww
-w        F  
-w _!abcde   
-w           
-wwwwwwwwwwww
+w                    w
+wwwww w         w wwww
+w    Hl         lG   w
+w d   l         l  e w
+w     l         l    w
+wwwwwwl         lwwwww
+w    Jl         lI    
+w _a  l  b ! c  l     
+w     l         l     
+wwwwwwwwwwwwwwwwwwwwww
 
 
 @#$%^
 --INITIAL STATUS--
-a on
-b on
 d on
 --TERMINAL STATUS--
-terminal ! not const g a
-terminal @ and const h g b
-terminal # and const i c d
-terminal $ nand const j g h
-terminal % and const F j g
-terminal ^ and const F k e
+terminal ! not const G c
+terminal @ and const e b d
+terminal # xor const H e c
+terminal $ xor const f a b
+terminal % or const J f c
+terminal ^ nor const I a d

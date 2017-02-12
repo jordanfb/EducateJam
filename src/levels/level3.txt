@@ -1,22 +1,36 @@
-w                    w
-wwwww w         w wwww
-w    Hl         lG   w
-w d   l         l  e w
-w     l         l    w
-wwwwwwl         lwwwww
-w    Jl         lI    
-w _a  l  b ! c  l     
-w     l         l     
-wwwwwwwwwwwwwwwwwwwwww
+wwwwwwwwwwwwwwwwww
+w      w   w    ww
+w      w   w    ww
+w      I   J    lw
+w_  ! a  b      lw
+w               lw
+wwwwwwwwwwwwwwwwlw
+ww   w  w  w    lw
+ww   w  w  w    lw
+wl   H  G  F    lw
+wl    e  d  c@  lw
+wl              lw
+wlwwwwwwwwwwwwwwww
+wl          w    w
+wl          A    w
+wl   #f g h        
+wl                
+wl   wwwwwwwww    
+wwwwwwwwwwwwwwwwww
 
 
-@#$%^
+$%^&
 --INITIAL STATUS--
-d on
+f on
+g on
+h on
 --TERMINAL STATUS--
-terminal ! not const G c
-terminal @ and const e b d
-terminal # xor const H e c
-terminal $ xor const f a b
-terminal % or const J f c
-terminal ^ nor const I a d
+terminal ! or const I a b
+terminal $ not const J a
+
+terminal @ buffer const F c
+terminal ^ xor const G c e
+terminal % and const H d e
+
+terminal # nor const i f h
+terminal & and const A i g

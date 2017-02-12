@@ -1,0 +1,17 @@
+node d
+node e
+node f
+node g
+node h
+node i
+node j
+node k
+
+output A
+output B
+output C
+
+nil A d e
+nil B f g
+nil k h i
+nil C k j

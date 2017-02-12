@@ -2,18 +2,26 @@ input a
 input b
 input c
 input d
+input e
+input f
+input g
+input h
 
-node e
-node f
+node i
 
+output A
+output F
 output G
 output H
 output I
 output J
 
-not G c
-and e b d
-xor H e c
-xor f a b
-or J f c
-nor I a d
+or I a b
+not J a
+
+xor G c e
+buffer F c
+and H d e
+
+nor i f h
+and A i g

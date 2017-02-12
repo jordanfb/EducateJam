@@ -1,0 +1,28 @@
+wwwwwwwwwwwwwwwwww
+w        w      ww
+w               ww
+w        A      lw
+w_ 4 !          lw
+w               lw
+wwwwwwwwwwwwwwwwlw
+ww       w      lw
+ww              lw
+wl       B 3 @  lw
+wl              lw
+wl ww           lw
+wlwwwwwwwwwwwwwwww
+wl            wwww
+wl             www
+wl            C    
+wl 5 # 4  6      
+wl                
+wwwwwwwwwwwwwwwwww
+
+
+$
+--INITIAL CONFIGS--
+--TERMINAL CONFIGS--
+terminal ! nil edit A d e
+terminal @ nil edit B f g
+terminal # nil edit k h i
+terminal $ nil edit C k j
