@@ -89,6 +89,9 @@ function Circuit:evaluate()
 		-- print("type of possible gate "..type(g))
 		self.outputs[k] = g:evaluate(self.gates, self.drawNodes, self.inputs)
 	end
+	for k, v in pairs(self.outputs) do
+		self.drawNodes[k] = v
+	end
 end
 
 

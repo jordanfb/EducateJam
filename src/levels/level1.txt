@@ -17,7 +17,8 @@ w             E   lw
 w_      ! a       lw
 w    w            lw
 wwwwwwwwwwwwwwwwwwww
---INITIAL STATUS --
-terminal ! buffer E a
-terminal @ not F b
-terminal # and G d c
+--INITIAL STATUS--
+--TERMINAL STATUS--
+terminal ! buffer edit E a
+terminal @ not edit F b
+terminal # and edit G d c

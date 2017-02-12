@@ -52,7 +52,18 @@ function Level:_init(game, player)
 		self.greyRunes[string.char(i)] = love.graphics.newImage('art/rune'..string.char(i)..'Grey.png')
 	end 
 
-	
+	local oneInputImages = {background = love.graphics.newImage('art/2NodesOneGate.png'),
+												inA = love.graphics.newImage('art/2NodesWire1.png'),
+												out = love.graphics.newImage('art/2NodesWire2.png')}
+	local twoInputImages = {background = love.graphics.newImage('art/3NodesOneGate.png'),
+												inA = love.graphics.newImage('art/3NodesWire1.png'),
+												inB = love.graphics.newImage('art/3NodesWire2.png'),
+												out = love.graphics.newImage('art/3NodesWire3.png')}
+	self.insideTerminalImages = {background = love.graphics.newImage('art/terminalBackground.png'),
+							oneInputImages = oneInputImages,
+							twoInputImages = twoInputImages,
+						}
+
 	self:initialize()
 end
 
@@ -70,7 +81,7 @@ function Level:initialize()
 	local lines = {}	
 	
 	for line in love.filesystem.lines('levels/level'..self.currentLevel..'.txt') do
-		if line == "--INITIAL STATUS --" then
+		if line == "--INITIAL STATUS--" then
 			break
 		end
 		lines[#lines + 1] = line
@@ -83,17 +94,31 @@ function Level:initialize()
 	local configs = false	--set to true after reaching line --INITIAL STATUS --
 	local words = {}
 	for line in love.filesystem.lines('levels/level'..self.currentLevel..'.txt') do
+		if line == "--TERMINAL STATUS--" then
+			break
+		end
 		if configs then
 			for word in line:gmatch("%w+") do table.insert(words, word) end
 		end
-		if line == "--INITIAL STATUS --" then
+		if line == "--INITIAL STATUS--" then
+			configs = true
+		end
+	end
+	local terminalSetupTable = {}
+	configs = false
+	for line in love.filesystem.lines('levels/level'..self.currentLevel..'.txt') do
+		if configs then
+			local subtable = {}
+			for word in line:gmatch("([^%s]+)") do table.insert(subtable, word) end
+			table.insert(terminalSetupTable, subtable)
+		end
+		if line == "--TERMINAL STATUS--" then
 			configs = true
 		end
 	end
 
 
 	self.tileSize = 160
-	
 	self.camera = {x = 0, y = 600, dx = 0, dy = 0}
 
 	for y, row in pairs(self.levelArray) do
@@ -122,6 +147,23 @@ function Level:initialize()
 	end
 	self.screen = {w = 1920, h = 1080}
 	self.cameraBuffer = 900
+
+	for k, t in pairs(terminalSetupTable) do
+		-- print("SETTING TERMINALS")
+		-- print("trying to find "..t[2])
+		if t[1] == "terminal" then
+			for i, terminal in pairs(self.terminals) do
+				if terminal.key == t[2] then
+					-- print("Found it")
+					if #t == 7 then -- then it has two inputs
+						terminal:setTerminalData(2, i, t[3], t[4], t[5], t[6], t[7])
+					elseif #t == 6 then -- then it only has one gate
+						terminal:setTerminalData(1, i, t[3], t[4], t[5], t[6])
+					end
+				end
+			end
+		end
+	end
 
 	local tempX = nil
 	local tempY = nil
