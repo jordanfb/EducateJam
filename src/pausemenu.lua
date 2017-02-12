@@ -72,13 +72,18 @@ function PauseMenu:resize(w, h)
 end
 
 function PauseMenu:keypressed(key, unicode)
+	print("key pressed in pause menu: "..key)
 	-- if key == "space" then
 	-- 	self.game.level:reset() -- play
 	-- 	self.game:addToScreenStack(self.game.level)
 	-- end
-	local choice = self.menu:keypressed(key, unicode)
-	if choice ~= nil then
-		self:selectButton(choice)
+	if key == "joysticka" then
+		local choice = self.menu:keypressed(key, unicode)
+		if choice ~= nil then
+			self:selectButton(choice)
+		end
+	elseif key == "joystickb" then
+		self:selectButton("Resume")
 	end
 end
 

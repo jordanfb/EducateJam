@@ -16,6 +16,9 @@ function Level:_init(game, player)
 	local lines = {}			
 	
 	for line in love.filesystem.lines('level1.txt') do
+		if line == "--buttons--" then
+			break
+		end
 		lines[#lines + 1] = line
 		self.levelArray[#self.levelArray + 1] = {}
 		for i = 1, #line, 1 do
@@ -23,6 +26,18 @@ function Level:_init(game, player)
 		end
 	end
 
+	local lineCount = 0
+	for line in love.filesystem.lines('level1.txt') do
+		lineCount = lineCount + 1
+		if lineCount > #self.levelArray then
+			for word in line:gmatch("%w+") do
+				table.insert(line, word)
+			end
+		end
+	end
+	
+	
+	
 	
 	self.tileSize = 160
 	
@@ -34,14 +49,10 @@ function Level:_init(game, player)
 				table.insert(self.walls, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h = self.tileSize})
 			elseif tile == 'l' then
 				table.insert(self.ladders, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize})
-			elseif tile == '(' then
-				table.insert(self.levers, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, on=false})
-			elseif tile == ')' then
-				table.insert(self.levers, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, on=true})
-			elseif tile == 'D' then
-				self.terminal.circuit:evaluate()
-				local doorValue = self.terminal.circuit.outputs["O"]
-				table.insert(self.doors, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h=3*self.tileSize, open = doorValue})
+			elseif string.byte(tile) >= string.byte('a') and string.byte(tile) <= string.byte("j") then
+				table.insert(self.levers, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, key=tile, on=false})
+			elseif string.byte(tile) >= string.byte('A') and string.byte(tile) <= string.byte("J") then
+				table.insert(self.doors, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h=3*self.tileSize, key=tile, open = false})
 			end
 		end
 	end
