@@ -171,8 +171,7 @@ function Player:getInput(level)
 	if love.keyboard.isDown("w") and self.touchingLadder then
 		self.onLadder = true
 		self.dy = - self.ladderSpeed
-	end
-	if love.keyboard.isDown("s") and self.onLadder then
+	elseif love.keyboard.isDown("s") and self.onLadder then
 		self.dy = self.ladderSpeed
 	end
 	if love.keyboard.isDown("space") then
