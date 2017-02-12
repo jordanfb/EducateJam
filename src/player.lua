@@ -351,7 +351,8 @@ function Player:update(dt, level)
 	
 	if self.x + level.camera.x > level.screen.w then
 		level.currentLevel = level.currentLevel + 1
-		level:initialize()
+		self.game:addToScreenStack(self.game.cutscene)
+		-- level:initialize()
 	end
 	
 	self:animate(dt)

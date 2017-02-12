@@ -87,7 +87,7 @@ function MainMenu:selectButton(choice)
 		-- not actually an error, just there
 		-- print("ERROR ON MAIN MENU BUTTON SELECT!!!!")
 	elseif choice == "Play" then
-		self.game:addToScreenStack(self.game.level)
+		self.game:addToScreenStack(self.game.cutscene)
 	elseif choice == "Exit" then
 		love.event.quit()
 	elseif choice == "Test" then
