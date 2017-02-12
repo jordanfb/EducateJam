@@ -10,6 +10,8 @@ function Level:_init(game, player)
 	self.numberOfLogicGateTypes = 7
 	self.game = game
 	self.player = player
+
+	self.totalLevels = 8
 	
 	self.terminalNames = {}
 	self.terminalNames["!"]=true

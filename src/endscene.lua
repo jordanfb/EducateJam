@@ -62,19 +62,6 @@ end
 
 function Cutscene:update(dt)
 	self.time = self.time + dt
-
-	if self.time > self.totalTime then
-		self.game:popScreenStack()
-		if self.game.level.currentLevel >= self.game.level.totalLevels then
-			self.game:addToScreenStackScreenStack(self.endScene)
-		else
-			self.game:addToScreenStack(self.game.level)
-			self.game.level:initialize()
-		end
-	elseif self.time > self.totalTime - self.fadeTime then
-		local value = (self.totalTime - self.time) * 255
-		value = 255 - math.abs(math.floor(value + 0.5))
-		love.graphics.setBackgroundColor(value, value, value)
 	end
 
 
@@ -88,13 +75,8 @@ end
 
 function Cutscene:keypressed(key, unicode)
 	self.game:popScreenStack()
-	if self.game.level.currentLevel >= self.game.level.totalLevels then
-		self.game:addToScreenStackScreenStack(self.endScene)
-	else
-		self.game:addToScreenStack(self.game.level)
-		self.game.level:initialize()
-	end
-end
+	self.game:addToScreenStack(self.game.mainMenu)
+
 
 function Cutscene:selectButton(choice)
 
@@ -110,12 +92,7 @@ end
 
 function Cutscene:mousereleased(x, y, button)
 	self.game:popScreenStack()
-	if self.game.level.currentLevel >= self.game.level.totalLevels then
-		self.game:addToScreenStackScreenStack(self.endScene)
-	else
-		self.game:addToScreenStack(self.game.level)
-		self.game.level:initialize()
-	end
+	self.game:addToScreenStack(self.game.mainMenu)
 end
 
 function Cutscene:mousemoved(x, y, dx, dy, istouch)
