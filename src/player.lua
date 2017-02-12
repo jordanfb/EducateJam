@@ -11,7 +11,7 @@ function Player:_init(game)
 
 	self.dx = 0		--Players X and Y velocity
 	self.dy = 0
-	self.speed = 160*3	--Players X acceleration
+	self.speed = 160*(3.2)	--Players X acceleration
 
 	self.onGround = false		--Tracks if the player is on the ground
 	self.onLadder = false		--Tracks if the player is on a ladder
@@ -283,7 +283,7 @@ function Player:animate(dt)
 		self.animationType = "still"
 	end
 	if self.animationType=="walk" then
-		self.animation = (self.animation+.1)%12
+		self.animation = (self.animation+.2)%12
 	elseif self.animationType=="climb" then
 		--self.animation = (self.animation+.1)%4
 	elseif self.animationType=="still" then

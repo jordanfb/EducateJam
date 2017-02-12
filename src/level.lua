@@ -76,6 +76,9 @@ function Level:_init(game, player)
 				table.insert(self.doors, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h=3*self.tileSize, key=tile, open = false})
 			elseif string.byte(tile) >= string.byte('A') and string.byte(tile) <= string.byte("T") then
 				table.insert(self.terminals, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h=self.tileSize})
+			elseif tile == '_' then
+				table.insert(self.backgrounds, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h = self.tileSize})
+				self.player:reset((x-1)*self.tileSize, (y-1)*self.tileSize)	
 			end
 		end
 	end
