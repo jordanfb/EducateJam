@@ -15,7 +15,9 @@ function Level:_init(game, player)
 	self.levelArray = {}
 	self.backgrounds = {}
 	self.terminals = {}
-	local lines = {}			
+	local lines = {}	
+
+	self.terminalAnimation = 0
 	
 	for line in love.filesystem.lines('level1.txt') do
 		if line == "--buttons--" then
@@ -41,10 +43,14 @@ function Level:_init(game, player)
 	ladderImage = love.graphics.newImage('art/wallTileWithLadder.png')
 	wallImage = love.graphics.newImage('art/wallTile1.png')
 	foregroundImage = love.graphics.newImage('art/foregroundWallTile.png')
+	self.terminalImages = {}
+	for i = 1, 6 do
+		self.terminalImages[i] = love.graphics.newImage('art/wallLayerWithTerminal'..i..'.png')
+	end 
 	
 	self.tileSize = 160
 	
-	self.camera = {x = 0, y = 0, dx = 0, dy = 0}
+	self.camera = {x = 0, y = 600, dx = 0, dy = 0}
 
 	for y, row in pairs(self.levelArray) do
 		for x, tile in pairs(row) do
@@ -113,6 +119,11 @@ function Level:draw()
 	end
 	
 	love.graphics.setColor(255, 255, 255)
+	for i, terminal in pairs(self.terminals) do
+		love.graphics.draw(self.terminalImages[math.floor(self.terminalAnimation)+1], terminal.x + self.camera.x, terminal.y + self.camera.y)
+	end
+	
+	love.graphics.setColor(255, 255, 255)
 	self.player:draw(self.camera)
 end
 
@@ -125,15 +136,20 @@ function Level:cameraUpdate(dt)
 		self.camera.x = -#self.levelArray[1]*self.tileSize + self.screen.w
 	end
 	if self.camera.y > 0 then
-		--self.camera.y = 0
+		self.camera.y = 0
 	elseif self.camera.y < -#self.levelArray*self.tileSize + self.screen.h then
-		--self.camera.y = -#self.levelArray[1]*self.tileSize + self.screen.h
+		self.camera.y = -#self.levelArray[1]*self.tileSize + self.screen.h
 	end
+end
+
+function Level:animate(dt)
+	self.terminalAnimation = (self.terminalAnimation+.1)%6
 end
 
 function Level:update(dt)
 	self.player:update(dt, self)
 	self:cameraUpdate(dt)
+	self:animate(dt)
 end
 
 function Level:resize(w, h)

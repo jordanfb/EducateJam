@@ -104,9 +104,9 @@ end
 
 function Player:keypressed(key, unicode, level)
 	if key=="e" and self.onGround then
-		if self:isTouchingLever(level)[2]=="lever" then
-			level.levers[self:isTouchingLever(level)].on = not level.levers[self:isTouchingLever(level)].on
-			level.terminal.circuit.inputs[level.levers[self:isTouchingLever(level)].key] = not level.terminal.circuit.inputs[level.levers[self:isTouchingLever(level)].key]
+		if self:isTouchingInteractable(level)[1]=="lever" then
+			level.levers[self:isTouchingInteractable(level)[2]].on = not level.levers[self:isTouchingInteractable(level)[2]].on
+			level.terminal.circuit.inputs[level.levers[self:isTouchingInteractable(level)[2]].key] = not level.terminal.circuit.inputs[level.levers[self:isTouchingInteractable(level)[2]].key]
 			-- then evaluate the circuit and open/deal with all doors.
 			self:updateAllDoors(level)
 		end
@@ -209,19 +209,19 @@ end
 
 function Player:isTouchingInteractable(level)
 	for i, lever in pairs(level.levers) do
-		if self:isTouching(lever)~=0 then
-			return {"lever", self:isTouching(lever)}
+		if self:isTouching(lever, i)~=0 then
+			return {"lever", self:isTouching(lever, i)}
 		end
 	end
 	for i, terminal in pairs(level.terminals) do
-		if self:isTouching(lever)~=0 then
-			return {"terminal", self:isTouching(terminal)}
+		if self:isTouching(terminal, i)~=0 then
+			return {"terminal", self:isTouching(terminal, i)}
 		end
 	end
-	return {0, "nothing"}
+	return {"nothing", 0}
 end
 
-function Player:isTouching(item)
+function Player:isTouching(item, i)
 	if self.y + self.h > item.y and self.y < item.y + item.w then
 		if self.x + self.w > item.x and self.x < item.x + item.w then
 			return i
