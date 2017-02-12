@@ -39,6 +39,7 @@ function Player:_init(game)
 	for i = 1, 4, 1 do
 		self.climbImages[i] = love.graphics.newImage('art/playerLadder'..i..'.png')
 	end 
+	self.idleImages = {}
 	
 end
 
@@ -105,6 +106,8 @@ function Player:keypressed(key, unicode, level)
 			level.terminal.circuit.inputs["A"] = not level.terminal.circuit.inputs["A"]
 			level.terminal.circuit:evaluate()
 			level.doors[1]["open"] = level.terminal.circuit.outputs["O"]
+			print("door status")
+			print(level.terminal.circuit.outputs["O"])
 		end
 	end
 end
@@ -116,7 +119,9 @@ function Player:gravityCollisions(dt, level)
 		self:gravityCollision(dt, level, wall)
 	end
 	for i, door in pairs(level.doors) do
-		self:gravityCollision(dt, level, door)
+		if not door["open"] then
+			self:gravityCollision(dt, level, door)
+		end
 	end
 end
 
@@ -140,7 +145,9 @@ function Player:movementCollisions(dt, level)
 		self:movementCollision(dt, level, wall)
 	end
 	for i, door in pairs(level.doors) do
-		self:movementCollision(dt, level, door)
+		if not door["open"] then
+			self:movementCollision(dt, level, door)
+		end
 	end
 end
 

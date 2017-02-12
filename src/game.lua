@@ -6,7 +6,7 @@ require "player"
 require "terminal"
 require "pausemenu"
 -- require "deathmenu"
--- require "joystickmanager"
+require "gamepadmanager"
 
 require "class"
 
@@ -29,6 +29,7 @@ function Game:_init()
 	self.level = Level(self, self.player) -- we should have it load by filename or something.
 	self.mainMenu = MainMenu(self)
 	self.pauseMenu = PauseMenu(self)
+	self.gamepadManager = GamepadManager(self)
 	-- self.player = Player(self)
 	-- self.level= Level(self, self.player)
 	-- self.pauseMenu = PauseMenu(self)
@@ -178,13 +179,13 @@ function Game:mousereleased(x, y, button)
 end
 
 function Game:joystickadded(joystick)
-	self.joystickManager:getJoysticks()
-	self.mainMenu.hasJoysticks = self.joystickManager:hasJoysticks()
+	self.gamepadManager:getJoysticks()
+	self.mainMenu.hasJoysticks = self.gamepadManager:hasJoysticks()
 end
 
 function Game:joystickremoved(joystick)
-	self.joystickManager:getJoysticks()
-	self.mainMenu.hasJoysticks = self.joystickManager:hasJoysticks()
+	self.gamepadManager:getJoysticks()
+	self.mainMenu.hasJoysticks = self.gamepadManager:hasJoysticks()
 end
 
 function Game:quit()
@@ -193,4 +194,12 @@ end
 
 function Game:mousemoved(x, y, dx, dy, istouch)
 	self.screenStack[#self.screenStack]:mousemoved(x, y, dx, dy, istouch)
+end
+
+function Game:gamepadpressed(gamepad, button)
+	self.gamepadManager:gamepadpressed(gamepad, button)
+end
+
+function Game:gamepadaxis( joystick, axis, value )
+	self.gamepadManager:gamepadaxis(joystick, axis, value)
 end

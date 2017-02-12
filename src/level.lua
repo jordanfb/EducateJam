@@ -93,9 +93,9 @@ function Level:draw()
 	love.graphics.setColor(0, 155, 0)
 	for i, door in pairs(self.doors) do
 		if door["open"] then
-			love.graphics.rectangle("fill", door.x + self.camera.x, door.y + self.camera.y, door.w, door.h)
-		else
 			love.graphics.rectangle("fill", door.x + self.camera.x, door.y + self.camera.y, 0.2 * door.w, door.h)
+		else
+			love.graphics.rectangle("fill", door.x + self.camera.x, door.y + self.camera.y, door.w, door.h)
 		end
 	end
 	
