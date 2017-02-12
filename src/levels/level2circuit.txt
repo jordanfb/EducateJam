@@ -1,0 +1,31 @@
+input a
+input b
+input c
+input d
+input e
+input f
+input g
+input h
+
+node n1
+node n2
+node n3
+
+output A
+output B
+output C
+output D
+output E
+output F
+
+or n1 a b
+buffer A n1
+not n2 a
+buffer B n2
+
+xor D c e
+buffer C c
+and E d e
+
+nor n3 f h
+and F n3 g

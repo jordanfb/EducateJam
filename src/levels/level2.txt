@@ -1,23 +1,23 @@
-<<<<<<< HEAD
-=======
-ww              w   w
-ww              C    
-wl         d         
-wl  T  c             
-wl         wwwwwwwwww
-wlwwwwwwwwwwwwwwwwwww
-wl    w            ww
-wl    w            ww
-wl    B            lw
-wl        T   b    lw
-wl                 lw
-wwwwwwwwwwwwwwwwwwwlw
-w              w   lw
-w              w   lw
-w              A   lw
-w _      T a       lw
-w     w            lw
-wwwwwwwwwwwwwwwwwwwww
+wwwwwwwwwwwwwwwwww
+w      w   w    ww
+w      w   w    ww
+w      A   B    lw
+w_  T a  b      lw
+w               lw
+wwwwwwwwwwwwwwwwlw
+ww   w  w  w    lw
+ww   w  w  w    lw
+wl   E  D  C    lw
+wl    e  d  cT  lw
+wl              lw
+wlwwwwwwwwwwwwwwww
+wl          w    w
+wl          F    w
+wl   Tfgh          
+wl                
+wl   wwwwwwwww    
+wwwwwwwwwwwwwwwwww
 --INITIAL STATUS --
-b on
->>>>>>> 62d90fe57fad6382f8f6f0638030fabfceae1d83
+f on
+g on
+h on

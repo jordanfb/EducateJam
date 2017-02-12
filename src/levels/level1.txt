@@ -1,3 +1,4 @@
+wwwwwwwwwwwwwwwwwwww
 ww             w   w
 ww             C    
 wl         d        
@@ -13,9 +14,7 @@ wwwwwwwwwwwwwwwwwwlw
 w             w   lw
 w             w   lw
 w             A   lw
-w       T a       lw
+w_      T a       lw
 w    w            lw
 wwwwwwwwwwwwwwwwwwww
 --INITIAL STATUS --
-playerX 300
-playerY 2300

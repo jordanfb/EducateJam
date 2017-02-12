@@ -36,7 +36,7 @@ function Gate:setOutput(gates, inputs)
 	elseif self.gateType == "on" then
 		return true
 	elseif self.gateType == "off" then
-		return false
+		return falsed
 	elseif self.gateType == nil then
 		return false
 	else

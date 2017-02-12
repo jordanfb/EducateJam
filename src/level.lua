@@ -5,7 +5,7 @@ Level = class()
 -- _init, load, draw, update(dt), keypressed, keyreleased, mousepressed, mousereleased, resize, (drawUnder, updateUnder)
 
 function Level:_init(game, player)
-	self.currentLevel = 1
+	self.currentLevel = 2
 	self.game = game
 	self.terminal = Terminal(self.game, self.currentLevel, self)
 	self.player = player
