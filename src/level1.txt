@@ -1,12 +1,12 @@
 w   w         ww
 w   l         lw
-w   l   T     lw
+w   l   T  c  lw
 w   l         lw
 wwwwl wwwwwww lw
 w   l       w lw
 w   l   ww  w lw
 w   l       A l 
-w   l     a   l 
+w   l   b a   l 
 w   l w       l 
 wwwwwwwwwwwwwwww
 --INITIAL STATUS --

@@ -1,5 +1,10 @@
 input a
+input b
+input c
+
+node n
 
 output A
 
-not A a
+and n a b
+xor A n c
