@@ -13,6 +13,7 @@ function Level:_init(game, player)
 	self.doors = {}
 	self.levers = {}
 	self.levelArray = {}
+	self.backgrounds = {}
 	local lines = {}			
 	
 	for line in love.filesystem.lines('level1.txt') do
@@ -36,8 +37,8 @@ function Level:_init(game, player)
 		end
 	end
 	
-	
-	
+	ladderImage = love.graphics.newImage('art/wallTileWithLadder.png')
+	wallImage = love.graphics.newImage('art/wallTile1.png')
 	
 	self.tileSize = 160
 	
@@ -47,6 +48,8 @@ function Level:_init(game, player)
 		for x, tile in pairs(row) do
 			if tile == 'w' then
 				table.insert(self.walls, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h = self.tileSize})
+			elseif tile == ' ' then
+				table.insert(self.backgrounds, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h = self.tileSize})
 			elseif tile == 'l' then
 				table.insert(self.ladders, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize})
 			elseif string.byte(tile) >= string.byte('a') and string.byte(tile) <= string.byte("j") then
@@ -72,13 +75,21 @@ function Level:draw()
 	love.graphics.setBackgroundColor(100, 100, 100)
 	
 	love.graphics.setColor(255, 255, 255)
+	for i, wall in pairs(self.backgrounds) do
+		love.graphics.draw(wallImage, wall.x + self.camera.x, wall.y + self.camera.y)
+	end
+	
 	for i, wall in pairs(self.walls) do
 		love.graphics.rectangle("fill", wall.x + self.camera.x, wall.y + self.camera.y, wall.w, wall.w)
 	end
 	
-	love.graphics.setColor(0, 0, 155)
+	love.graphics.setColor(255, 255, 255)
+	for i, wall in pairs(self.walls) do
+		love.graphics.rectangle("fill", wall.x + self.camera.x, wall.y + self.camera.y, wall.w, wall.w)
+	end
+	
 	for i, ladder in pairs(self.ladders) do
-		love.graphics.rectangle("fill", ladder.x + self.camera.x, ladder.y + self.camera.y, ladder.w, ladder.w)
+		love.graphics.draw(ladderImage, ladder.x + self.camera.x, ladder.y + self.camera.y)
 	end
 	
 	for i, lever in pairs(self.levers) do
