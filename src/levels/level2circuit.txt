@@ -12,20 +12,20 @@ node n2
 node n3
 
 output A
-output B
-output C
-output D
-output E
 output F
+output G
+output H
+output I
+output J
 
 or n1 a b
-buffer A n1
+buffer I n1
 not n2 a
-buffer B n2
+buffer J n2
 
-xor D c e
-buffer C c
-and E d e
+xor G c e
+buffer F c
+and H d e
 
 nor n3 f h
-and F n3 g
+and A n3 g

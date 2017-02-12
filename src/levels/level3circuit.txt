@@ -1,0 +1,19 @@
+input a
+input b
+input c
+input d
+
+node n1
+node n2
+
+output G
+output H
+output I
+output J
+
+not G c
+and n1 b d
+xor H n1 c
+xor n2 a b
+or J n2 c
+nor I a d
