@@ -1,4 +1,5 @@
 require "class"
+require "circuit"
 
 Level = class()
 
@@ -7,7 +8,7 @@ Level = class()
 function Level:_init(game, player)
 	self.currentLevel = 2
 	self.game = game
-	self.terminal = Terminal(self.game, self.currentLevel, self)
+	-- self.terminal = Terminal(self.game, self.currentLevel, self)
 	self.player = player
 	self.walls = {}
 	self.ladders = {}
@@ -17,6 +18,19 @@ function Level:_init(game, player)
 	self.backgrounds = {}
 	self.terminals = {}
 	self.gates = {}
+	self.circuit = Circuit("levels/level"..self.currentLevel.."circuit.txt")
+
+	self.terminalNames = {}
+	self.terminalNames["!"]=true
+	self.terminalNames["@"]=true
+	self.terminalNames["#"]=true
+	self.terminalNames["$"]=true
+	self.terminalNames["%"]=true
+	self.terminalNames["^"]=true
+	self.terminalNames["&"]=true
+	self.terminalNames["*"]=true
+	self.terminalNames["("]=true
+	self.terminalNames[")"]=true
 
 	ladderImage = love.graphics.newImage('art/wallTileWithLadder.png')
 	wallImage = love.graphics.newImage('art/wallTile1.png')
@@ -81,11 +95,13 @@ function Level:_init(game, player)
 				table.insert(self.doors, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h=3*self.tileSize, key=tile, open = false, animation = 0})
 			elseif string.byte(tile) >= string.byte('1') and string.byte(tile) <= string.byte("9") then
 				table.insert(self.gates, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h=self.tileSize, gate=tile, animation = 0})
-			elseif tile == 'T' then
-				table.insert(self.terminals, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h=self.tileSize})
+			elseif self.terminalNames[tile] ~= nil then
+				table.insert(self.terminals, Terminal((x-1)*self.tileSize, (y-1)*self.tileSize, self.tileSize, self.tileSize, self.game, self.currentLevel, self, tile))
 			elseif tile == '_' then
 				table.insert(self.backgrounds, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h = self.tileSize})
 				self.player:reset((x-1)*self.tileSize, (y-1)*self.tileSize)	
+			else
+				print("TILE ISN'T RECOGNIZED:"..tile)
 			end
 		end
 	end

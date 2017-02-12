@@ -107,7 +107,7 @@ function Player:keypressed(key, unicode, level)
 	if (key=="e"or key == "joysticka") and self.onGround then
 		if self:isTouchingInteractable(level)[1]=="lever" then
 			level.levers[self:isTouchingInteractable(level)[2]].on = not level.levers[self:isTouchingInteractable(level)[2]].on
-			level.terminal.circuit.inputs[level.levers[self:isTouchingInteractable(level)[2]].key] = not level.terminal.circuit.inputs[level.levers[self:isTouchingInteractable(level)[2]].key]
+			level.circuit.inputs[level.levers[self:isTouchingInteractable(level)[2]].key] = not level.circuit.inputs[level.levers[self:isTouchingInteractable(level)[2]].key]
 			-- then evaluate the circuit and open/deal with all doors.
 			self:updateAllDoors(level)
 		end
@@ -121,18 +121,18 @@ end
 
 function Player:updateAllDoors(level)
 	for k, lever in pairs(level.levers) do
-		level.terminal.circuit.inputs[lever.key] = lever.on
+		level.circuit.inputs[lever.key] = lever.on
 		-- print("BUTTON LEVER IS "..lever.key)
 		-- print(lever.on)
 	end
-	-- level.terminal.circuit.inputs[level.levers[self:isTouchingLever(level)].key] = not level.terminal.circuit.inputs[level.levers[self:isTouchingLever(level)].key]
-	level.terminal.circuit:evaluate()
-	-- level.doors[1]["open"] = level.terminal.circuit.outputs["O"]
+	-- level.circuit.inputs[level.levers[self:isTouchingLever(level)].key] = not level.circuit.inputs[level.levers[self:isTouchingLever(level)].key]
+	level.circuit:evaluate()
+	-- level.doors[1]["open"] = level.circuit.outputs["O"]
 	for k, door in pairs(level.doors) do
-		door.open = level.terminal.circuit.outputs[door.key]
+		door.open = level.circuit.outputs[door.key]
 	end
 	-- print("door status")
-	-- print(level.terminal.circuit.outputs["O"])
+	-- print(level.circuit.outputs["O"])
 end
 
 --Runs collision checking

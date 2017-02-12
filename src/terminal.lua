@@ -9,14 +9,18 @@ Terminal = class()
 
 -- _init, load, draw, update(dt), keypressed, keyreleased, mousepressed, mousereleased, resize, (drawUnder, updateUnder)
 
-function Terminal:_init(game, currentLevel, level)
+function Terminal:_init(x, y, w, h, game, currentLevel, level, terminalName)
 	-- this is for the draw stack
 	self.currentLevel = currentLevel
 	self.drawUnder = true
 	self.updateUnder = false
 	self.game = game
 	self.level = level
-	self.circuit = Circuit("levels/level"..self.currentLevel.."circuit.txt")
+	self.x = x
+	self.y = y
+	self.w = w
+	self.h = h
+	self.terminalName = terminalName
 
 	-- self.circuit:evaluate()
 	-- for k, v in pairs(self.circuit.outputs) do

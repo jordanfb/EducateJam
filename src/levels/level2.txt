@@ -2,18 +2,18 @@ wwwwwwwwwwwwwwwwww
 w      w   w    ww
 w      w   w    ww
 w      A   B    lw
-w_  T a  b      lw
+w_  ! a  b      lw
 w               lw
 wwwwwwwwwwwwwwwwlw
 ww   w  w  w    lw
 ww   w  w  w    lw
 wl   E  D  C    lw
-wl    e  d  cT  lw
+wl    e  d  c@  lw
 wl              lw
 wlwwwwwwwwwwwwwwww
 wl          w    w
 wl          F    w
-wl   Tf g h        
+wl   #f g h        
 wl                
 wl   wwwwwwwww    
 wwwwwwwwwwwwwwwwww
