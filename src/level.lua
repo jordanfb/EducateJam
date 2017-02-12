@@ -169,6 +169,7 @@ end
 
 function Level:load()
 	-- run when the level is given control
+	love.mouse.setVisible(false)
 end
 
 function Level:leave()

@@ -45,8 +45,6 @@ function PauseMenu:draw()
 		love.graphics.setColor(0, 0, 128)--90, 100, 255)
 		love.graphics.printf("With Controllers!", 172, 250, 500, "center", -.27, self.joystickIndicatorScale, self.joystickIndicatorScale)
 	end
-	love.graphics.setColor(0, 0, 0)
-	love.graphics.printf("F2 - FullScreen", 0, 700, 600, "center")
 	self.menu:draw()
 end
 
