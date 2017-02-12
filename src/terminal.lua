@@ -15,9 +15,11 @@ function Terminal:_init(game)
 	self.updateUnder = false
 	self.game = game
 	self.circuit = Circuit("testmap1.txt")
-	for k, v in pairs(self.circuit.inputs) do
-		self.circuit.inputs[k] = true
-	end
+
+	self.circuit.input[A] = true
+	self.circuit.input[B] = true
+	self.circuit.input[C] = true
+
 	self.circuit:evaluate()
 	for k, v in pairs(self.circuit.outputs) do
 		print("Output "..k.." = ")
