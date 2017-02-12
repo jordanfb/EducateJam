@@ -2,9 +2,10 @@ node a
 node b
 node c
 
-output C
 output D
 output E
+output F
 
-nil C a b
-nil D a c
+nil D a b
+nil E a c
+on F
