@@ -35,7 +35,7 @@ function Cutscene:_init(game)
 
 	self.time = 0
 	self.fadeTime = 0.5
-	self.totalTime = 5.5
+	self.totalTime = 6
 end
 
 function Cutscene:load()
@@ -83,12 +83,9 @@ function Cutscene:resize(w, h)
 end
 
 function Cutscene:keypressed(key, unicode)
-	print("key pressed in pause menu: "..key)
-	if key == "space" or key == "joysticka" then
-		self.game:popScreenStack()
-		self.game:addToScreenStack(self.game.level)
-		self.game.level:initialize()
-	end
+	self.game:popScreenStack()
+	self.game:addToScreenStack(self.game.level)
+	self.game.level:initialize()
 end
 
 function Cutscene:selectButton(choice)

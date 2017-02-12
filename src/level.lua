@@ -96,6 +96,12 @@ function Level:_init(game, player)
 	
 	self.glowImage = love.graphics.newImage('art/torchlightAlphaCircle.png')
 	
+	self.treasureImages = {}
+	for i = 1, 6 do
+		self.treasureImages[i] = love.graphics.newImage('art/treasure'..i..'.png')
+	end 
+
+
 	self.doorSound = love.audio.newSource("music/door.wav") 
 	self.doorSound:setLooping(false)
 	
@@ -352,6 +358,9 @@ function Level:draw()
 	for i, terminal in pairs(self.terminals) do
 		love.graphics.draw(self.terminalImages[math.floor(self.terminalAnimation)+1], terminal.x + self.camera.x, terminal.y + self.camera.y)
 	end
+
+	for i, treasure in pairs(self.treasures) do
+		love.graphics.draw(self.treasureImages)
 	
 	love.graphics.setColor(255, 255, 255)
 	self.player:draw(self, self.camera)

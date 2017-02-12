@@ -24,5 +24,5 @@ $
 --TERMINAL STATUS--
 terminal ! nil edit A d e
 terminal @ nil edit B f g
-terminal # nil edit k h i
 terminal $ nil edit C k j
+terminal # nil edit k h i
