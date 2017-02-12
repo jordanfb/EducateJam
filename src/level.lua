@@ -83,7 +83,11 @@ function Level:_init(game, player)
 	for i = 1, #words, 2 do
 		print("LEVEL 72" .. words[i]..words[i+1])
 		if words[i + 1] == "on" then
-			self.levers[i]["on"] = true
+			for k, v in pairs(self.levers) do
+				if v.key == words[i] then
+					v.on = true
+				end
+			end
 		elseif words[i] == "playerX" then
 			tempX = tonumber(words[i + 1])
 		elseif words[i] == "playerY" then
