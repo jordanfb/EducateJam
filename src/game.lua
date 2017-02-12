@@ -24,7 +24,7 @@ function Game:_init()
 	self.SCREENWIDTH = 1920
 	self.SCREENHEIGHT = 1080
 	self.fullscreen = true
-	self.drawFPS = false
+	self.drawFPS = true
 	
 	self.player = Player(self)
 	self.terminal = Terminal(self)
