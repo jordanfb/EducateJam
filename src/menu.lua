@@ -7,11 +7,18 @@ require "button"
 Menu = class()
 
 
-function Menu:_init(game, buttons) -- buttons is a list of names in order of the buttons to press.
+function Menu:_init(game, buttons, xShift, yShift) -- buttons is a list of names in order of the buttons to press.
 	self.selected = 1
 	self.buttonNames = buttons
 	self.font = love.graphics.newFont(32)
 	self.fontHeight = self.font:getHeight()
+	if not xShift then
+		self.xShift = 0
+		self.yShift = 0
+	else
+		self.xShift = xShift
+		self.yShift = yShift
+	end
 	self.game = game
 	self:makeButtons()
 	self.useJoystick = false
@@ -26,7 +33,7 @@ function Menu:makeButtons()
 	local i = 0
 	local spacing = 20
 	for k, v in pairs(self.buttonNames) do
-		self.buttons[k] = Button(v, x, y+i*(buttonHeight+spacing), buttonWidth, buttonHeight, self.fontHeight, self.game)
+		self.buttons[k] = Button(v, x + self.xShift, y+i*(buttonHeight+spacing) + self.yShift, buttonWidth, buttonHeight, self.fontHeight, self.game)
 		i = i + 1
 	end
 end

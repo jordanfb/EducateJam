@@ -16,7 +16,7 @@ function MainMenu:_init(game)
 	self.updateUnder = false
 
 	self.game = game
-	self.menu = Menu(self.game, {"Play", "Exit", "Test"})
+	self.menu = Menu(self.game, {"Play", "Exit", "Test"}, 750, 310)
 	self.SCREENWIDTH = self.game.SCREENWIDTH
 	self.SCREENHEIGHT = self.game.SCREENHEIGHT
 	self.font = love.graphics.newFont(32)
