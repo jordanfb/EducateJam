@@ -5,7 +5,7 @@ w   l         lw
 wwwwl wwwwwww lw
 w   l       w lw
 w   l   ww  w lw
-w   l       D l 
-w   l     (   l 
+w   l       A l 
+w   l     a   l 
 w   l w       l 
 wwwwwwwwwwwwwwww
