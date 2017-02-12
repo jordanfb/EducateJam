@@ -78,7 +78,7 @@ function Player:jump()
 end
 
 --Draws the rectangle
-function Player:draw(camera)
+function Player:draw(level, camera)
 	if self.animationType == "still" then
 		if self.facing==1 then
 			love.graphics.draw(self.idleImages[math.floor(self.animation)+1], self.x + camera.x - self.w/2, self.y + camera.y, 0, self.facing, 1)		--Placeholder
@@ -98,6 +98,11 @@ function Player:draw(camera)
 		else
 			love.graphics.draw(self.climbImages[math.floor(self.animation)+1], self.x + camera.x + 3*self.w/2, self.y + camera.y, 0, self.facing, 1)		--Placeholder
 		end
+	end
+	
+	if self:isTouchingInteractable(level)[1]~="nothing" then
+		love.graphics.setFont(love.graphics.newFont("fonts/joystixMonospace.ttf", 24))
+		love.graphics.printf("PRESS E", self:isTouchingInteractable(level)[3] + camera.x, self:isTouchingInteractable(level)[4] + camera.y - 80, level.tileSize, "center")
 	end
 	--love.graphics.rectangle("line", self.x + camera.x, self.y + camera.y, self.w, self.h)		--Placeholder
 	
@@ -235,15 +240,15 @@ end
 function Player:isTouchingInteractable(level)
 	for i, lever in pairs(level.levers) do
 		if self:isTouching(lever, i)~=0 then
-			return {"lever", self:isTouching(lever, i)}
+			return {"lever", self:isTouching(lever, i), level.levers[self:isTouching(lever, i)].x, level.levers[self:isTouching(lever, i)].y}
 		end
 	end
 	for i, terminal in pairs(level.terminals) do
 		if self:isTouching(terminal, i)~=0 then
-			return {"terminal", self:isTouching(terminal, i)}
+			return {"terminal", self:isTouching(terminal, i), level.terminals[self:isTouching(terminal, i)].x, level.terminals[self:isTouching(terminal, i)].y}
 		end
 	end
-	return {"nothing", 0}
+	return {"nothing", 0, 0, 0}
 end
 
 function Player:isTouching(item, i)
