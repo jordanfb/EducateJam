@@ -1,28 +1,18 @@
-wwwwwwwwwwwwwwwwww
-w        w      ww
-w               ww
-w   .    A   .  lw
-w_ 4 !          lw
-w               lw
-wwwwwwwwwwwwwwwwlw
-ww       w      lw
-ww              lw
-wl  .    B   .  lw
-wl         3 @  lw
-wl ww           lw
-wlwwwwwwwwwwwwwwww
-wl            wwww
-wl  .        . www
-wl            C    
-wl 5 # 4  6       
-wl                
-wwwwwwwwwwwwwwwwww
+wwwwwwwwwwwwwwwwwwwwwwww
+w          l     C     w
+w  _ ab    l        4  w
+w          l           w
+wwwwwwwwww lwwwwwwwwwwww
+w          l     D     w
+w   3   !  l            
+w          l            
+wwwwwwwwww lwwwwwwwwwwww
+w          l  E        w
+w    @     l    c      w
+w          l           w
+wwwwwwwwwwwwwwwwwwwwwwww
 
-
-$
 --INITIAL STATUS--
 --TERMINAL STATUS--
-terminal ! nil edit A d e
-terminal @ nil edit B f g
-terminal $ nil edit C k j
-terminal # nil edit k h i
+terminal ! nil edit C a b
+terminal @ nil edit D a c

@@ -1,26 +1,10 @@
-node d
-node e
-node fd
-node g
-node h
-node i
-node j
-node k
+node a
+node b
+node c
 
-output A
-output B
 output C
+output D
+output E
 
-on d
-off e
-on f
-on g
-on h
-off i
-on j 
-
-
-nil A d e
-nil B f g
-nil k h i
-nil C k j
+nil C a b
+nil D a c
