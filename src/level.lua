@@ -76,6 +76,9 @@ function Level:_init(game, player)
 				table.insert(self.doors, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h=3*self.tileSize, key=tile, open = false})
 			elseif string.byte(tile) >= string.byte('A') and string.byte(tile) <= string.byte("T") then
 				table.insert(self.terminals, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h=self.tileSize})
+			elseif tile == '_' then
+				table.insert(self.backgrounds, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h = self.tileSize})
+				self.player:reset((x-1)*self.tileSize, (y-1)*self.tileSize)	
 			end
 		end
 	end
@@ -86,7 +89,7 @@ function Level:_init(game, player)
 	local tempY = nil
 
 	for i = 1, #words, 2 do
-		print("LEVEL 72" .. words[i]..words[i+1])
+		-- print("LEVEL 72" .. words[i]..words[i+1])
 		if words[i + 1] == "on" then
 			for k, v in pairs(self.levers) do
 				if v.key == words[i] then
