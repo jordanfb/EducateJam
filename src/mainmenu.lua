@@ -91,7 +91,7 @@ function MainMenu:selectButton(choice)
 		love.event.quit()
 	elseif choice == "Test" then
 		-- test things for jordan
-		self.game:addToScreenStack(self.game.terminal)
+		self.game:addToScreenStack(self.game.pauseMenu)
 	end
 end
 
@@ -121,5 +121,5 @@ function MainMenu:mousereleased(x, y, button)
 end
 
 function MainMenu:mousemoved(x, y, dx, dy, istouch)
-	--
+	self.menu:mousemoved(x, y, dx, dy, istouch)
 end
