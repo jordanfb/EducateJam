@@ -46,12 +46,12 @@ function Level:_init(game, player)
 	end 
 	
 	self.blueRunes = {}
-	for i = string.byte('A'), string.byte('J') do
+	for i = string.byte('A'), string.byte('P') do
 		self.blueRunes[string.char(i)] = love.graphics.newImage('art/rune'..string.char(i)..'Blue.png')
 	end 
 	
 	self.greyRunes = {}
-	for i = string.byte('A'), string.byte('J') do
+	for i = string.byte('A'), string.byte('P') do
 		self.greyRunes[string.char(i)] = love.graphics.newImage('art/rune'..string.char(i)..'Grey.png')
 	end 
 	
