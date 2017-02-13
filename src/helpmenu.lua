@@ -133,10 +133,10 @@ function Helpmenu:draw()
 	love.graphics.setFont(love.graphics.newFont("fonts/november.ttf", 64))
 	love.graphics.printf(self.gateNames[self.pausemenu.selection], 800, 200, 300, "center")
 	
-	for i = 1, 4 do
+	for i = 1, 5 do
 		for j = 1, 3 do
 			love.graphics.setFont(love.graphics.newFont("fonts/november.ttf", 32))
-			love.graphics.printf(self.truthTables[self.pausemenu.selection][i][j], 600 + 100*j, 300 + 100*i, 300, "center")
+			love.graphics.printf(self.truthTables[self.pausemenu.selection][i][j], 600 + 100*j, 260 + 100*i, 300, "center")
 		end
 	end
 	
