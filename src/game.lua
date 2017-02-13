@@ -111,7 +111,7 @@ function Game:draw()
 
 	love.graphics.setCanvas()
 	love.graphics.setColor(255, 255, 255)
-	if self.fullscreen then
+	if true or self.fullscreen then
 		local width = love.graphics.getWidth()
 		local height = love.graphics.getHeight()
 		local scale = math.min(height/1080, width/1920)
@@ -137,7 +137,7 @@ function Game:realToFakeMouse(x, y)
 	local width = love.graphics.getWidth()
 	local height = love.graphics.getHeight()
 	local scale = math.min(height/1080, width/1920)
-	if not self.fullscreen then
+	if false and not self.fullscreen then
 		return {x = x/scale, y = y/scale}
 	else
 		return {x = (x-(width/2-1920/2*scale))/scale, y = (y-(height/2-1080/2*scale))/scale}
@@ -185,6 +185,8 @@ function Game:keypressed(key, unicode)
 		self:takeScreenshot()
 	elseif key == "f1" then
 		love.event.quit()
+	elseif key == "f8" then
+		love.window.setMode(1920/2, 1080/2, {resizable = true})
 	end
 end
 

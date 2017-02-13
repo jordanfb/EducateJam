@@ -52,6 +52,8 @@ function Endscene:draw()
 	local text = ""
 	if self.game.player.score == 26 then
 		text = "Congratulations!!! You are awesome and completed the game in the minimum possible moves!  Try to see if you can go faster!"
+	elseif self.game.player.score <= 26 then
+		text = "Wow! We thought the best score was 26 but you did it in "..self.game.player.score.."! Please tell us your ways, Master of Logic!"
 	else
 		text = "You win! You completed the game in " .. self.game.player.score .. " moves, while the perfect score is 26.  Try to see if you can do better!"
 	end
