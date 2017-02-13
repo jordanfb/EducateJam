@@ -59,7 +59,11 @@ function Intro:resize(w, h)
 end
 
 function Intro:keypressed(key, unicode)
-
+	if key=="space" then
+		self.frame = #self.images - 1
+		self.game:popScreenStack()
+		self.game:addToScreenStack(self.game.cutscene)
+	end
 end
 
 function Intro:selectButton(choice)
