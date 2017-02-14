@@ -1,7 +1,7 @@
 w          w
 w          w
 w          w
-w         ww
+w        www
 w  .  .  F  
 w _!abcde   
 w           
@@ -14,7 +14,7 @@ a on
 b on
 d on
 --TERMINAL STATUS--
-terminal ! not const g a
+terminal ! not const g a view @ # $ % ^
 terminal @ and const h g b
 terminal # and const i c d
 terminal $ nand const j g h

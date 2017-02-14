@@ -62,6 +62,7 @@ function GamepadManager:gamepadpressed(gamepad, button)
 	-- self.gamepadManager:(gamepad, button)
 	self.game:keypressed("joystick"..button, "")
 	love.mouse.setVisible(false)
+	self.game.useJoystick = true
 end
 
 function GamepadManager:update(dt)

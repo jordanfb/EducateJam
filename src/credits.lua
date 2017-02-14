@@ -38,6 +38,9 @@ function Credits:load()
 	love.graphics.setFont(self.font)
 	love.mouse.setVisible(true)
 	love.graphics.setBackgroundColor(255, 255, 255)
+	if self.game.useJoystick then
+		self.button.selected = true
+	end
 end
 
 function Credits:leave()
@@ -78,7 +81,11 @@ function Credits:update(dt)
 			self.joystickIndicatorGrowing = true
 		end
 	end
-	self.button:updateMouse(mX, mY)
+	if not self.game.useJoystick then
+		self.button:updateMouse(mX, mY)
+	else
+		self.button.selected = true
+	end
 end
 
 function Credits:resize(w, h)

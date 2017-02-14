@@ -24,16 +24,70 @@ function PauseMenu:_init(game, level)
 	self.fontHeight = self.font:getHeight()
 	
 	-- self.image = love.graphics.newImage('mainmenu.png')
-	self.hasJoysticks = false
-	self.joystickIndicatorGrowing = true
-	self.joystickIndicatorScale = 1
 	self.selection = 0
 	
 	self.gateImages = {}
 	for i = 1, 7 do
 		self.gateImages[i] = love.graphics.newImage('art/bigGateTile'..i..'.png')
 	end
-	
+
+	--[[
+4,	1,	8
+	2,	
+5,	3, 	9
+6,	7,	10
+
+
+	]]--
+
+	self.joystickSelected = 1
+	local JSone = {7, 2, 4, 8} -- up, down, left, right
+	local JStwo = {1, 3, 4, 8}
+	local JSthree = {2, 7, 5, 9}
+	local JSfour = {6, 5, 8, 1}
+	local JSfive = {4, 6, 9, 3}
+	local JSsix = {5, 4, 10, 7}
+	local JSseven = {3, 1, 6, 10}
+	local JSeight = {10, 9, 1, 4}
+	local JSnine = {8, 10, 3, 5}
+	local JSten = {9, 8, 7, 6}
+	self.joystickMoveMap = {JSone, JStwo, JSthree, JSfour, JSfive, JSsix, JSseven, JSeight, JSnine, JSten}
+end
+
+-- function PauseMenu:selectJoystickButtonMethod(i)
+-- 	-- this is the third system of selections, which combines them all into one giant thing
+-- 	-- essentially just adds Martin's selection thing onto the button selection thing
+-- 	if i <= 3 then
+-- 		self:selectButtonTurnOn(i)
+-- 	else
+-- 		self:selectOtherthing(i-3)
+-- 	end
+-- end
+
+function PauseMenu:selectButtonTurnOn(i)
+	local c = 1
+	for k, v in pairs(self.menu.buttons) do
+		v.selected = (i == c)
+		c = c + 1
+	end
+	self.selection = 0
+end
+
+function PauseMenu:selectOtherthing(i)
+	for k, v in pairs(self.menu.buttons) do
+		v.selected = false
+	end
+	self.selection = i
+end
+
+function PauseMenu:setJoystickSelected()
+	-- this is the third system of selections, which combines them all into one giant thing
+	-- essentially just adds Martin's selection thing onto the button selection thing
+	if self.joystickSelected <= 3 then
+		self:selectButtonTurnOn(self.joystickSelected)
+	else
+		self:selectOtherthing(self.joystickSelected-3)
+	end
 end
 
 function PauseMenu:load()
@@ -41,6 +95,7 @@ function PauseMenu:load()
 	love.graphics.setFont(self.font)
 	love.mouse.setVisible(true)
 	love.graphics.setBackgroundColor(255, 255, 255)
+	self.joystickSelected = 1
 end
 
 function PauseMenu:leave()
@@ -86,18 +141,10 @@ end
 function PauseMenu:update(dt)
 	local mX = love.mouse.getX()
 	local mY = love.mouse.getY()
-	if self.joystickIndicatorGrowing then
-		self.joystickIndicatorScale = self.joystickIndicatorScale + dt*.03
-		if self.joystickIndicatorScale > 1.01 then
-			self.joystickIndicatorGrowing = false
-		end
-	else
-		self.joystickIndicatorScale = self.joystickIndicatorScale - dt*.03
-		if self.joystickIndicatorScale < .99 then
-			self.joystickIndicatorGrowing = true
-		end
-	end
 	self.menu:update(dt)
+	if self.game.useJoystick then
+		self:setJoystickSelected()
+	end
 end
 
 function PauseMenu:resize(w, h)
@@ -110,19 +157,39 @@ function PauseMenu:keypressed(key, unicode)
 	-- 	self.game.level:reset() -- play
 	-- 	self.game:addToScreenStack(self.game.level)
 	-- end
+	local joystickUsed = false
+
 	if key == "joysticka" then
-		local choice = self.menu:keypressed(key, unicode)
-		if choice ~= nil then
-			self:selectButton(choice)
+		joystickUsed = true
+		if self.joystickSelected <= 3 then
+			self:selectButton(self.menu.buttons[self.joystickSelected].text)
+		else
+			self.game:popScreenStack()
+			self.game:addToScreenStack(self.game.helpmenu)
 		end
+	elseif key == "joystickb" then
+		self:selectButton("Resume")
 	elseif key == "escape" then
 		self:selectButton("Resume")
 	elseif key == "joystickback" then
 		self:selectButton("Exit")
 	elseif key == "joystickstart" then
 		self:selectButton("Resume")
-	elseif key == "joystickb" then
-		self:selectButton("Resume")
+	elseif key == "menuUp" or key == "w" or key == "up" then
+		self.joystickSelected = self.joystickMoveMap[self.joystickSelected][1]
+		joystickUsed = true
+	elseif key == "menuDown" or key == "s" or key == "down" then
+		self.joystickSelected = self.joystickMoveMap[self.joystickSelected][2]
+		joystickUsed = true
+	elseif key == "menuLeft" or key == "a" or key == "left" then
+		self.joystickSelected = self.joystickMoveMap[self.joystickSelected][3]
+		joystickUsed = true
+	elseif key == "menuRight" or key == "d" or key == "right" then
+		self.joystickSelected = self.joystickMoveMap[self.joystickSelected][4]
+		joystickUsed = true
+	end
+	if joystickUsed and self.game.useJoystick then
+		self:setJoystickSelected()
 	end
 end
 
@@ -159,6 +226,9 @@ function PauseMenu:mousereleased(x, y, button)
 	if self.selection > 0 then
 		self.game:popScreenStack()
 		self.game:addToScreenStack(self.game.helpmenu)
+	end
+	if self.game.useJoystick then
+		self.button.selected = true
 	end
 	-- for k, v in pairs(self.buttons) do
 	-- 	if v:updateMouse(x, y) then  

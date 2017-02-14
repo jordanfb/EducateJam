@@ -44,18 +44,19 @@ function Endscene:leave()
 end
 
 function Endscene:draw()
+	local minSwitches = 25
 	local thisLevel = self.game.level.currentLevel * 2
 	local pic = love.graphics.newImage("art/treasure4.png")
 	width = pic:getWidth()
 	height = pic:getHeight()
 	love.graphics.draw(pic, self.SCREENWIDTH / 2, 200, 0, 1, 1, width / 2, height / 2)
 	local text = ""
-	if self.game.player.score == 26 then
+	if self.game.player.score == minSwitches then
 		text = "Congratulations!!! You are awesome and completed the game in the minimum possible moves!  Try to see if you can go faster!"
-	elseif self.game.player.score <= 26 then
-		text = "Wow! We thought the best score was 26 but you did it in "..self.game.player.score.."! Please tell us your ways, Master of Logic!"
+	elseif self.game.player.score <= minSwitches then
+		text = "Wow! We thought the best score was "..minSwitches.." but you did it in "..self.game.player.score.."! Please tell us your ways, Master of Logic!"
 	else
-		text = "You win! You completed the game in " .. self.game.player.score .. " moves, while the perfect score is 26.  Try to see if you can do better!"
+		text = "You win! You completed the game in " .. self.game.player.score .. " moves, while the perfect score is "..minSwitches..".  Try to see if you can do better!"
 	end
 	love.graphics.printf(text, self.SCREENWIDTH / 2 - 350, self.SCREENHEIGHT / 2, 700, "center")
 end
@@ -71,8 +72,13 @@ function Endscene:resize(w, h)
 end
 
 function Endscene:keypressed(key, unicode)
+	self:exitEndScene()
+end
+
+function Endscene:exitEndScene()
 	self.game:popScreenStack()
 	self.game:addToScreenStack(self.game.mainMenu)
+	self.game:addToScreenStack(self.game.credits)
 	self.game.startMusic:play()
 	self.game.gameMusic:stop()
 	self.game.level.currentLevel = 1
@@ -92,12 +98,7 @@ function Endscene:mousepressed(x, y, button)
 end
 
 function Endscene:mousereleased(x, y, button)
-	self.game:popScreenStack()
-	self.game:addToScreenStack(self.game.mainMenu)
-	self.game.startMusic:play()
-	self.game.gameMusic:stop()
-	self.game.level.currentLevel = 1
-	self.game.player.score = 0
+	self:exitEndScene()
 end
 
 function Endscene:mousemoved(x, y, dx, dy, istouch)

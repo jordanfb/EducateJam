@@ -13,5 +13,5 @@ w          l           w
 wwwwwwwwwwwwwwwwwwwwwwww
 --INITIAL STATUS--
 --TERMINAL STATUS--
-terminal ! nil edit D a b
-terminal @ nil edit E a c
+terminal ! nil edit D a b view @
+terminal @ nil edit E a c view !

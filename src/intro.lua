@@ -59,15 +59,25 @@ function Intro:resize(w, h)
 end
 
 function Intro:keypressed(key, unicode)
-	if key=="space" then
-		self.frame = #self.images - 1
-		self.game:popScreenStack()
-		self.game:addToScreenStack(self.game.cutscene)
+	if key == "menuUp" or key == "menuDown" or key == "menuLeft" or key == "menuRight" then
+		return
+	end
+	if key == "escape" or key == "joystickb" then
+		-- don't skip it
+		return
+	else
+		self:skipIntro()
 	end
 end
 
-function Intro:selectButton(choice)
+function Intro:skipIntro()
+	self.frame = #self.images - 1
+	self.game:popScreenStack()
+	self.game:addToScreenStack(self.game.cutscene)
+end
 
+function Intro:selectButton(choice)
+	--
 end
 
 function Intro:keyreleased(key, unicode)
@@ -75,14 +85,11 @@ function Intro:keyreleased(key, unicode)
 end
 
 function Intro:mousepressed(x, y, button)
-	-- self:selectButton(self.menu:mousepressed(x, y, button))
+	--
 end
 
 function Intro:mousereleased(x, y, button)
-	self.game:popScreenStack()
-	self.game:addToScreenStack(self.game.mainMenu)
-	self.game.level.currentLevel = 1
-	self.game.player.score = 0
+	self:skipIntro()
 end
 
 function Intro:mousemoved(x, y, dx, dy, istouch)

@@ -11,7 +11,7 @@ wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
 @#$%^&*(
 --INITIAL STATUS--
 --TERMINAL STATUS--
-terminal ! not const p a
+terminal ! not const p a view @#$%^&*(
 terminal @ and const i p b
 terminal # xor const j c d
 terminal $ not const k e
