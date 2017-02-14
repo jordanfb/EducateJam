@@ -427,6 +427,7 @@ function Level:draw()
 		end
 	end
 
+	self.player:drawFlips()
 end
 
 function Level:cameraUpdate(dt)

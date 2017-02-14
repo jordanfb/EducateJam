@@ -22,7 +22,8 @@ function NewTerminal:_init(game, currentLevel, level, circuit, terminalName, key
 	self.terminalName = terminalName
 	-- what the letter is that is used to represent it, (also the key for the level.newTerminals table)
 	self.circuitDisplays = {}
-	self:setUpCircuitForDisplay()
+	self.displayPage = 1
+	self:divideCircuitForDisplay()
 	-- self.gatesToDisplay = {}
 	
 	self.x = 0 -- these get replaced when self:addCoordinates() is called by the level loader
@@ -38,7 +39,7 @@ function NewTerminal:_init(game, currentLevel, level, circuit, terminalName, key
 	self.inventoryY = self.terminalY
 end
 
-function NewTerminal:setUpCircuitForDisplay()
+function NewTerminal:divideCircuitForDisplay()
 	-- print("TERMINAL KEY "..tostring(self.key))
 	for k, key in pairs(self.keys) do
 		local gateSetup = self.circuit:getGatesForDoor(key)
@@ -64,12 +65,20 @@ function NewTerminal:setUpCircuitForDisplay()
 	-- probably has to recursively add everything to this table using recursion. Recursively.
 end
 
-function NewTerminal:addGateToDisplayTable(gate)
-	--
-end
-
-function NewTerminal:testDraw1()
-	--
+function NewTerminal:setCoordinatesForDisplay()
+	for k, page in pairs(self.circuitDisplays) do
+		local numCollumns = 2 + #page
+		local step = self.backgroundW / numCollumns
+		local x = self.terminalX + self.backgroundW - 40-- subtract some amount though,
+		for i = 1, #page do
+			-- each collumn
+			local collumns
+			for k, v in pairs(page) do
+				--
+			end
+			x = x + step
+		end
+	end
 end
 
 function NewTerminal:addCoordinates(x, y, width, height)
@@ -119,6 +128,12 @@ end
 function NewTerminal:draw()
 	love.graphics.setColor(255, 255, 255)
 	love.graphics.draw(self.level.insideTerminalImages.background, self.terminalX, self.terminalY)
+	if #self.circuitDisplays > 0 then
+		local x = self.terminalX + self.backgroundW -- subtract a certain amount though.
+		for k, line in pairs(self.circuitDisplays[self.displayPage]) do
+			-- display each layer.
+		end
+	end
 end
 
 function NewTerminal:update(dt)

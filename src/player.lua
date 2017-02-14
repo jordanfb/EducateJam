@@ -83,10 +83,6 @@ end
 
 --Draws the rectangle
 function Player:draw(level, camera)
-	love.graphics.setFont(love.graphics.newFont("fonts/november.ttf", 36))
-	love.graphics.draw(self.scoreBackground, 30, 30)
-	love.graphics.setColor(7, 131, 201)
-	love.graphics.printf("Flips: " .. self.score, 30, 90, 320, "center")
 	love.graphics.setColor(255, 255, 255)
 
 	if self:isTouchingInteractable(level)[1]~="nothing" then
@@ -125,6 +121,13 @@ function Player:draw(level, camera)
 	--end
 end
 
+function Player:drawFlips()
+	love.graphics.setFont(love.graphics.newFont("fonts/november.ttf", 36))
+	love.graphics.draw(self.scoreBackground, 30, 30)
+	love.graphics.setColor(7, 131, 201)
+	love.graphics.printf("Flips: " .. self.score, 30, 90, 320, "center")
+end
+
 function Player:keypressed(key, unicode, level)
 	if (key=="e"or key == "joystickx") then
 		local touching = self:isTouchingInteractable(level)
@@ -136,7 +139,13 @@ function Player:keypressed(key, unicode, level)
 			self:updateAllDoors(level)
 		elseif touching[1]=="terminal" then
 			local id = touching[2]
-			self.game:addToScreenStack(level.newTerminals[level.terminals[id].key])
+			if false then
+				-- draw the new terminal
+				self.game:addToScreenStack(level.newTerminals[level.terminals[id].key])
+			else
+				-- draw the old one
+				self.game:addToScreenStack(level.terminals[id])
+			end
 		elseif touching[1]=="treasure" then
 			self.game:addToScreenStack(self.game.cutscene)
 			level.currentLevel = level.currentLevel + 1 
