@@ -27,10 +27,13 @@ h on
 --TERMINAL STATUS--
 terminal ! or const P a b view $
 terminal $ not const J a
+newterminal ! P J
 
 terminal @ buffer const M c view ^ %
 terminal ^ xor const N c e
 terminal % and const O d e
+newterminal @ M N O
 
 terminal # nor const i f h view &
 terminal & and const L i g
+newterminal # L

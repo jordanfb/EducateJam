@@ -9,3 +9,5 @@ wwwwwwwwwwwwwwwwwww
 --TERMINAL STATUS--
 terminal ! or const E a b view @
 terminal @ xor const F c d view !
+newterminal ! E
+newterminal @ F

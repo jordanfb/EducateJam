@@ -32,16 +32,6 @@ function Circuit:loadCircuit(file)
 		-- print("trying to read")
 		lines[#lines + 1] = line
 	end
-	-- print("read file")
-
-	-- inputs = {}
-	-- nodes = {}1
-
-	-- for i, element in pairs(lines)
-	-- 	for token in string.gmatch(line, "[^%s]+") do
-	-- 		if token[1] == "*"
-	-- 	end
-	-- end
 
 	-- jordan's guess
 	self.inputs = {}
@@ -62,18 +52,20 @@ function Circuit:loadCircuit(file)
 		elseif #line > 0 then
 			-- print("ADDED A GATE")
 			self.gates[line[2]] = Gate(line[1], line[2], line[3], line[4])
-			-- print("line contents:")
-
-			-- for k, v in pairs(line) do
-			-- 	print(v)
-			-- end
-			
-			-- print("line ended")
-			-- print("HAHA I LIED aCtUAlly")
-			-- then it's a gate
 		end
 	end
 	-- print("Made all gates")
+end
+
+function Circuit:getGatesForDoor(output)
+	-- print("CIRCUIT GATES FOR DOOR OUTPUT "..tostring(output))
+	local g = self.gates[output]
+	local levelTable = {}
+	local displayTable = {}
+	local minDepth = 1
+	g:getGatesForDoor(self.gates, displayTable, levelTable, minDepth)
+	print("Depth of circuit is "..#displayTable.. " number of circuits is "..self:tablelength(levelTable))
+	return {displayTable = displayTable, levelTable = levelTable}
 end
 
 function Circuit:evaluate()

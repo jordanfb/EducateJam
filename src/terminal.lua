@@ -3,7 +3,6 @@
 
 
 require "class"
-require "circuit"
 
 Terminal = class()
 
@@ -39,11 +38,6 @@ function Terminal:_init(x, y, w, h, game, currentLevel, level, key)
 	self.inventoryY = self.terminalY
 	self.viewablePages = {}
 
-	-- self.circuit:evaluate()
-	-- for k, v in pairs(self.circuit.outputs) do
-	-- 	print("Output "..k.." = ")
-	-- 	print(v)
-	-- end
 	self.joystickSelected = 1-- goes from 1 to 2 to three to four to five, only those things
 end
 
@@ -66,13 +60,16 @@ function Terminal:nameToLogicGateNumber(name)
 		return 8
 	else
 		-- not a thing!
-		print("TRIED TO GET LOGIC GATE NUMBER OF NOT A GATE")
+		error("TRIED TO GET LOGIC GATE NUMBER OF NOT A GATE, OLD TERMINAL")
 		return -1
 	end
 end
 
 function Terminal:logicGateNumberToName(num)
 	local convert = {"buffer", "not", "and", "or", "xor", "nand", "nor", "nil"}
+	if tonumber(num) > #convert then
+		error("TRIED TO CONVERT NUMBER TO GATE THAT WAS TOO LARGE OLD TERMINAL")
+	end
 	return convert[tonumber(num)]
 end
 
@@ -429,15 +426,7 @@ function Terminal:dealWithMouseClick(a, b, button)
 end
 
 function Terminal:mousepressed(x, y, button)
-	-- print(self.level.terminals[self.selected].gateName)
 	self:dealWithMouseClick(x, y, button)
-	-- if self.level.terminals[self.selected].gateName == "nil" then
-	-- 	-- add the gate
-	-- 	self:addSelectedGateToGate(1)
-	-- else
-	-- 	-- remove the gate
-	-- 	self:returnSelectedGateToInventory()
-	-- end
 end
 
 function Terminal:mousereleased(x, y, button)
@@ -445,15 +434,5 @@ function Terminal:mousereleased(x, y, button)
 end
 
 function Terminal:mousemoved(x, y, dx, dy, istouch)
-	love.mouse.setVisible(true)
-	-- local m = self.game:realToFakeMouse(x, y, button)
-	-- if m.x > self.inventoryX+40 and m.x < self.inventoryX + 40+240 then
-	-- 	if m.y > self.inventoryY+40 and m.y < self.inventoryY+800 then
-	-- 		print("is inside")
-	-- 	else
-	-- 		print("is not")
-	-- 	end
-	-- else
-	-- 	print("xwrong")
-	-- end
+	--
 end

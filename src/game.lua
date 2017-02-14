@@ -214,11 +214,6 @@ function Game:mousemoved(x, y, dx, dy, istouch)
 	self.screenStack[#self.screenStack]:mousemoved(x, y, dx, dy, istouch)
 	self.useJoystick = false
 	love.mouse.setVisible(true)
-	-- if self.ignoreMouseMoves <= 0 then
-		
-	-- else
-	-- 	self.ignoreMouseMoves = self.ignoreMouseMoves - 1
-	-- end
 end
 
 function Game:gamepadpressed(gamepad, button)

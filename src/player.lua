@@ -136,7 +136,7 @@ function Player:keypressed(key, unicode, level)
 			self:updateAllDoors(level)
 		elseif touching[1]=="terminal" then
 			local id = touching[2]
-			self.game:addToScreenStack(level.terminals[id])
+			self.game:addToScreenStack(level.newTerminals[level.terminals[id].key])
 		elseif touching[1]=="treasure" then
 			self.game:addToScreenStack(self.game.cutscene)
 			level.currentLevel = level.currentLevel + 1 

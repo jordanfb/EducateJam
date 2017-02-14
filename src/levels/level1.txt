@@ -22,3 +22,6 @@ wwwwwwwwwwwwwwwwwwww
 terminal ! buffer const E a
 terminal @ not const F b
 terminal # and const G d c
+newterminal ! E
+newterminal @ F
+newterminal # G

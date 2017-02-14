@@ -1,5 +1,6 @@
 require "class"
 require "circuit"
+require "newterminal"
 
 Level = class()
 
@@ -126,6 +127,7 @@ function Level:initialize()
 	self.levelArray = {}
 	self.backgrounds = {}
 	self.terminals = {}
+	self.newTerminals = {} -- the key is the door output rune letter, which may or may not be good
 	self.gates = {}
 	self.torches = {}
 	self.treasure = {}
@@ -159,17 +161,33 @@ function Level:initialize()
 	end
 	local terminalSetupTable = {}
 	configs = false
+	print("NEW LEVEL")
 	for line in love.filesystem.lines('levels/level'..self.currentLevel..'.txt') do
 		if configs then
 			local subtable = {}
 			for word in line:gmatch("([^%s]+)") do table.insert(subtable, word) end
 			table.insert(terminalSetupTable, subtable)
+			if subtable[1] == "newterminal" then
+				-- then the second thing is the key, and that is currently that
+				-- print("NEW TERMINAL SETUP SUBTABLE")
+				-- for k, v in pairs(subtable) do
+				-- 	print(tostring(k)..", "..tostring(v))
+				-- end
+				-- print(self.game)
+				-- print(self.currentLevel)
+				-- print(self)
+				-- print(self.circuit)
+				local keys = {}
+				for i = 3, #subtable do
+					keys[i-2] = subtable[i]
+				end
+				self.newTerminals[subtable[2]] = NewTerminal(self.game, self.currentLevel, self, self.circuit, subtable[2], keys)
+			end
 		end
 		if line == "--TERMINAL STATUS--" then
 			configs = true
 		end
 	end
-
 
 	self.tileSize = 160
 	self.camera = {x = 0, y = 600, dx = 0, dy = 0}
@@ -199,6 +217,11 @@ function Level:initialize()
 				table.insert(self.gates, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize*2, h=self.tileSize*2, gate=tile, taken=false, animation = 0})
 			elseif self.terminalNames[tile] ~= nil then
 				table.insert(self.terminals, Terminal((x-1)*self.tileSize, (y-1)*self.tileSize, self.tileSize, self.tileSize, self.game, self.currentLevel, self, tile))
+				if self.newTerminals[tile] ~= nil then
+					self.newTerminals[tile]:addCoordinates((x-1)*self.tileSize, (y-1)*self.tileSize, self.tileSize, self.tileSize)
+				else
+					print("NEW TERMINAL HAS NOT BEEN CREATED FOR TILE "..tile.."IN LEVEL "..self.currentLevel)
+				end
 			elseif tile == '_' then
 				table.insert(self.backgrounds, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h = self.tileSize, sprite = 1})
 				self.player:reset((x-1)*self.tileSize, (y-1)*self.tileSize)	
@@ -207,7 +230,7 @@ function Level:initialize()
 			elseif tile == ',' then
 				self.treasure = {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h = self.tileSize*2}
 			else
-				print("TILE ISN'T RECOGNIZED:"..tile)
+				error("TILE "..tile.. " ISN'T RECOGNIZED IN LEVEL "..self.currentLevel)
 			end
 		end
 	end
@@ -238,8 +261,12 @@ function Level:initialize()
 					elseif #t == 6+numViewables then -- then it only has one gate
 						terminal:setTerminalData(1, i, viewables, t[3], t[4], t[5], t[6])
 					end
+					break
 				end
 			end
+		-- if it's the newterminal, then this whole loop is useless, so we should delete it if we only use newterminals.
+		-- elseif t[1] == "newterminal" then
+		-- 	self.newTerminals[#self.newTerminals+1] = NewTerminal(t[2], self.circuit)
 		end
 	end
 
