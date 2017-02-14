@@ -21,7 +21,6 @@ function Menu:_init(game, buttons, xShift, yShift) -- buttons is a list of names
 	end
 	self.game = game
 	self:makeButtons()
-	self.useJoystick = false
 end
 
 function Menu:makeButtons()
@@ -35,6 +34,9 @@ function Menu:makeButtons()
 	for k, v in pairs(self.buttonNames) do
 		self.buttons[k] = Button(v, x + self.xShift, y+i*(buttonHeight+spacing) + self.yShift, buttonWidth, buttonHeight, self.fontHeight, self.game)
 		i = i + 1
+		if i == 1 then
+			self.buttons[i].selected = true
+		end
 	end
 end
 
@@ -45,16 +47,14 @@ function Menu:draw()
 end
 
 function Menu:update(dt)
+	-- I don't think this is ever called, since you can always call it from mousemoved() if you want to.
 	local mx = love.mouse.getX()
 	local my = love.mouse.getY()
 	local i = 1
-	if not self.useJoystick then
+	if not self.game.useJoystick then
 		for k, v in pairs(self.buttons) do
 			if v:updateMouse(mx, my) then
 				self.selected = i
-				self.useJoystick = false
-			-- elseif not self.useJoystick then
-			-- 	v:setSelected(false)
 			end
 			i = i + 1
 		end
@@ -68,7 +68,6 @@ function Menu:update(dt)
 end
 
 function Menu:mousepressed(x, y, button)
-	self.useJoystick = false
 	self:update(0) -- because mouse was pressed, assume that we need to use mouse
 	return self:returnPressed()
 end
@@ -86,27 +85,31 @@ end
 
 function Menu:keypressed(key, unicode)
 	if key == "menuUp" then
-		self.useJoystick = true
+		self.game.useJoystick = true
 		self.selected = self.selected - 1
 		if self.selected <= 0 then
 			self.selected = #self.buttons
 		end
 	elseif key == "menuDown" then
-		self.useJoystick = true
+		self.game.useJoystick = true
 		self.selected = self.selected+1
 		if self.selected > #self.buttons then
 			self.selected = 1
 		end
 	elseif key == "joysticka" then
-		self.useJoystick = true
+		self.game.useJoystick = true
 		return self:returnPressed()
 	elseif key == "joystickb" then
 		--
 	end
+	if self.game.useJoystick then
+		for i = 1, #self.buttons do
+			self.buttons[i].selected = (i == self.selected)
+		end
+	end
 end
 
 function Menu:mousemoved(x, y, dx, dy, istouch)
-	self.useJoystick = false
 	self:update(0)
 	love.mouse.setVisible(true)
 end

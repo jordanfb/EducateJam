@@ -25,12 +25,12 @@ f on
 g on
 h on
 --TERMINAL STATUS--
-terminal ! or const P a b
+terminal ! or const P a b view $
 terminal $ not const J a
 
-terminal @ buffer const M c
+terminal @ buffer const M c view ^ %
 terminal ^ xor const N c e
 terminal % and const O d e
 
-terminal # nor const i f h
+terminal # nor const i f h view &
 terminal & and const L i g

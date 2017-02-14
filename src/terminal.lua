@@ -37,6 +37,7 @@ function Terminal:_init(x, y, w, h, game, currentLevel, level, key)
 	self.terminalY = 1080/2-self.backgroundH/2
 	self.inventoryX = self.terminalX + self.backgroundW
 	self.inventoryY = self.terminalY
+	self.viewablePages = {}
 
 	-- self.circuit:evaluate()
 	-- for k, v in pairs(self.circuit.outputs) do
@@ -76,7 +77,7 @@ function Terminal:logicGateNumberToName(num)
 end
 
 function Terminal:setLogicGate(gate, override)
-	if self.editable == "edit" or override==true then
+	if self.editable or override==true then
 		-- then you can change it!
 		self.gateName = gate
 		self.gateType = self:nameToLogicGateNumber(gate)
@@ -92,15 +93,24 @@ function Terminal:setLogicGate(gate, override)
 	end
 end
 
-function Terminal:setTerminalData(numInputs, terminalIndex, gateType, editable, out, inA, inB)
+function Terminal:setTerminalData(numInputs, terminalIndex, otherPages, gateType, editable, out, inA, inB)
 	--2, i, t[3], t[4], t[5], t[6], t[7]
 	self.numInputs = numInputs
 	self.gateName = gateType
 	self:setLogicGate(gateType, true)
-	self.editable = editable
+	self.editable = (editable == "edit")
 	self.inA = inA
 	self.inB = inB
 	self.out = out
+	self.numViewablePages = 0
+	local t = otherPages
+	t[#t+1] = self.key
+	self.viewablePages = {}
+	for k, v in pairs(t) do
+		self.viewablePages[v] = true
+		self.numViewablePages = self.numViewablePages + 1
+	end
+
 	self.selected = terminalIndex
 	self.resetInfo = {terminalIndex = terminalIndex, out = out, inA = inA, inB = inB, numInputs = numInputs}
 	self.magicCenteringNumber = 85
@@ -151,7 +161,7 @@ function Terminal:setColorToGate()
 end
 
 function Terminal:setColorForTile(override) -- use override for the inventory
-	if self.editable == "edit" or override then
+	if self.editable or override then
 		-- make it tan, since it's editable?
 		-- print("editable")
 		love.graphics.setColor(190, 164, 136)
@@ -245,7 +255,7 @@ function Terminal:drawInventory()
 		love.graphics.draw(self.level.inventoryImages["gateTile"..v..".png"], x, y+(k-1)*185)
 		-- y = y + 10 -- the height of the gate and 40 for spacing -- but not, since it does it above
 	end
-	if self.game.useJoystick then
+	if self.game.useJoystick and self.editable then
 		local hx = 0
 		local hy = 0
 		if self.joystickSelected > 1 then
@@ -264,6 +274,10 @@ end
 function Terminal:draw()
 	local t = self.level.terminals[self.selected]
 	t:drawThisOne()
+	if self.numViewablePages > 1 then
+		love.graphics.draw(self.level.inventoryImages.leftArrow, self.terminalX+20, self.terminalY + self.backgroundH-10)
+		love.graphics.draw(self.level.inventoryImages.rightArrow, self.terminalX+self.backgroundW-20-160, self.terminalY + self.backgroundH-10)
+	end
 end
 
 function Terminal:drawThisOne()
@@ -305,8 +319,6 @@ function Terminal:drawThisOne()
 	end
 	self:drawLogicGate()
 	self:drawInventory()
-	love.graphics.draw(self.level.inventoryImages.leftArrow, self.terminalX+20, self.terminalY + self.backgroundH-10)
-	love.graphics.draw(self.level.inventoryImages.rightArrow, self.terminalX+self.backgroundW-20-160, self.terminalY + self.backgroundH-10)
 end
 
 function Terminal:update(dt)
@@ -329,16 +341,9 @@ function Terminal:keypressed(key, unicode)
 		self.game:popScreenStack()
 	end
 	if key == "right" or key == "joystickrightshoulder" or key == "d" then
-		-- swap to a right-er page
-		self.selected = self.selected - 1
-		if self.selected <= 0 then
-			self.selected = #self.level.terminals
-		end
+		self:moveRightPage()
 	elseif key == "left" or key == "joystickleftshoulder" or key == "a" then
-		self.selected = self.selected + 1
-		if self.selected > #self.level.terminals then
-			self.selected = 1
-		end
+		self:moveLeftPage()
 	end
 	if key == "menuUp" then
 		self.game.level.terminals[self.selected].joystickSelected = self.game.level.terminals[self.selected].joystickSelected-1
@@ -361,6 +366,27 @@ function Terminal:keypressed(key, unicode)
 		self.game.level.terminals[self.selected].joystickSelected = 1+#self.level.player.inventory
 	elseif self.game.level.terminals[self.selected].joystickSelected > 1+#self.level.player.inventory then
 		self.game.level.terminals[self.selected].joystickSelected = 1
+	end
+end
+
+function Terminal:moveLeftPage()
+	self.selected = self.selected + 1
+	if self.selected > #self.level.terminals then
+		self.selected = 1
+	end
+	if self.viewablePages[self.level.terminals[self.selected].key] == nil then
+		self:moveLeftPage()
+	end
+end
+
+function Terminal:moveRightPage()
+	-- swap to a right-er page
+	self.selected = self.selected - 1
+	if self.selected <= 0 then
+		self.selected = #self.level.terminals
+	end
+	if self.viewablePages[self.level.terminals[self.selected].key] == nil then
+		self:moveRightPage()
 	end
 end
 
@@ -394,15 +420,9 @@ function Terminal:dealWithMouseClick(a, b, button)
 	end
 	if y > self.terminalY + self.backgroundH-10 and y < self.terminalY + self.backgroundH-10 + 120 then
 		if x > self.terminalX+20 and x < self.terminalX+20+160 then
-			self.selected = self.selected - 1
-			if self.selected <= 0 then
-				self.selected = #self.level.terminals
-			end
+			self:moveLeftPage()
 		elseif x > self.terminalX+self.backgroundW-20-160 and x < self.terminalX+self.backgroundW-20 then
-			self.selected = self.selected + 1
-			if self.selected > #self.level.terminals then
-				self.selected = 1
-			end
+			self:moveRightPage()
 		end
 	end
 	-- if y > self.inventoryY + self.backgroundY

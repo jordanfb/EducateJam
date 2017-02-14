@@ -217,14 +217,26 @@ function Level:initialize()
 	for k, t in pairs(terminalSetupTable) do
 		-- print("SETTING TERMINALS")
 		-- print("trying to find "..t[2])
+		local viewables = {}
+		local setViewables = false
+		local numViewables = 0
 		if t[1] == "terminal" then
+			for j, v in pairs(t) do
+				if v == "view" then
+					setViewables = true
+					numViewables = 1
+				elseif setViewables then
+					viewables[#viewables + 1] = v
+					numViewables = numViewables + 1
+				end
+			end
 			for i, terminal in pairs(self.terminals) do
 				if terminal.key == t[2] then
 					-- print("Found it")
-					if #t == 7 then -- then it has two inputs
-						terminal:setTerminalData(2, i, t[3], t[4], t[5], t[6], t[7])
-					elseif #t == 6 then -- then it only has one gate
-						terminal:setTerminalData(1, i, t[3], t[4], t[5], t[6])
+					if #t == 7+numViewables then -- then it has two inputs
+						terminal:setTerminalData(2, i, viewables, t[3], t[4], t[5], t[6], t[7])
+					elseif #t == 6+numViewables then -- then it only has one gate
+						terminal:setTerminalData(1, i, viewables, t[3], t[4], t[5], t[6])
 					end
 				end
 			end
@@ -291,7 +303,7 @@ function Level:copyTable(intable)
 			t[k] = self:copyTable(v)
 		else
 			t[k] = v
-			print(k.." = "..tostring(v))
+			-- print(k.." = "..tostring(v))
 		end
 	end
 	return t
@@ -450,11 +462,16 @@ end
 
 function Level:keypressed(key, unicode)
 	self.player:keypressed(key, unicode, self)
-	if key == "escape" or key == "joystickstart" then
+	if key == "escape" or key == "joystickstart" or key == "joystickback" then
 		self.game:addToScreenStack(self.game.pauseMenu)
-	elseif key == "k" then
-		self.currentLevel = self.currentLevel + 1
-		self:initialize()
+	elseif key == "k" and self.game.cheatMode then
+		if self.currentLevel < self.totalLevels then
+			self.currentLevel = self.currentLevel + 1
+			self:initialize()
+		else
+			self.game:addToScreenStack(self.game.cutscene)
+			self.currentLevel = self.currentLevel + 1 
+		end
 	end
 end
 

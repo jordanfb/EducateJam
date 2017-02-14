@@ -7,5 +7,5 @@ w
 wwwwwwwwwwwwwwwwwww
 --INITIAL STATUS--
 --TERMINAL STATUS--
-terminal ! or const E a b
-terminal @ xor const F c d
+terminal ! or const E a b view @
+terminal @ xor const F c d view !

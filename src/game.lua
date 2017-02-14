@@ -24,7 +24,7 @@ function Game:_init()
 	self.updateUnder = false
 
 	--music
-	
+
 	self.startMusic = love.audio.newSource("music/startScreen.mp3") 
 	self.startMusic:setLooping( true )
 	self.startMusic:setVolume (0.4)
@@ -38,7 +38,7 @@ function Game:_init()
 	-- here are the actual variables
 	self.SCREENWIDTH = 1920
 	self.SCREENHEIGHT = 1080
-	self.fullscreen = false
+	self.fullscreen = true
 	self.drawFPS = false
 	
 	self.player = Player(self)
@@ -50,29 +50,21 @@ function Game:_init()
 	self.cutscene = Cutscene(self, self.level)
 	self.credits = Credits(self)
 	self.intro = Intro(self)
-	-- self.player = Player(self)
-	-- self.level= Level(self, self.player)
-	-- self.pauseMenu = PauseMenu(self)
-	-- self.joystickTester = JoystickTester(self)
-	-- self.deathMenu = DeathMenu(self)
-	-- self.joystickManager = JoystickManager(self)
+
 	self.screenStack = {}
-	
-	-- self.bg = love.graphics.newImage('images/bg.png')
-	
-	-- bgm = love.audio.newSource("music/battlemusic.mp3")
-	-- bgm:setVolume(0.9) -- 90% of ordinary volume
-	-- bgm:setLooping( true )
-	-- bgm:play()
+		
 	love.graphics.setBackgroundColor(0, 0, 0)
 	self:addToScreenStack(self.mainMenu)
-	-- self:addToScreenStack(self.player)
 	self.fullCanvas = love.graphics.newCanvas(self.SCREENWIDTH, self.SCREENHEIGHT)
 	self.useJoystick = false
+
+	self.cheatMode = false
+	-- self.ignoreMouseMoves = 5
 end
 
 function Game:load(args)
-	--
+	self.useJoystick = self.gamepadManager:hasJoysticks()
+	love.mouse.setVisible(self.useJoystick)
 end
 
 function Game:takeScreenshot()
@@ -83,7 +75,6 @@ end
 function Game:draw()
 	love.graphics.setCanvas(self.fullCanvas)
 	love.graphics.clear()
-	-- love.graphics.draw(self.bg, 0, 0)
 
 	local thingsToDraw = 1 -- this will become the index of the lowest item to draw
 	for i = #self.screenStack, 1, -1 do
@@ -111,7 +102,7 @@ function Game:draw()
 
 	love.graphics.setCanvas()
 	love.graphics.setColor(255, 255, 255)
-	if self.fullscreen then
+	if true or self.fullscreen then
 		local width = love.graphics.getWidth()
 		local height = love.graphics.getHeight()
 		local scale = math.min(height/1080, width/1920)
@@ -137,7 +128,7 @@ function Game:realToFakeMouse(x, y)
 	local width = love.graphics.getWidth()
 	local height = love.graphics.getHeight()
 	local scale = math.min(height/1080, width/1920)
-	if not self.fullscreen then
+	if false and not self.fullscreen then
 		return {x = x/scale, y = y/scale}
 	else
 		return {x = (x-(width/2-1920/2*scale))/scale, y = (y-(height/2-1080/2*scale))/scale}
@@ -185,6 +176,8 @@ function Game:keypressed(key, unicode)
 		self:takeScreenshot()
 	elseif key == "f1" then
 		love.event.quit()
+	elseif key == "f8" then
+		love.window.setMode(1920/2, 1080/2, {resizable = true})
 	end
 end
 
@@ -194,6 +187,7 @@ end
 
 function Game:mousepressed(x, y, button)
 	self.screenStack[#self.screenStack]:mousepressed(x, y, button)
+	self.useJoystick = false
 end
 
 function Game:mousereleased(x, y, button)
@@ -218,6 +212,13 @@ end
 
 function Game:mousemoved(x, y, dx, dy, istouch)
 	self.screenStack[#self.screenStack]:mousemoved(x, y, dx, dy, istouch)
+	self.useJoystick = false
+	love.mouse.setVisible(true)
+	-- if self.ignoreMouseMoves <= 0 then
+		
+	-- else
+	-- 	self.ignoreMouseMoves = self.ignoreMouseMoves - 1
+	-- end
 end
 
 function Game:gamepadpressed(gamepad, button)
@@ -225,6 +226,6 @@ function Game:gamepadpressed(gamepad, button)
 	self.useJoystick = true
 end
 
-function Game:gamepadaxis( joystick, axis, value )
+function Game:gamepadaxis(joystick, axis, value)
 	self.gamepadManager:gamepadaxis(joystick, axis, value)
 end

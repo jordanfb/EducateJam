@@ -32,13 +32,13 @@ function Cutscene:_init(game)
 	self.joystickIndicatorScale = 1
 	self.lines = {}
 	for line in love.filesystem.lines("levels/cutscenes.txt") do
-		print(line)
+		-- print(line)
 		self.lines[#self.lines + 1] = line
 	end
 
 	self.time = 0
 	self.fadeTime = 0.5
-	self.totalTime = 6
+	self.totalTime = 8
 end
 
 function Cutscene:load()

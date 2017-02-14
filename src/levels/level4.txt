@@ -14,7 +14,7 @@ wwwwwwwwwwwwwwwwwwwwww
 --INITIAL STATUS--
 d on
 --TERMINAL STATUS--
-terminal ! not const G c
+terminal ! not const G c view @ # $ % ^
 terminal @ and const e b d
 terminal # xor const H e c
 terminal $ xor const f a b

@@ -13,8 +13,8 @@ function love.load(args)
 	love.filesystem.setIdentity(name)
 	game:load(args)
 	--local width, height = 512, 256
-	love.window.setMode(1920/2, 1080/2)
-	love.window.setFullscreen(false)
+	love.window.setMode(1920/2, 1080/2, {resizable = true})
+	love.window.setFullscreen(true)
 	-- not much here
 	game:resize(width, height)
 	love.mouse.setVisible(true)
