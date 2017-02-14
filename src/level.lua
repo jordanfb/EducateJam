@@ -464,7 +464,7 @@ function Level:keypressed(key, unicode)
 	self.player:keypressed(key, unicode, self)
 	if key == "escape" or key == "joystickstart" or key == "joystickback" then
 		self.game:addToScreenStack(self.game.pauseMenu)
-	elseif key == "k" then
+	elseif key == "k" and self.game.cheatMode then
 		if self.currentLevel < self.totalLevels then
 			self.currentLevel = self.currentLevel + 1
 			self:initialize()

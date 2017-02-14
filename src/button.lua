@@ -27,8 +27,10 @@ function Button:draw()
 	love.graphics.setFont(love.graphics.newFont("fonts/november.ttf", 32))
 	love.graphics.draw(self.image, self.x-self.width/2, self.y-self.height/2)
 	love.graphics.setColor(0, 0, 0)
-	love.graphics.setLineWidth(3)
-	love.graphics.rectangle("line", self.x-self.width/2, self.y-self.height/2, self.width, self.height, 10, 10)
+
+	-- disabled the outlines for the buttons, since they shouldn't actually exist now that we have art
+	-- love.graphics.setLineWidth(3)
+	-- love.graphics.rectangle("line", self.x-self.width/2, self.y-self.height/2, self.width, self.height, 10, 10)
 	love.graphics.printf(self.text, self.x-self.width/2, self.y-self.fontHeight/2, self.width, "center")
 end
 

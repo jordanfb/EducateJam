@@ -57,6 +57,8 @@ function Game:_init()
 	self:addToScreenStack(self.mainMenu)
 	self.fullCanvas = love.graphics.newCanvas(self.SCREENWIDTH, self.SCREENHEIGHT)
 	self.useJoystick = false
+
+	self.cheatMode = false
 	-- self.ignoreMouseMoves = 5
 end
 

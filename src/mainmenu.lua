@@ -29,6 +29,13 @@ function MainMenu:_init(game)
 	self.image = love.graphics.newImage('art/menuBackground.png')
 	
 	self.game.startMusic:play()
+
+	-- these are for cheat codes down here:
+	-- check game.cheatMode == true if you want to know if people should be able to cheat
+	self.currentCheatCode = 0
+	self.cheatCodeProgress = 0
+	self.cheatCodes = {"everything", "nothing"}
+	-- note that if you want to add another one, it needs to start with a new letter
 end
 
 function MainMenu:load()
@@ -44,11 +51,6 @@ end
 
 function MainMenu:draw()
 	love.graphics.draw(self.image, 0, 0)
-	-- love.graphics.draw(self.image, 130, 100, 0, 1, 1)
-	-- if self.hasJoysticks then -- display that you have a joystick connected
-	-- 	love.graphics.setColor(0, 0, 128)--90, 100, 255)
-	-- 	love.graphics.printf("With Controllers!", 172, 250, 500, "center", -.27, self.joystickIndicatorScale, self.joystickIndicatorScale)
-	-- end
 	love.graphics.setColor(0, 0, 0)
 	love.graphics.printf("F2 - FullScreen", self.SCREENWIDTH - 1000, 1020, 940, "right")
 	self.menu:draw()
@@ -70,6 +72,45 @@ function MainMenu:keypressed(key, unicode)
 		self:selectButton("Exit")
 	elseif key == "joystickstart" then
 		self:selectButton("Play")
+	end
+	self:cheatCodeHandling(key, unicode)
+end
+
+function MainMenu:handleCheatCodeComplete()
+	if self.cheatCodes[self.currentCheatCode] == "everything" then
+		self.game.cheatMode = true
+	elseif self.cheatCodes[self.currentCheatCode] == "nothing" then
+		self.game.cheatMode = false
+	end
+	self.currentCheatCode = 0
+	self.cheatCodeProgress = 0
+end
+
+function MainMenu:cheatCodeHandling(key, unicode)
+	if self.currentCheatCode ~= 0 then
+		if key == string.sub(self.cheatCodes[self.currentCheatCode], self.cheatCodeProgress+1, self.cheatCodeProgress+1) then
+			-- you made progress on it
+			self.cheatCodeProgress = self.cheatCodeProgress + 1
+			if self.cheatCodeProgress >= #self.cheatCodes[self.currentCheatCode] then
+				self:handleCheatCodeComplete()
+				return
+			end
+		else
+			self.currentCheatCode = 0
+			self.cheatCodeProgress = 0
+			return
+		end
+	else
+		for i = 1, #self.cheatCodes do
+			if key == string.sub(self.cheatCodes[i], 1, 1) then
+				self.currentCheatCode = i
+				self.cheatCodeProgress = 1
+				if #self.cheatCodes[self.currentCheatCode] == 1 then
+					self:handleCheatCodeComplete()
+				end
+				break;
+			end
+		end
 	end
 end
 
