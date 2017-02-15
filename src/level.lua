@@ -119,7 +119,9 @@ end
 
 function Level:initialize()
 
-	self.game.gameMusic:play()
+	if self.game.playMusic then
+		self.game.gameMusic:play()
+	end
 	self.walls = {}
 	self.ladders = {}
 	self.doors = {}

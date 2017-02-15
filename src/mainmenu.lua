@@ -27,8 +27,10 @@ function MainMenu:_init(game)
 	self.joystickIndicatorScale = 1
 	
 	self.image = love.graphics.newImage('art/menuBackground.png')
-	
-	self.game.startMusic:play()
+
+	if self.game.playMusic then
+		self.game.startMusic:play()
+	end
 
 	-- these are for cheat codes down here:
 	-- check game.cheatMode == true if you want to know if people should be able to cheat

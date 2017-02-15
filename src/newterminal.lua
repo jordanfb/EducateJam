@@ -15,6 +15,7 @@ function NewTerminal:_init(game, currentLevel, level, circuit, terminalName, key
 	self.updateUnder = false
 
 	-- now the actual variables
+	self.magicEdgeOffset = 40 -- the distance from the nodes and such to the edge of the terminal background
 	self.game = game
 	self.level = level
 	self.circuit = circuit
@@ -22,8 +23,7 @@ function NewTerminal:_init(game, currentLevel, level, circuit, terminalName, key
 	self.terminalName = terminalName
 	-- what the letter is that is used to represent it, (also the key for the level.newTerminals table)
 	self.circuitDisplays = {}
-	self.displayPage = 1
-	self:divideCircuitForDisplay()
+	self.currentPage = 1
 	-- self.gatesToDisplay = {}
 	
 	self.x = 0 -- these get replaced when self:addCoordinates() is called by the level loader
@@ -37,16 +37,20 @@ function NewTerminal:_init(game, currentLevel, level, circuit, terminalName, key
 	self.terminalY = 1080/2-self.backgroundH/2
 	self.inventoryX = self.terminalX + self.backgroundW
 	self.inventoryY = self.terminalY
+
+	self:prepareCircuitForDisplay()
 end
 
-function NewTerminal:divideCircuitForDisplay()
+function NewTerminal:prepareCircuitForDisplay()
 	-- print("TERMINAL KEY "..tostring(self.key))
 	for k, key in pairs(self.keys) do
 		local gateSetup = self.circuit:getGatesForDoor(key)
 		local gatesDisplayTable = gateSetup.displayTable
 		local gatesDisplayLevel = gateSetup.levelTable
-		self.circuitDisplays[key] = {display = gatesDisplayTable, levels = gatesDisplayLevel}
+		local inputs = gateSetup.inputs
+		self.circuitDisplays[#self.circuitDisplays+1] = {display = gatesDisplayTable, levels = gatesDisplayLevel, inputs = inputs, output = key}
 	end
+	self:setCoordinatesForDisplay()
 	-- self.gatesToDisplay then contains all the gates for that terminal/door.
 	-- self.outputRune = ""
 	-- self.inputRunes = {}
@@ -65,18 +69,32 @@ function NewTerminal:divideCircuitForDisplay()
 	-- probably has to recursively add everything to this table using recursion. Recursively.
 end
 
+function NewTerminal:tablelength(t)
+	local i = 0
+	for k, v in pairs(t) do
+		i = i + 1
+	end
+	return i
+end
+
 function NewTerminal:setCoordinatesForDisplay()
+	-- note that I really need to re-do the y coordinates for displaying gates
 	for k, page in pairs(self.circuitDisplays) do
 		local numCollumns = 2 + #page
 		local step = self.backgroundW / numCollumns
-		local x = self.terminalX + self.backgroundW - 40-- subtract some amount though,
-		for i = 1, #page do
+		local x = self.terminalX + self.backgroundW - self.magicEdgeOffset-- subtract some amount though,
+		for i = 1, #page.display do
 			-- each collumn
-			local collumns
-			for k, v in pairs(page) do
-				--
+			x = x - step -- this is done first, because you also display the output symbol on the right.
+			for k, collumn in pairs(page.display) do
+				local ystep = (self.backgroundH-2*self.magicEdgeOffset)/(self:tablelength(collumn)+1)
+				local y = self.terminalY + self.magicEdgeOffset + ystep
+				for j, gateTable in pairs(collumn) do
+					gateTable.x = x
+					gateTable.y = y
+					y = y + ystep
+				end
 			end
-			x = x + step
 		end
 	end
 end
@@ -119,21 +137,61 @@ end
 
 function NewTerminal:load()
 	-- run when the level is given control
+	-- love.mouse.setVisible(true)
 end
 
 function NewTerminal:leave()
 	-- run when the level no longer has control
 end
 
+function NewTerminal:drawInputs()
+	print(#self.circuitDisplays)
+	local numInputs = #(self.circuitDisplays[self.currentPage]).inputs
+	local step = (self.backgroundH-2*self.magicEdgeOffset)/(numInputs+1)
+	local x = self.terminalX + self.magicEdgeOffset
+	local y = self.terminalY + self.magicEdgeOffset+step
+	for i = 1, numInputs do
+		local inputRune = string.upper(self.circuitDisplays[self.currentPage].inputs[i])
+		local image = self.level.blueRunes[inputRune]
+		love.graphics.draw(image, x-image:getWidth()/2, y-image:getHeight()/2)
+		y = y + step
+	end
+end
+
+function NewTerminal:drawOutput()
+	-- currrently only draws the single output, but you can pretty much just copy the drawInputs to make it work
+	local x = self.terminalX+self.backgroundW-self.magicEdgeOffset
+	local y = self.terminalY + self.backgroundH/2
+	local outputRune = self.circuitDisplays[self.currentPage].output
+	local image = self.level.blueRunes[outputRune]
+	love.graphics.draw(image, x-image:getWidth()/2, y-image:getHeight()/2)
+end
+
+function NewTerminal:drawGates()
+	local page = self.circuitDisplays[self.currentPage]
+	for k, collumn in pairs(page) do
+		print("LKSJDFLKSDJFLSLKFJSD")
+		print(collumn)
+		-- for j, gate in pairs(collumn) do
+		-- 	love.graphics.setColor(200, 200, 200)
+		-- 	local image = self.level.inventoryImages.tileBackground
+		-- 	love.graphics.draw(image, gate.x-image:getWidth()/2, gate.y-image:getHeight()/2)
+		-- end
+	end
+end
+
 function NewTerminal:draw()
 	love.graphics.setColor(255, 255, 255)
 	love.graphics.draw(self.level.insideTerminalImages.background, self.terminalX, self.terminalY)
-	if #self.circuitDisplays > 0 then
-		local x = self.terminalX + self.backgroundW -- subtract a certain amount though.
-		for k, line in pairs(self.circuitDisplays[self.displayPage]) do
-			-- display each layer.
-		end
-	end
+	-- if #self.circuitDisplays > 0 then
+	-- 	local x = self.terminalX + self.backgroundW -- subtract a certain amount though.
+	-- 	for k, line in pairs(self.circuitDisplays[self.currentPage]) do
+	-- 		-- display each layer.
+	-- 	end
+	-- end
+	self:drawInputs()
+	self:drawOutput()
+	self:drawGates()
 end
 
 function NewTerminal:update(dt)
@@ -144,9 +202,35 @@ function NewTerminal:resize(w, h)
 	--
 end
 
+function NewTerminal:moveLeftPage()
+	-- swap to a left-er page
+	self.currentPage = self.currentPage + 1
+	if self.currentPage > #self.circuitDisplays then
+		self.currentPage = 1
+	end
+	-- if self.viewablePages[self.circuitDisplays[self.currentPage].key] == nil then
+	-- 	self:moveLeftPage()
+	-- end
+end
+
+function NewTerminal:moveRightPage()
+	-- swap to a right-er page
+	self.currentPage = self.currentPage - 1
+	if self.currentPage <= 0 then
+		self.currentPage = #self.circuitDisplays
+	end
+	-- if self.viewablePages[self.circuitDisplays[self.currentPage].key] == nil then
+	-- 	self:moveRightPage()
+	-- end
+end
+
 function NewTerminal:keypressed(key, unicode)
 	if key == "e" or key == "joystickb" or key == "escape" then
 		self.game:popScreenStack()
+	elseif key == "right" or key == "joystickrightshoulder" or key == "d" then
+		self:moveRightPage()
+	elseif key == "left" or key == "joystickleftshoulder" or key == "a" then
+		self:moveLeftPage()
 	end
 end
 
