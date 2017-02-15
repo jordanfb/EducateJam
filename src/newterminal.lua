@@ -16,7 +16,7 @@ function NewTerminal:_init(game, currentLevel, level, circuit, terminalName, key
 
 	-- now the actual variables
 	self.magicEdgeOffset = 40 -- the distance from the nodes and such to the edge of the terminal background
-	self.gateScale = .75
+	self.gateScale = .5
 	self.inputScale = .5*2
 	self.outputScale = .5*2
 	self.game = game
