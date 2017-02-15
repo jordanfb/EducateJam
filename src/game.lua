@@ -58,7 +58,7 @@ function Game:_init()
 	self.fullCanvas = love.graphics.newCanvas(self.SCREENWIDTH, self.SCREENHEIGHT)
 	self.useJoystick = false
 
-	self.cheatMode = false
+	self.cheatMode = true
 	-- self.ignoreMouseMoves = 5
 end
 

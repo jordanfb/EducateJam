@@ -16,6 +16,9 @@ function NewTerminal:_init(game, currentLevel, level, circuit, terminalName, key
 
 	-- now the actual variables
 	self.magicEdgeOffset = 40 -- the distance from the nodes and such to the edge of the terminal background
+	self.gateScale = .75
+	self.inputScale = .5*2
+	self.outputScale = .5*2
 	self.game = game
 	self.level = level
 	self.circuit = circuit
@@ -31,7 +34,7 @@ function NewTerminal:_init(game, currentLevel, level, circuit, terminalName, key
 	self.w = 0
 	self.h = 0
 
-	self.backgroundW = self.level.insideTerminalImages.background:getWidth()
+	self.backgroundW = self.level.insideTerminalImages.background:getWidth()*2
 	self.backgroundH = self.level.insideTerminalImages.background:getHeight()
 	self.terminalX = 1920/2-self.backgroundW/2
 	self.terminalY = 1080/2-self.backgroundH/2
@@ -70,6 +73,9 @@ function NewTerminal:prepareCircuitForDisplay()
 end
 
 function NewTerminal:tablelength(t)
+	if t == nil then
+		return 0
+	end
 	local i = 0
 	for k, v in pairs(t) do
 		i = i + 1
@@ -79,23 +85,26 @@ end
 
 function NewTerminal:setCoordinatesForDisplay()
 	-- note that I really need to re-do the y coordinates for displaying gates
+	print("MAKING COORDINATES")
 	for k, page in pairs(self.circuitDisplays) do
-		local numCollumns = 2 + #page
-		local step = self.backgroundW / numCollumns
+		local numCollumns = self:tablelength(page.display)
+		print("NIM COOLLLUMS "..numCollumns)
+		local step = (self.backgroundW-2*self.magicEdgeOffset) / (numCollumns+1)
 		local x = self.terminalX + self.backgroundW - self.magicEdgeOffset-- subtract some amount though,
-		for i = 1, #page.display do
+		-- for i = 1, #page.display do
 			-- each collumn
+		for k, collumn in pairs(page.display) do
 			x = x - step -- this is done first, because you also display the output symbol on the right.
-			for k, collumn in pairs(page.display) do
-				local ystep = (self.backgroundH-2*self.magicEdgeOffset)/(self:tablelength(collumn)+1)
-				local y = self.terminalY + self.magicEdgeOffset + ystep
-				for j, gateTable in pairs(collumn) do
-					gateTable.x = x
-					gateTable.y = y
-					y = y + ystep
-				end
+			local ystep = (self.backgroundH-2*self.magicEdgeOffset)/(self:tablelength(collumn)+1)
+			local y = self.terminalY + self.magicEdgeOffset + ystep
+			for j, gateTable in pairs(collumn) do
+				gateTable.x = x
+				gateTable.y = y
+				y = y + ystep
 			end
+			print("ADDED X COORDS FOR GATE")
 		end
+		-- end
 	end
 end
 
@@ -145,7 +154,6 @@ function NewTerminal:leave()
 end
 
 function NewTerminal:drawInputs()
-	print(#self.circuitDisplays)
 	local numInputs = #(self.circuitDisplays[self.currentPage]).inputs
 	local step = (self.backgroundH-2*self.magicEdgeOffset)/(numInputs+1)
 	local x = self.terminalX + self.magicEdgeOffset
@@ -153,7 +161,7 @@ function NewTerminal:drawInputs()
 	for i = 1, numInputs do
 		local inputRune = string.upper(self.circuitDisplays[self.currentPage].inputs[i])
 		local image = self.level.blueRunes[inputRune]
-		love.graphics.draw(image, x-image:getWidth()/2, y-image:getHeight()/2)
+		love.graphics.draw(image, x, y, 0, self.inputScale, self.inputScale, image:getWidth()/2, image:getHeight()/2)
 		y = y + step
 	end
 end
@@ -164,25 +172,25 @@ function NewTerminal:drawOutput()
 	local y = self.terminalY + self.backgroundH/2
 	local outputRune = self.circuitDisplays[self.currentPage].output
 	local image = self.level.blueRunes[outputRune]
-	love.graphics.draw(image, x-image:getWidth()/2, y-image:getHeight()/2)
+	love.graphics.draw(image, x, y, 0, self.outputScale, self.outputScale, image:getWidth()/2, image:getHeight()/2)
 end
 
 function NewTerminal:drawGates()
 	local page = self.circuitDisplays[self.currentPage]
-	for k, collumn in pairs(page) do
-		print("LKSJDFLKSDJFLSLKFJSD")
-		print(collumn)
-		-- for j, gate in pairs(collumn) do
-		-- 	love.graphics.setColor(200, 200, 200)
-		-- 	local image = self.level.inventoryImages.tileBackground
-		-- 	love.graphics.draw(image, gate.x-image:getWidth()/2, gate.y-image:getHeight()/2)
-		-- end
+	for k, collumn in pairs(page.display) do
+		-- print(collumn)
+		for j, gate in pairs(collumn) do
+			love.graphics.setColor(200, 200, 200)
+			local image = self.level.inventoryImages.tileBackground
+			love.graphics.draw(image, gate.x, gate.y, 0, self.gateScale, self.gateScale, image:getWidth()/2, image:getHeight()/2)
+		end
 	end
 end
 
 function NewTerminal:draw()
 	love.graphics.setColor(255, 255, 255)
 	love.graphics.draw(self.level.insideTerminalImages.background, self.terminalX, self.terminalY)
+	love.graphics.draw(self.level.insideTerminalImages.background, self.terminalX+self.backgroundW/2, self.terminalY)
 	-- if #self.circuitDisplays > 0 then
 	-- 	local x = self.terminalX + self.backgroundW -- subtract a certain amount though.
 	-- 	for k, line in pairs(self.circuitDisplays[self.currentPage]) do
