@@ -59,6 +59,7 @@ function Game:_init()
 	self.useJoystick = false
 
 	self.cheatMode = true
+	self.useNewTerminal = true
 	-- self.ignoreMouseMoves = 5
 end
 

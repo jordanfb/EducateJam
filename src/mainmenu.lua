@@ -36,7 +36,7 @@ function MainMenu:_init(game)
 	-- check game.cheatMode == true if you want to know if people should be able to cheat
 	self.currentCheatCode = 0
 	self.cheatCodeProgress = 0
-	self.cheatCodes = {"everything", "nothing"}
+	self.cheatCodes = {"everything", "nothing", "old"}
 	-- note that if you want to add another one, it needs to start with a new letter
 end
 
@@ -83,6 +83,8 @@ function MainMenu:handleCheatCodeComplete()
 		self.game.cheatMode = true
 	elseif self.cheatCodes[self.currentCheatCode] == "nothing" then
 		self.game.cheatMode = false
+	elseif self.cheatCodes[self.currentCheatCode] == "old" then
+		self.game.useNewTerminal = not self.game.useNewTerminal
 	end
 	self.currentCheatCode = 0
 	self.cheatCodeProgress = 0
