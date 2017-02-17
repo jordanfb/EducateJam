@@ -156,8 +156,10 @@ function NewTerminal:nameToLogicGateNumber(name)
 	conversionTable["nand"] = 6
 	conversionTable["nor"] = 7
 	conversionTable["nil"] = 8
+	conversionTable["on"] = 8 -- this is currently just a stopgap measure to fix things hopefully...
+	conversionTable["off"] = 8 -- this is currently just a stopgap measure to fix things hopefully...
 	if conversionTable[name] == nil then
-		error("TRIED TO GET LOGIC GATE NUMBER OF NOT A GATE, NEW TERMINAL")
+		error("TRIED TO GET LOGIC GATE NUMBER OF NOT A GATE ("..tostring(name).."), NEW TERMINAL")
 	else
 		return conversionTable[name]
 	end
@@ -235,7 +237,7 @@ function NewTerminal:drawGates()
 			love.graphics.setColor(200, 200, 200)
 			local bgimage = self.level.inventoryImages.tileBackground
 			love.graphics.draw(bgimage, gate.x, gate.y, 0, self.circuitDisplays[self.currentPage].gateScale, self.circuitDisplays[self.currentPage].gateScale, bgimage:getWidth()/2, bgimage:getHeight()/2)
-			if gate.gate.gateType ~= "nil" then
+			if self:nameToLogicGateNumber(gate.gate.gateType) ~= 8 then --gate.gate.gateType ~= "nil" then
 				self:setPowerColor(gate.gate.output)
 				-- love.graphics.setColor(100, 100, 255)
 				local image = self.level.inventoryImages["gateTile"..self:nameToLogicGateNumber(gate.gate.gateType)..".png"]
