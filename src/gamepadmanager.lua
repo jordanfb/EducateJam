@@ -5,7 +5,6 @@ require "class"
 GamepadManager = class()
 
 
-
 function GamepadManager:_init(game)
 	self.game = game
 	self.joysticks = {}

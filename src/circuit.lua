@@ -60,12 +60,13 @@ end
 function Circuit:getGatesForDoor(output)
 	-- print("CIRCUIT GATES FOR DOOR OUTPUT "..tostring(output))
 	local g = self.gates[output]
+	local inputsRequired = {}
 	local levelTable = {}
 	local displayTable = {}
 	local minDepth = 1
-	g:getGatesForDoor(self.gates, displayTable, levelTable, minDepth)
-	print("Depth of circuit is "..#displayTable.. " number of circuits is "..self:tablelength(levelTable))
-	return {displayTable = displayTable, levelTable = levelTable}
+	g:getGatesForDoor(self.gates, inputsRequired, displayTable, levelTable, minDepth)
+	-- print("Depth of circuit is "..#displayTable.. " number of circuits is "..self:tablelength(levelTable))
+	return {displayTable = displayTable, levelTable = levelTable, inputs = inputsRequired}
 end
 
 function Circuit:evaluate()

@@ -27,14 +27,16 @@ function MainMenu:_init(game)
 	self.joystickIndicatorScale = 1
 	
 	self.image = love.graphics.newImage('art/menuBackground.png')
-	
-	self.game.startMusic:play()
+
+	if self.game.playMusic then
+		self.game.startMusic:play()
+	end
 
 	-- these are for cheat codes down here:
 	-- check game.cheatMode == true if you want to know if people should be able to cheat
 	self.currentCheatCode = 0
 	self.cheatCodeProgress = 0
-	self.cheatCodes = {"everything", "nothing"}
+	self.cheatCodes = {"everything", "nothing", "old"}
 	-- note that if you want to add another one, it needs to start with a new letter
 end
 
@@ -81,6 +83,8 @@ function MainMenu:handleCheatCodeComplete()
 		self.game.cheatMode = true
 	elseif self.cheatCodes[self.currentCheatCode] == "nothing" then
 		self.game.cheatMode = false
+	elseif self.cheatCodes[self.currentCheatCode] == "old" then
+		self.game.useNewTerminal = not self.game.useNewTerminal
 	end
 	self.currentCheatCode = 0
 	self.cheatCodeProgress = 0
