@@ -20,4 +20,3 @@ terminal # xor const H e c
 terminal $ xor const f a b
 terminal % or const J f c
 terminal ^ nor const I a d
-newterminal ! H J I G

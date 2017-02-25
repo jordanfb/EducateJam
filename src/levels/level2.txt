@@ -1,6 +1,6 @@
 w       w       w w
 w       w       w w
-w       w       w w
+w                 w
 w  . .  E .   . F  
 w _!a b   c @ d    
 w                  

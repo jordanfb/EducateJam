@@ -119,9 +119,7 @@ end
 
 function Level:initialize()
 
-	if self.game.playMusic then
-		self.game.gameMusic:play()
-	end
+	self.game.gameMusic:play()
 	self.walls = {}
 	self.ladders = {}
 	self.doors = {}
@@ -222,7 +220,7 @@ function Level:initialize()
 				if self.newTerminals[tile] ~= nil then
 					self.newTerminals[tile]:addCoordinates((x-1)*self.tileSize, (y-1)*self.tileSize, self.tileSize, self.tileSize)
 				else
-					print("NEW TERMINAL HAS NOT BEEN CREATED FOR TILE "..tile.." IN LEVEL "..self.currentLevel)
+					print("NEW TERMINAL HAS NOT BEEN CREATED FOR TILE "..tile.."IN LEVEL "..self.currentLevel)
 				end
 			elseif tile == '_' then
 				table.insert(self.backgrounds, {x=(x-1)*self.tileSize, y=(y-1)*self.tileSize, w=self.tileSize, h = self.tileSize, sprite = 1})

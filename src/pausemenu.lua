@@ -206,9 +206,7 @@ function PauseMenu:selectButton(choice)
 		self.game:popScreenStack()
 		self.game:popScreenStack()
 		self.game.gameMusic:stop()
-		if self.game.playMusic then
-			self.game.startMusic:play()
-		end
+		self.game.startMusic:play()
 	-- elseif choice == "Test" then
 	-- 	-- test things for jordan
 	-- 	self.game:addToScreenStack(self.game.terminal)

@@ -5,17 +5,16 @@ require "game"
 require "class"
 
 
-local game = 0 -- now setting this in love.load so that the fullscreen setting is correct
+local game = Game()
 
 function love.load(args)
 	local name = "Boolean Sunset"
 	love.window.setTitle(name)
 	love.filesystem.setIdentity(name)
+	game:load(args)
 	--local width, height = 512, 256
 	love.window.setMode(1920/2, 1080/2, {resizable = true})
-	love.window.setFullscreen(false)
-	game = Game()
-	game:load(args)
+	love.window.setFullscreen(true)
 	-- not much here
 	game:resize(width, height)
 	love.mouse.setVisible(true)

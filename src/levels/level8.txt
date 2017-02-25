@@ -20,4 +20,3 @@ terminal ^ nand const m f k
 terminal & and const n i l
 terminal * and const o m j
 terminal ( and const H n o
-newterminal ! H

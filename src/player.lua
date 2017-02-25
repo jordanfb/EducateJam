@@ -139,7 +139,7 @@ function Player:keypressed(key, unicode, level)
 			self:updateAllDoors(level)
 		elseif touching[1]=="terminal" then
 			local id = touching[2]
-			if self.game.useNewTerminal then
+			if false then
 				-- draw the new terminal
 				self.game:addToScreenStack(level.newTerminals[level.terminals[id].key])
 			else

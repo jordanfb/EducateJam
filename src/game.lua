@@ -25,8 +25,6 @@ function Game:_init()
 
 	--music
 
-	self.playMusic = false
-
 	self.startMusic = love.audio.newSource("music/startScreen.mp3") 
 	self.startMusic:setLooping( true )
 	self.startMusic:setVolume (0.4)
@@ -35,10 +33,12 @@ function Game:_init()
 	self.gameMusic:setLooping( true )
 	self.gameMusic:setVolume (0.2)
 	
+	
+	
 	-- here are the actual variables
 	self.SCREENWIDTH = 1920
 	self.SCREENHEIGHT = 1080
-	self.fullscreen = love.window.getFullscreen()
+	self.fullscreen = true
 	self.drawFPS = false
 	
 	self.player = Player(self)
@@ -58,8 +58,7 @@ function Game:_init()
 	self.fullCanvas = love.graphics.newCanvas(self.SCREENWIDTH, self.SCREENHEIGHT)
 	self.useJoystick = false
 
-	self.cheatMode = true
-	self.useNewTerminal = true
+	self.cheatMode = false
 	-- self.ignoreMouseMoves = 5
 end
 

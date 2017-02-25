@@ -79,9 +79,7 @@ function Endscene:exitEndScene()
 	self.game:popScreenStack()
 	self.game:addToScreenStack(self.game.mainMenu)
 	self.game:addToScreenStack(self.game.credits)
-	if self.game.playMusic then
-		self.game.startMusic:play()
-	end
+	self.game.startMusic:play()
 	self.game.gameMusic:stop()
 	self.game.level.currentLevel = 1
 	self.game.player.score = 0

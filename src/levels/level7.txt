@@ -15,5 +15,3 @@ wwwwwwwwwwwwwwwwwwwwwwww
 --TERMINAL STATUS--
 terminal ! nil edit D a b view @
 terminal @ nil edit E a c view !
-newterminal ! D E
-newterminal @ E D

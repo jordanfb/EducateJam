@@ -20,4 +20,3 @@ terminal # and const i c d
 terminal $ nand const j g h
 terminal % and const k j g
 terminal ^ and const F k e
-newterminal ! F

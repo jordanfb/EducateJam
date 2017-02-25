@@ -72,7 +72,7 @@ function Gate:changeInput(input, value)
 	end
 end
 
-function Gate:getGatesForDoor(gates, inputsRequired, displayTable, levelTable, minDepth)
+function Gate:getGatesForDoor(gates, displayTable, levelTable, minDepth)
 	-- levelTable is a table with each string key as a key and the level of the table it's on, in case it has to be adjusted
 	-- add yourself and recursively all the other gates above into the tables
 
@@ -82,12 +82,10 @@ function Gate:getGatesForDoor(gates, inputsRequired, displayTable, levelTable, m
 	if displayTable[minDepth] == nil then
 		displayTable[minDepth] = {}
 	end
-	local selfTable = {gate = self, x = 0, y = 0}
-	-- add a table that will eventually store the x and y pos to display at on the terminal
 	if levelTable[self.output] ~= nil then
 		if levelTable[self.output] < minDepth then -- push self back
 			displayTable[levelTable[self.output]] = nil
-			displayTable[minDepth][self.output] = selfTable
+			displayTable[minDepth][self.output] = self
 			levelTable[self.output] = minDepth
 			-- now you're pushed back, so call the later things to push themselves back as well.
 		elseif levelTable[self.output] >= minDepth then -- return cause you're fine
@@ -95,21 +93,15 @@ function Gate:getGatesForDoor(gates, inputsRequired, displayTable, levelTable, m
 		end
 	else
 		levelTable[self.output] = minDepth
-		displayTable[minDepth][self.output] = selfTable
+		displayTable[minDepth][self.output] = self
 	end
 	-- otherwise add yourself to the thing and continue as normal.
 	if gates[self.inAname] ~= nil then
-		gates[self.inAname]:getGatesForDoor(gates, inputsRequired, displayTable, levelTable, minDepth+1)
-	else
-		-- otherwise it's an input
-		inputsRequired[#inputsRequired+1] = self.inAname
-	end
+		gates[self.inAname]:getGatesForDoor(gates, displayTable, levelTable, minDepth+1)
+	end -- otherwise it's an input
 	if gates[self.inBname] ~= nil then
-		gates[self.inBname]:getGatesForDoor(gates, inputsRequired, displayTable, levelTable, minDepth+1)
-	else
-		-- otherwise it's an input
-		inputsRequired[#inputsRequired+1] = self.inBname
-	end
+		gates[self.inBname]:getGatesForDoor(gates, displayTable, levelTable, minDepth+1)
+	end -- otherwise it's an input
 
 	-- local maxDepth = -1
 	-- if levelTable[self.inAname] ~= nil then
