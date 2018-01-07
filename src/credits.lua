@@ -57,7 +57,7 @@ function Credits:draw()
 	love.graphics.rectangle("line", 80, 80, self.SCREENWIDTH-160, self.SCREENHEIGHT-160, 50, 50)
 	love.graphics.setColor(255, 255, 255)
 	love.graphics.setFont(love.graphics.newFont("fonts/november.ttf", 48))
-	love.graphics.printf("Game programming, art and design by \nMartin Duffy, Jordan Faas-Busch, Simon Hopkins, Tristan Protzman\nMusic and Sound by: Eric Skiff\nMade in 24 hours for\nRPI Educational Game Jam", 0, 150, self.SCREENWIDTH, "center")
+	love.graphics.printf("Game programming, art and design by \nMartin Duffy, Jordan Faas-Bush, Simon Hopkins, Tristan Protzman\nMusic and Sound by: Eric Skiff\nMade in 24 hours for\nRPI Educational Game Jam", 0, 150, self.SCREENWIDTH, "center")
 	
 	for i = 1, 4 do
 		love.graphics.draw(self.portraits[i], 100+300*i, 450)
