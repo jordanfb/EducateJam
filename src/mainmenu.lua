@@ -42,7 +42,7 @@ function MainMenu:load()
 	-- run when the level is given control
 	love.graphics.setFont(self.font)
 	love.mouse.setVisible(true)
-	love.graphics.setBackgroundColor(255, 255, 255)
+	love.graphics.setBackgroundColor(1, 1, 1)
 end
 
 function MainMenu:leave()

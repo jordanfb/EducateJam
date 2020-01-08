@@ -82,7 +82,7 @@ function Helpmenu:load()
 	-- run when the level is given control
 	love.graphics.setFont(self.font)
 	love.mouse.setVisible(true)
-	love.graphics.setBackgroundColor(255, 255, 255)
+	love.graphics.setBackgroundColor(1, 1, 1)
 	if self.game.useJoystick then
 		self.button.selected = true
 	end
@@ -93,15 +93,15 @@ function Helpmenu:leave()
 end
 
 function Helpmenu:draw()
-	love.graphics.setColor(0, 0, 0, 200)
+	love.graphics.setColor(0, 0, 0, 200/255)
 	love.graphics.rectangle("fill", 80, 80, self.SCREENWIDTH-160, self.SCREENHEIGHT-160, 50, 50)
-	love.graphics.setColor(255, 255, 255)
+	love.graphics.setColor(1, 1, 1)
 	love.graphics.rectangle("line", 80, 80, self.SCREENWIDTH-160, self.SCREENHEIGHT-160, 50, 50)
-	love.graphics.setColor(0, 132, 0)
+	love.graphics.setColor(0, 132/255, 0)
 	love.graphics.setFont(love.graphics.newFont("fonts/november.ttf", 48))
 	love.graphics.printf(self.gateDescriptions[self.pausemenu.selection], 1150, 460, 600, "center")
 	
-	love.graphics.setColor(255, 255, 255)
+	love.graphics.setColor(1, 1, 1)
 	love.graphics.draw(self.gateImages[self.pausemenu.selection], 200, 400)
 	
 	love.graphics.setFont(love.graphics.newFont("fonts/november.ttf", 64))
@@ -165,9 +165,9 @@ function Helpmenu:mousereleased(x, y, button)
 	end
 end
 --[[
-		love.graphics.setColor(255, 255, 255)
+		love.graphics.setColor(1, 1, 1)
 		if self.selection==i then
-			love.graphics.setColor(255, 255, 255, 125)
+			love.graphics.setColor(1, 1, 1, 125/255)
 		end
 		love.graphics.draw(self.gateImages[i], 100, 300*i - 150)]]
 

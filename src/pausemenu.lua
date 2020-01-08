@@ -94,7 +94,7 @@ function PauseMenu:load()
 	-- run when the level is given control
 	love.graphics.setFont(self.font)
 	love.mouse.setVisible(true)
-	love.graphics.setBackgroundColor(255, 255, 255)
+	love.graphics.setBackgroundColor(1, 1, 1)
 	self.joystickSelected = 1
 end
 
@@ -104,9 +104,9 @@ end
 
 function PauseMenu:draw()
 	-- love.graphics.draw(self.image, 130, 100, 0, 1, 1)
-	love.graphics.setColor(0, 0, 0, 200)
+	love.graphics.setColor(0, 0, 0, 200/255)
 	love.graphics.rectangle("fill", 80, 80, self.SCREENWIDTH-160, self.SCREENHEIGHT-160, 50, 50)
-	love.graphics.setColor(255, 255, 255)
+	love.graphics.setColor(1, 1, 1)
 	love.graphics.rectangle("line", 80, 80, self.SCREENWIDTH-160, self.SCREENHEIGHT-160, 50, 50)
 	-- if self.hasJoysticks then -- display that you have a joystick connected
 		-- love.graphics.setColor(0, 0, 128)--90, 100, 255)
@@ -114,23 +114,23 @@ function PauseMenu:draw()
 	-- end
 	
 	for i = 1, 3 do
-		love.graphics.setColor(255, 255, 255)
+		love.graphics.setColor(1, 1, 1)
 		if self.selection==i then
-			love.graphics.setColor(255, 255, 255, 125)
+			love.graphics.setColor(1, 1, 1, 125/255)
 		end
 		love.graphics.draw(self.gateImages[i], 100, 300*i - 150)
 	end
 	
-	love.graphics.setColor(255, 255, 255)
+	love.graphics.setColor(1, 1, 1)
 	if self.selection==4 then
-		love.graphics.setColor(255, 255, 255, 125)
+		love.graphics.setColor(1, 1, 1, 125/255)
 	end
 	love.graphics.draw(self.gateImages[4], self.SCREENWIDTH/2 - 240, 300*3 - 150)
 	
 	for i = 1, 3 do
-		love.graphics.setColor(255, 255, 255)
+		love.graphics.setColor(1, 1, 1)
 		if self.selection==i+4 then
-			love.graphics.setColor(255, 255, 255, 125)
+			love.graphics.setColor(1, 1, 1, 125/255)
 		end
 		love.graphics.draw(self.gateImages[4+i], self.SCREENWIDTH-240-320, 300*i - 150)
 	end
@@ -245,9 +245,9 @@ function PauseMenu:mousereleased(x, y, button)
 	-- end
 end
 --[[
-		love.graphics.setColor(255, 255, 255)
+		love.graphics.setColor(1, 1, 1)
 		if self.selection==i then
-			love.graphics.setColor(255, 255, 255, 125)
+			love.graphics.setColor(1, 1, 1, 125/255)
 		end
 		love.graphics.draw(self.gateImages[i], 100, 300*i - 150)]]
 

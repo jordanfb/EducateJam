@@ -37,7 +37,7 @@ function Credits:load()
 	-- run when the level is given control
 	love.graphics.setFont(self.font)
 	love.mouse.setVisible(true)
-	love.graphics.setBackgroundColor(255, 255, 255)
+	love.graphics.setBackgroundColor(1, 1, 1)
 	if self.game.useJoystick then
 		self.button.selected = true
 	end
@@ -51,11 +51,11 @@ function Credits:draw()
 	-- love.graphics.draw(self.image, 130, 100, 0, 1, 1)
 	--love.graphics.setColor(0, 0, 0)
 	--love.graphics.rectangle("fill", 80, 80, self.SCREENWIDTH-160, self.SCREENHEIGHT-160)
-	love.graphics.setColor(0, 0, 0, 200)
+	love.graphics.setColor(0, 0, 0, 200/255)
 	love.graphics.rectangle("fill", 80, 80, self.SCREENWIDTH-160, self.SCREENHEIGHT-160, 50, 50)
-	love.graphics.setColor(255, 255, 255)
+	love.graphics.setColor(1, 1, 1)
 	love.graphics.rectangle("line", 80, 80, self.SCREENWIDTH-160, self.SCREENHEIGHT-160, 50, 50)
-	love.graphics.setColor(255, 255, 255)
+	love.graphics.setColor(1, 1, 1)
 	love.graphics.setFont(love.graphics.newFont("fonts/november.ttf", 48))
 	love.graphics.printf("Game programming, art and design by \nMartin Duffy, Jordan Faas-Bush, Simon Hopkins, Tristan Protzman\nMusic and Sound by: Eric Skiff\nMade in 24 hours for\nRPI Educational Game Jam", 0, 150, self.SCREENWIDTH, "center")
 	
@@ -147,9 +147,9 @@ function Credits:mousereleased(x, y, button)
 	-- end
 end
 --[[
-		love.graphics.setColor(255, 255, 255)
+		love.graphics.setColor(1, 1, 1)
 		if self.selection==i then
-			love.graphics.setColor(255, 255, 255, 125)
+			love.graphics.setColor(1, 1, 1, 125/255)
 		end
 		love.graphics.draw(self.gateImages[i], 100, 300*i - 150)]]
 

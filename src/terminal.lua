@@ -131,9 +131,9 @@ end
 
 function Terminal:setColorToNode(node, override) -- sets the color to dark
 	if (self.level.circuit.drawNodes[node] and override == nil) then
-		love.graphics.setColor(7, 131, 201)
+		love.graphics.setColor(7/255, 131/255, 201/255)
 	else
-		love.graphics.setColor(104, 104, 104)
+		love.graphics.setColor(104/255, 104/255, 104/255)
 	end
 end
 
@@ -150,10 +150,10 @@ function Terminal:setColorToGate()
 	if self.level.circuit.drawNodes[self.out] then
 		-- make it bright, since it's on
 		-- print("ongate")
-		love.graphics.setColor(7, 131, 201)
+		love.graphics.setColor(7/255, 131/255, 201/255)
 	else
 		-- print("off gate")
-		love.graphics.setColor(104, 104, 104)
+		love.graphics.setColor(104/255, 104/255, 104/255)
 	end
 end
 
@@ -161,9 +161,9 @@ function Terminal:setColorForTile(override) -- use override for the inventory
 	if self.editable or override then
 		-- make it tan, since it's editable?
 		-- print("editable")
-		love.graphics.setColor(190, 164, 136)
+		love.graphics.setColor(190/255, 164/255, 136/255)
 	else
-		love.graphics.setColor(70, 70, 70)
+		love.graphics.setColor(70/255, 70/255, 70/255)
 	end
 end
 
@@ -234,7 +234,7 @@ function Terminal:returnSelectedGateToInventory()
 end
 
 function Terminal:drawInventory()
-	love.graphics.setColor(255, 255, 255)
+	love.graphics.setColor(1, 1, 1)
 	love.graphics.draw(self.level.inventoryImages.background, self.inventoryX, self.inventoryY)
 	local x = self.inventoryX + 40
 	local y = self.inventoryY + 40
@@ -262,10 +262,10 @@ function Terminal:drawInventory()
 			hx = 300+self.terminalX
 			hy = 300+self.terminalY
 		end
-		love.graphics.setColor(255, 255, 255)
+		love.graphics.setColor(1, 1, 1)
 		love.graphics.draw(self.level.inventoryImages.highlight, hx, hy)
 	end
-	love.graphics.setColor(255, 255, 255)
+	love.graphics.setColor(1, 1, 1)
 end
 
 function Terminal:draw()
@@ -278,13 +278,13 @@ function Terminal:draw()
 end
 
 function Terminal:drawThisOne()
-	-- love.graphics.setColor(100, 200, 255)
+	-- love.graphics.setColor(100/255, 200/255, 1)
 	-- love.graphics.rectangle("fill", 100, 100, 1920-200, 1080-200, 10, 10)
-	love.graphics.setColor(255, 255, 255)
+	love.graphics.setColor(1, 1, 1)
 	love.graphics.draw(self.level.insideTerminalImages.background, self.terminalX, self.terminalY)
 
 	if self.numInputs == 2 then -- draw two node stuff! Duh!
-		love.graphics.setColor(255, 255, 255)
+		love.graphics.setColor(1, 1, 1)
 		love.graphics.draw(self.level.insideTerminalImages.twoInputImages.background, self.terminalX, self.terminalY)
 		self:setColorToNode(self.inA)
 		love.graphics.draw(self.level.insideTerminalImages.twoInputImages.inA, self.terminalX, self.terminalY)
@@ -300,7 +300,7 @@ function Terminal:drawThisOne()
 		-- this is where I draw the out rune in the right
 		love.graphics.draw(self:getRuneForDisplay(self.out), 640-self.magicCenteringNumber+self.terminalX, 660-self.magicCenteringNumber+self.terminalY)
 	elseif self.numInputs == 1 then -- draw one node stuff
-		love.graphics.setColor(255, 255, 255)
+		love.graphics.setColor(1, 1, 1)
 		love.graphics.draw(self.level.insideTerminalImages.oneInputImages.background, self.terminalX, self.terminalY)
 		self:setColorToNode(self.inA)
 		love.graphics.draw(self.level.insideTerminalImages.oneInputImages.inA, self.terminalX, self.terminalY)

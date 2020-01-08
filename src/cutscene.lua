@@ -77,7 +77,7 @@ function Cutscene:update(dt)
 	elseif self.time > self.totalTime - self.fadeTime then
 		local value = (self.totalTime - self.time) * 255
 		value = 255 - math.abs(math.floor(value + 0.5))
-		love.graphics.setBackgroundColor(value, value, value)
+		love.graphics.setBackgroundColor(value/255, value/255, value/255)
 	end
 
 

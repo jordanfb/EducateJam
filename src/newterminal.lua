@@ -126,7 +126,7 @@ function NewTerminal:leave()
 end
 
 function NewTerminal:draw()
-	love.graphics.setColor(255, 255, 255)
+	love.graphics.setColor(1, 1, 1)
 	love.graphics.draw(self.level.insideTerminalImages.background, self.terminalX, self.terminalY)
 	if #self.circuitDisplays > 0 then
 		local x = self.terminalX + self.backgroundW -- subtract a certain amount though.

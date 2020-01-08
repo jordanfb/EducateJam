@@ -108,10 +108,10 @@ function Level:_init(game, player)
 		self.treasureImages[i] = love.graphics.newImage('art/treasure'..i..'.png')
 	end 
 
-	self.doorSound = love.audio.newSource("music/door.wav") 
+	self.doorSound = love.audio.newSource("music/door.wav", "static")
 	self.doorSound:setLooping(false)
 	
-	self.gateSound = love.audio.newSource("music/gateCollect.mp3") 
+	self.gateSound = love.audio.newSource("music/gateCollect.mp3", "static")
 	self.gateSound:setLooping(false)
 	self.gateSound:setVolume(0.4)
 	--self:initialize()
@@ -358,21 +358,21 @@ function Level:leave()
 end
 
 function Level:draw()
-	love.graphics.setBackgroundColor(100, 100, 100)
+	love.graphics.setBackgroundColor(100/255, 100/255, 100/255)
 	
-	love.graphics.setColor(255, 255, 255)
+	love.graphics.setColor(1, 1, 1)
 	for i, wall in pairs(self.backgrounds) do
 		love.graphics.draw(self.wallImages[wall.sprite], wall.x + self.camera.x, wall.y + self.camera.y)
 	end
 	
 	for i, torch in pairs(self.torches) do
-	love.graphics.setColor(255, 255, 255)
+	love.graphics.setColor(1, 1, 1)
 		love.graphics.draw(self.torchImages[math.floor(self.torchAnimation)+1], torch.x + self.camera.x, torch.y + self.camera.y)
-		love.graphics.setColor(255, 255, 255, 25 + math.random()*10)
+		love.graphics.setColor(1, 1, 1, (25 + math.random()*10)/255)
 		love.graphics.draw(self.glowImage, torch.x + self.camera.x - torch.w, torch.y + self.camera.y - torch.h)
 	end
 	
-	love.graphics.setColor(255, 255, 255)
+	love.graphics.setColor(1, 1, 1)
 	for i, wall in pairs(self.walls) do
 		love.graphics.draw(self.foregroundImage, wall.x + self.camera.x, wall.y + self.camera.y)
 	end
@@ -404,7 +404,7 @@ function Level:draw()
 		end
 	end
 	
-	love.graphics.setColor(255, 255, 255)
+	love.graphics.setColor(1, 1, 1)
 	for i, terminal in pairs(self.terminals) do
 		love.graphics.draw(self.terminalImages[math.floor(self.terminalAnimation)+1], terminal.x + self.camera.x, terminal.y + self.camera.y)
 	end
@@ -414,7 +414,7 @@ function Level:draw()
 		love.graphics.draw(self.treasureImages[math.floor(self.terminalAnimation)+1], self.treasure.x + self.camera.x, self.treasure.y + self.camera.y)
 	end
 	
-	love.graphics.setColor(255, 255, 255)
+	love.graphics.setColor(1, 1, 1)
 	self.player:draw(self, self.camera)
 	
 	for i, door in pairs(self.doors) do

@@ -83,7 +83,7 @@ end
 
 --Draws the rectangle
 function Player:draw(level, camera)
-	love.graphics.setColor(255, 255, 255)
+	love.graphics.setColor(1, 1, 1)
 
 	if self:isTouchingInteractable(level)[1]~="nothing" then
 		-- love.graphics.setFont(love.graphics.newFont("fonts/november.ttf", 36))
@@ -124,7 +124,7 @@ end
 function Player:drawFlips()
 	love.graphics.setFont(love.graphics.newFont("fonts/november.ttf", 36))
 	love.graphics.draw(self.scoreBackground, 30, 30)
-	love.graphics.setColor(7, 131, 201)
+	love.graphics.setColor(7/255, 131/255, 201/255)
 	love.graphics.printf("Flips: " .. self.score, 30, 90, 320, "center")
 end
 

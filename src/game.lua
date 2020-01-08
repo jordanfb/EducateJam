@@ -25,11 +25,11 @@ function Game:_init()
 
 	--music
 
-	self.startMusic = love.audio.newSource("music/startScreen.mp3") 
+	self.startMusic = love.audio.newSource("music/startScreen.mp3", "static") 
 	self.startMusic:setLooping( true )
 	self.startMusic:setVolume (0.4)
 	
-	self.gameMusic = love.audio.newSource("music/mainGame.mp3") 
+	self.gameMusic = love.audio.newSource("music/mainGame.mp3", "static") 
 	self.gameMusic:setLooping( true )
 	self.gameMusic:setVolume (0.2)
 	
@@ -91,9 +91,9 @@ function Game:draw()
 		-- end
 	end
 	if (self.drawFPS) then
-		love.graphics.setColor(255, 0, 0)
+		love.graphics.setColor(1, 0, 0)
 		love.graphics.print("FPS: "..love.timer.getFPS(), 10, love.graphics.getHeight()-45)
-		love.graphics.setColor(255, 255, 255)
+		love.graphics.setColor(1, 1, 1)
 	end
 
 	-- love.graphics.rectangle("fill", 0, 0, 600, 800)
@@ -101,7 +101,7 @@ function Game:draw()
 	-- love.graphics.rectangle("fill", 0, 0, 1920, 1080)
 
 	love.graphics.setCanvas()
-	love.graphics.setColor(255, 255, 255)
+	love.graphics.setColor(1, 1, 1)
 	if true or self.fullscreen then
 		local width = love.graphics.getWidth()
 		local height = love.graphics.getHeight()
@@ -113,10 +113,10 @@ function Game:draw()
 		love.graphics.rectangle("fill", 0, 0, width/2-1920/2*scale, height)
 		love.graphics.rectangle("fill", width/2+1920/2*scale, 0, width/2-1920/2*scale, height)
 		-- the top and bottom bars
-		-- love.graphics.setColor(255, 0, 0)
+		-- love.graphics.setColor(1, 0, 0)
 		love.graphics.rectangle("fill", 0, 0, width, height/2-1080/2*scale)
 		love.graphics.rectangle("fill", 0, height, width, -(height/2-1080/2*scale))
-		love.graphics.setColor(255, 255, 255)
+		love.graphics.setColor(1, 1, 1)
 	else
 		local scale = math.min(love.graphics.getHeight()/1080, love.graphics.getWidth()/1920)
 		love.graphics.draw(self.fullCanvas, 0, 0, 0, scale, scale)
