@@ -68,8 +68,7 @@ function Game:load(args)
 end
 
 function Game:takeScreenshot()
-	local screenshot = love.graphics.newScreenshot()
-	screenshot:encode('png', os.time()..'.png')
+	love.graphics.captureScreenshot( tostring(os.time())..'.png' )
 end
 
 function Game:draw()
@@ -174,8 +173,8 @@ function Game:keypressed(key, unicode)
 		love.window.setFullscreen(self.fullscreen)
 	elseif key == "f3" then
 		self:takeScreenshot()
-	elseif key == "f1" then
-		love.event.quit()
+	-- elseif key == "f1" then
+	-- 	love.event.quit()
 	elseif key == "f8" then
 		love.window.setMode(1920/2, 1080/2, {resizable = true})
 	end

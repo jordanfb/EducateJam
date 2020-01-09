@@ -3,7 +3,7 @@ Welcome to the story of our brave explorer, utilizing logic to find the treasure
 art/playerFalling.png
 To progress through the levels, you must learn to take advantages of the logic gates that were left behind.  Each has a different function, producing different outputs for a given input.  Open your help menu to learn more about these devices
 art/wallLayerWithTerminal1.png
-The terminals throughout the abandoned lair display logic gates that can open the doors associated with the output symbol, allowing you to get closer to whatever this alien landscape holds. Be sure to study different competitions.
+The terminals throughout the abandoned lair display logic gates that can open the doors associated with the output symbol, allowing you to get closer to whatever this alien landscape holds. Be sure to study different combinations.
 art/wallTileWithLever5.png
 It seems that the various symbols and gates relate to different functions (press escape for some help), suggesting that learning the codes could fast track your journey to riches
 art/runeHBlue.png

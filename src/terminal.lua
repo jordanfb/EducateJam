@@ -38,6 +38,10 @@ function Terminal:_init(x, y, w, h, game, currentLevel, level, key)
 	self.inventoryY = self.terminalY
 	self.viewablePages = {}
 
+	-- font for help button:
+	self.font = love.graphics.newFont("fonts/november.ttf", 96)
+	self.font_height = self.font:getHeight()
+
 	self.joystickSelected = 1-- goes from 1 to 2 to three to four to five, only those things
 end
 
@@ -270,11 +274,19 @@ end
 
 function Terminal:draw()
 	local t = self.level.terminals[self.selected]
+	love.graphics.setColor(1, 1, 1)
 	t:drawThisOne()
 	if self.numViewablePages > 1 then
 		love.graphics.draw(self.level.inventoryImages.leftArrow, self.terminalX+20, self.terminalY + self.backgroundH-10)
 		love.graphics.draw(self.level.inventoryImages.rightArrow, self.terminalX+self.backgroundW-20-160, self.terminalY + self.backgroundH-10)
 	end
+	love.graphics.draw(self.game.player.scoreBackground, (self.terminalX + self.backgroundW/2) - self.game.player.scoreBackground:getWidth()/2, self.terminalY + self.backgroundH-10)
+	love.graphics.setColor(7/255, 131/255, 201/255)
+	local other_font = love.graphics.getFont()
+	love.graphics.setFont(self.font)
+	love.graphics.printf("?", self.terminalX, self.terminalY + self.backgroundH -20 + self.font_height/2, self.backgroundW, "center")
+	love.graphics.setFont(other_font)
+	-- x > self.terminalX+20+160 and x < self.terminalX+self.backgroundW-20-160
 end
 
 function Terminal:drawThisOne()
@@ -326,6 +338,16 @@ function Terminal:resize(w, h)
 	--
 end
 
+function Terminal:openHelp()
+	-- if self.level.terminals[self.selected].gateType ~= 8 then
+	if self:nameToLogicGateNumber(self.level.terminals[self.selected].gateName) ~= 8 then
+		-- self.game.pauseMenu.selection = self.level.terminals[self.selected].gateType
+		self.game.pauseMenu.selection = self:nameToLogicGateNumber(self.level.terminals[self.selected].gateName)
+		self.game.helpmenu.returnToPauseMenu = false
+		self.game:addToScreenStack(self.game.helpmenu)
+	end
+end
+
 function Terminal:keypressed(key, unicode)
 	-- print(key)
 	if key == "joysticka" then
@@ -334,6 +356,9 @@ function Terminal:keypressed(key, unicode)
 		else
 			self.game.level.terminals[self.selected]:addSelectedGateToGate(self.joystickSelected-1)
 		end
+	elseif key == "h" or key == "joystickx" then
+		-- help menu! If there's a logic gate in the terminal then we should open its summary!
+		self:openHelp()
 	elseif key == "escape" or key == "joystickb" or key == "e" then
 		self.game:popScreenStack()
 	end
@@ -420,6 +445,9 @@ function Terminal:dealWithMouseClick(a, b, button)
 			self:moveLeftPage()
 		elseif x > self.terminalX+self.backgroundW-20-160 and x < self.terminalX+self.backgroundW-20 then
 			self:moveRightPage()
+		elseif x > self.terminalX+20+160 and x < self.terminalX+self.backgroundW-20-160 then
+			-- help menu!
+			self:openHelp()
 		end
 	end
 	-- if y > self.inventoryY + self.backgroundY

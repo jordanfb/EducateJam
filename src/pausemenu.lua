@@ -165,6 +165,7 @@ function PauseMenu:keypressed(key, unicode)
 			self:selectButton(self.menu.buttons[self.joystickSelected].text)
 		else
 			self.game:popScreenStack()
+			self.game.helpmenu.returnToPauseMenu = true
 			self.game:addToScreenStack(self.game.helpmenu)
 		end
 	elseif key == "joystickb" then
@@ -209,6 +210,7 @@ function PauseMenu:selectButton(choice)
 		self.game.startMusic:play()
 	-- elseif choice == "Test" then
 	-- 	-- test things for jordan
+	-- self.game.helpmenu.returnToPauseMenu = true
 	-- 	self.game:addToScreenStack(self.game.terminal)
 	end
 end 
@@ -225,6 +227,7 @@ function PauseMenu:mousereleased(x, y, button)
 	self:selectButton(self.menu:mousepressed(x, y, button))
 	if self.selection > 0 then
 		self.game:popScreenStack()
+		self.game.helpmenu.returnToPauseMenu = true
 		self.game:addToScreenStack(self.game.helpmenu)
 	end
 	if self.game.useJoystick then

@@ -11,6 +11,7 @@ function Helpmenu:_init(game, pausemenu)
 	self.drawUnder = true
 	self.updateUnder = false
 	self.pausemenu = pausemenu
+	self.returnToPauseMenu = true
 
 	self.game = game
 	self.button = Button("Back", 950, 880, 300, 100, 32, game)
@@ -147,7 +148,10 @@ function Helpmenu:selectButton(choice)
 		-- do nothing, it's probably fine.
 	elseif choice == "Back" then
 		self.game:popScreenStack()
-		self.game:addToScreenStack(self.game.pauseMenu)
+		if self.returnToPauseMenu then
+			self.returnToPauseMenu = true
+			self.game:addToScreenStack(self.game.pauseMenu)
+		end
 	end
 end
 
