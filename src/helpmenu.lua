@@ -24,7 +24,7 @@ function Helpmenu:_init(game, pausemenu)
 	
 	self.gateDescriptions = {"The input of this gate is always the output!",
 							 "This gate inverts the input for the output!",
-							 "The input and output of this gate must both be on for the output to be on!",
+							 "Both inputs of this gate must both be on for the output to be on!",
 							 "If either input is on, so is the output!",
 							 "Exactly one input to this gate must be on for the output to be on!",
 							 "As long as at least one input is off, the output of this gate is on!",
