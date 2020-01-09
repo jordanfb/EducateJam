@@ -1,5 +1,5 @@
 
-Welcome to the story of our brave explorer, utilizing logic to find the treasures of the lost space colony
+Welcome to the story of our brave explorer, utilizing logic to find the treasures of the lost space colony. Press escape and click on a logic gate for help!
 art/playerFalling.png
 To progress through the levels, you must learn to take advantages of the logic gates that were left behind.  Each has a different function, producing different outputs for a given input.  Open your help menu to learn more about these devices
 art/wallLayerWithTerminal1.png

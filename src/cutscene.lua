@@ -38,7 +38,7 @@ function Cutscene:_init(game)
 
 	self.time = 0
 	self.fadeTime = 0.5
-	self.totalTime = 8
+	self.totalTime = 10
 end
 
 function Cutscene:load()
