@@ -280,13 +280,12 @@ function Terminal:draw()
 		love.graphics.draw(self.level.inventoryImages.leftArrow, self.terminalX+20, self.terminalY + self.backgroundH-10)
 		love.graphics.draw(self.level.inventoryImages.rightArrow, self.terminalX+self.backgroundW-20-160, self.terminalY + self.backgroundH-10)
 	end
-	love.graphics.draw(self.game.player.scoreBackground, (self.terminalX + self.backgroundW/2) - self.game.player.scoreBackground:getWidth()/2, self.terminalY + self.backgroundH-10)
+	-- love.graphics.draw(self.game.player.scoreBackground, (self.terminalX + self.backgroundW/2) - self.game.player.scoreBackground:getWidth()/2, self.terminalY + self.backgroundH-10)
 	love.graphics.setColor(7/255, 131/255, 201/255)
 	local other_font = love.graphics.getFont()
 	love.graphics.setFont(self.font)
-	love.graphics.printf("?", self.terminalX, self.terminalY + self.backgroundH -20 + self.font_height/2, self.backgroundW, "center")
+	love.graphics.printf("?", self.terminalX+self.backgroundW - 100, self.terminalY+20, 100, "center")
 	love.graphics.setFont(other_font)
-	-- x > self.terminalX+20+160 and x < self.terminalX+self.backgroundW-20-160
 end
 
 function Terminal:drawThisOne()
@@ -434,7 +433,11 @@ function Terminal:dealWithMouseClick(a, b, button)
 			end
 		end
 	end
-	if math.abs(1920/2-x) < 240/2 then
+	-- help button or removing item from inventory
+	-- 	love.graphics.printf("?", self.terminalX+self.backgroundW - 100, self.terminalY+20, 100, "center")
+	if y > self.terminalY and y < self.terminalY + self.font_height + 40 and x > self.terminalX+self.backgroundW - 100 and x < self.terminalX + self.backgroundW then
+		self:openHelp()
+	elseif math.abs(1920/2-x) < 240/2 then
 		if math.abs(1080/2-y) < 160/2 then
 			-- remove the thing in teh middle
 			self:returnSelectedGateToInventory()
@@ -445,9 +448,6 @@ function Terminal:dealWithMouseClick(a, b, button)
 			self:moveLeftPage()
 		elseif x > self.terminalX+self.backgroundW-20-160 and x < self.terminalX+self.backgroundW-20 then
 			self:moveRightPage()
-		elseif x > self.terminalX+20+160 and x < self.terminalX+self.backgroundW-20-160 then
-			-- help menu!
-			self:openHelp()
 		end
 	end
 	-- if y > self.inventoryY + self.backgroundY
